@@ -6,8 +6,8 @@ import { ErrorMessageMode } from '/#/axios';
 enum Api {
   Login = '/login',
   Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
-  GetPermCode = '/getPermCode',
+  GetUserInfo = '/vue/getUserInfo',
+  GetPermCode = '/vue/getPermCode',
   TestRetry = '/testRetry',
 }
 
@@ -34,7 +34,7 @@ export function getUserInfo() {
 }
 
 export function getPermCode() {
-  return defHttp.get<string[]>({ url: Api.GetPermCode });
+  return defHttp.post<string[]>({ url: Api.GetPermCode });
 }
 
 export function doLogout() {

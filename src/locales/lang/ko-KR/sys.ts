@@ -1,12 +1,13 @@
 export default {
   api: {
-    operationFailed: '동작실패',
+    operationSuccess: '작업성공',
+    operationFailed: '작업실패',
     errorTip: '오류표시',
-    errorMessage: '동작실패,시스템이상!',
-    timeoutMessage: '로그인 시간이 초과되었습니다, 다시 로그인 해 주세요!',
+    errorMessage: '작업실패, 시스템이상!',
+    timeoutMessage: '로그인 시간이 초과되었습니다. 다시 로그인 해 주세요!',
     apiTimeoutMessage:
-      '인터페이스 요청 시간이 초과되었습니다, 페이지를 새로 고치고 다시 시도하십시오!',
-    apiRequestFailed: '요청오류 발생 하였습니다 , 기다려 다시 시도하십시오',
+      '인터페이스 요청 시간이 초과되었습니다. 페이지를 새로 고치고 다시 시도하십시오!',
+    apiRequestFailed: '인터페이스 요청을 실패했습니다. 나중에 다시 시도하십시오',
     networkException: '네트워크 이상',
     networkExceptionMsg:
       '네트워크 이상이 발생했습니다. 네트워크 연결이 제대로 되어 있는지 확인하십시오!',
@@ -17,8 +18,8 @@ export default {
     errMsg405: '네트워크 요청 오류, 요청 방법이 허용되지 않았습니다!',
     errMsg408: '네트워크 요청 시간 초과!',
     errMsg500: '서버 오류, 관리자에게 연락하세요!',
-    errMsg501: '네트워크 미실현!',
-    errMsg502: '네트 워크 오류!',
+    errMsg501: '네트워크가 구현되지 않았습니다!',
+    errMsg502: '네트워크 오류!',
     errMsg503: '서비스를 사용할 수 없습니다. 서버일시적으로  과부하거나 유지보수중입니다!',
     errMsg504: '네트워크 시간 초과!',
     errMsg505: 'http 버전이 이 요청을 지원하지 않습니다!',
@@ -49,9 +50,9 @@ export default {
   exception: {
     backLogin: '로그인 화면으로 돌아가기',
     backHome: '메인 페이지로 돌아가기',
-    subTitle403: '이 페이지에 접근할 수 없습니다。',
-    subTitle404: '방문한 페이지가 존재하지 않습니다。',
-    subTitle500: '서버보고 오류 발생。',
+    subTitle403: '이 페이지에 접근할 수 없습니다.',
+    subTitle404: '방문한 페이지가 존재하지 않습니다.',
+    subTitle500: '서버보고 오류 발생.',
     noDataTitle: '현재 페이지에 데이터 없음',
     networkErrorTitle: '네트워크 오류',
     networkErrorSubTitle: '네트워크 연결이 끊겼습니다. 네트워크를 확인하십시오！',

@@ -1,5 +1,5 @@
 import { genMessage } from '../helper';
-import antdLocale from 'ant-design-vue/es/locale/zh_CN';
+import antdLocale from 'ant-design-vue/es/locale/ko_KR';
 
 const modules = import.meta.glob('./ko-KR/**/*.ts', { eager: true });
 export default {
