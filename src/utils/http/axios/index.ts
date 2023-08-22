@@ -29,7 +29,7 @@ const { createMessage, createErrorModal, createSuccessModal } = useMessage();
  */
 const transform: AxiosTransform = {
   /**
-   * @description: 处理响应数据。如果数据不是预期格式，可直接抛出错误
+   * @description: 응답데이터를 then/catch로 전달되기 전에 처리할 수 있게 해줌. 프로젝트의 지침에 따라 알맞게 처리한다.
    */
   transformResponseHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
     const { t } = useI18n();

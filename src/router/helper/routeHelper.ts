@@ -68,7 +68,7 @@ function dynamicImport(
 }
 
 // Turn background objects into routing objects
-// 将背景对象变成路由对象
+// 백그라운드에서 가져온 오브젝트를 라우팅 오브젝트로 변환
 export function transformObjToRoute<T = AppRouteModule>(routeList: AppRouteModule[]): T[] {
   routeList.forEach((route) => {
     const component = route.component as string;
@@ -86,7 +86,7 @@ export function transformObjToRoute<T = AppRouteModule>(routeList: AppRouteModul
         route.meta = meta;
       }
     } else {
-      warn('请正确配置路由：' + route?.name + '的component属性');
+      warn('라우팅 에러: ' + route?.name + '의 component 속성');
     }
     route.children && asyncImportRoute(route.children);
   });
@@ -157,7 +157,7 @@ function addToChildren(
 }
 
 // Determine whether the level exceeds 2 levels
-// 判断级别是否超过2级
+// 2레벨을 초과하는 라우트인지 체크
 function isMultipleRoute(routeModule: AppRouteModule) {
   // Reflect.has 与 in 操作符 相同, 用于检查一个对象(包括它原型链上)是否拥有某个属性
   if (!routeModule || !Reflect.has(routeModule, 'children') || !routeModule.children?.length) {

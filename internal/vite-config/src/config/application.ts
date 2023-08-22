@@ -6,6 +6,7 @@ import { defineConfig, loadEnv, mergeConfig, type UserConfig } from 'vite';
 
 import { createPlugins } from '../plugins';
 import { generateModifyVars } from '../utils/modifyVars';
+import { createProxy } from '../utils/proxy';
 import { commonConfig } from './common';
 
 interface DefineOptions {
@@ -21,7 +22,8 @@ function defineApplicationConfig(defineOptions: DefineOptions = {}) {
   return defineConfig(async ({ command, mode }) => {
     const root = process.cwd();
     const isBuild = command === 'build';
-    const { VITE_USE_MOCK, VITE_BUILD_COMPRESS, VITE_ENABLE_ANALYZE } = loadEnv(mode, root);
+    const { VITE_USE_MOCK, VITE_BUILD_COMPRESS, VITE_ENABLE_ANALYZE, VITE_PORT, VITE_PROXY } =
+      loadEnv(mode, root);
 
     const defineData = await createDefineData(root);
     const plugins = await createPlugins({
@@ -63,13 +65,16 @@ function defineApplicationConfig(defineOptions: DefineOptions = {}) {
           },
         ],
       },
+      server: {
+        port: Number(VITE_PORT),
+        proxy: createProxy(JSON.parse(VITE_PROXY)),
+      },
       define: defineData,
       build: {
         target: 'es2015',
         cssTarget: 'chrome80',
         rollupOptions: {
           output: {
-            // 入口文件名
             entryFileNames: 'assets/[name].js',
             manualChunks: {
               vue: ['vue', 'pinia', 'vue-router'],
