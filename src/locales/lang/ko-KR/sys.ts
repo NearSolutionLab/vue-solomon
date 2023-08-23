@@ -72,8 +72,8 @@ export default {
     signUpFormTitle: '회원가입',
     forgetFormTitle: '리셋비밀번호',
 
-    signInTitle: '백그라운드 관리 시스템',
-    signInDesc: '개인 정보를 입력하고 사용하십시오',
+    signInTitle: 'Near Solomon',
+    signInDesc: '물류 데이터 최적화 시스템',
     policy: '프라이버시 정책에 동의',
     scanSign: `코드 스캔후 '확인'을 클릭하시면 로그인 완료됩니다.`,
 
