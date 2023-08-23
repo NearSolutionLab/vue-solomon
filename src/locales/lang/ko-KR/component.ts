@@ -5,7 +5,7 @@ export default {
     toNavigate: '전환',
   },
   countdown: {
-    normalText: '인증 번호 가져오기',
+    normalText: '인증번호 요청',
     sendText: '{0}초후 다시 가져오기',
   },
   cropper: {

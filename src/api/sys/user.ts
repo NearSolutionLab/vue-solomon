@@ -1,5 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
+import { LoginParams, LoginResultModel, GetUserInfoModel, RegisterParams } from './model/userModel';
 
 import { ErrorMessageMode } from '/#/axios';
 
@@ -9,6 +9,7 @@ enum Api {
   GetUserInfo = '/vue/getUserInfo',
   GetPermCode = '/vue/getPermCode',
   TestRetry = '/testRetry',
+  Register = '/customers/join',
 }
 
 /**
@@ -50,6 +51,18 @@ export function testRetry() {
         count: 5,
         waitTime: 1000,
       },
+    },
+  );
+}
+
+export function register(params: RegisterParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post(
+    {
+      url: Api.Register,
+      params,
+    },
+    {
+      errorMessageMode: mode,
     },
   );
 }

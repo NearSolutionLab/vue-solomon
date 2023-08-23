@@ -36,3 +36,16 @@ export interface GetUserInfoModel {
   // 介绍
   desc?: string;
 }
+
+/**
+ * @description: Register interface parameters
+ */
+export interface RegisterParams {
+  userId: string;
+  password: string;
+  companyName: string;
+  businessCode: string;
+  managerName: string;
+  managerPosition: string;
+  managerPhoneNo: string;
+}

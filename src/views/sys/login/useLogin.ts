@@ -49,10 +49,17 @@ export function useFormValid<T extends Object = any>(formRef: Ref<FormInstance>)
 export function useFormRules(formData?: Recordable) {
   const { t } = useI18n();
 
-  const getAccountFormRule = computed(() => createRule(t('sys.login.accountPlaceholder')));
+  const getEmailCodeFormRule = computed(() => createRule(t('sys.login.emailCodePlaceholder')));
   const getPasswordFormRule = computed(() => createRule(t('sys.login.passwordPlaceholder')));
-  const getSmsFormRule = computed(() => createRule(t('sys.login.smsPlaceholder')));
   const getMobileFormRule = computed(() => createRule(t('sys.login.mobilePlaceholder')));
+  const getCompanyNameFormRule = computed(() => createRule(t('sys.login.companyNamePlaceholder')));
+  const getBusinessCodeFormRule = computed(() =>
+    createRule(t('sys.login.businessCodePlaceholder')),
+  );
+  const getManagerNameFormRule = computed(() => createRule(t('sys.login.managerNamePlaceholder')));
+  const getManagerPositionFormRule = computed(() =>
+    createRule(t('sys.login.managerPositionPlaceholder')),
+  );
 
   const validatePolicy = async (_: RuleObject, value: boolean) => {
     return !value ? Promise.reject(t('sys.login.policyPlaceholder')) : Promise.resolve();
@@ -81,44 +88,50 @@ export function useFormRules(formData?: Recordable) {
   };
 
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
-    const accountFormRule = unref(getAccountFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
-    const smsFormRule = unref(getSmsFormRule);
     const mobileFormRule = unref(getMobileFormRule);
+    const companyNameFormRule = unref(getCompanyNameFormRule);
+    const businessCodeFormRule = unref(getBusinessCodeFormRule);
+    const managerNameFormRule = unref(getManagerNameFormRule);
+    const managerPositionFormRule = unref(getManagerPositionFormRule);
+    const emailCodeFormRule = unref(getEmailCodeFormRule);
 
-    const mobileRule = {
-      sms: smsFormRule,
-      mobile: mobileFormRule,
+    const accountRule = {
+      account: [{ validator: validateEmail(), trigger: 'blur' }],
+      emailCode: emailCodeFormRule,
     };
+
     switch (unref(currentState)) {
       // register form rules
       case LoginStateEnum.REGISTER:
         return {
-          account: accountFormRule,
           password: passwordFormRule,
           confirmPassword: [
             { validator: validateConfirmPassword(formData?.password), trigger: 'change' },
           ],
+          companyName: companyNameFormRule,
+          businessCode: businessCodeFormRule,
+          managerName: managerNameFormRule,
+          managerPosition: managerPositionFormRule,
           policy: [{ validator: validatePolicy, trigger: 'change' }],
-          email: [{ validator: validateEmail(), trigger: 'blur' }],
-          ...mobileRule,
+          mobile: mobileFormRule,
+          ...accountRule,
         };
 
       // reset password form rules
       case LoginStateEnum.RESET_PASSWORD:
         return {
-          account: accountFormRule,
-          ...mobileRule,
+          ...accountRule,
         };
 
       // mobile form rules
       case LoginStateEnum.MOBILE:
-        return mobileRule;
+        return accountRule;
 
       // login form rules
       default:
         return {
-          account: accountFormRule,
+          account: [{ validator: validateEmail(), trigger: 'blur' }],
           password: passwordFormRule,
         };
     }

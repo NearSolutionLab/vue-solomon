@@ -86,6 +86,7 @@ export default {
     // notify
     loginSuccessTitle: '로그인 성공',
     loginSuccessDesc: '환영합니다.',
+    registerSuccessTitle: '회원가입 성공',
 
     // placeholder
     accountPlaceholder: '계정을 입력해주세요',
@@ -95,6 +96,11 @@ export default {
     policyPlaceholder: '체크후 등록 할수 있습니다',
     diffPwd: '두번 입력한 비밀 번호가 일치 하지 않습니다',
     notVaildEmail: '이메일 형식이 올바르지 않습니다',
+    companyNamePlaceholder: '기업명을 입력해주세요',
+    businessCodePlaceholder: '사업자등록번호를 입력해주세요',
+    managerNamePlaceholder: '담당자명을 입력해주세요',
+    managerPositionPlaceholder: '직위를 입력해주세요',
+    emailCodePlaceholder: '인증번호를 입력해주세요.',
 
     userName: '계정',
     password: '비밀번호',
@@ -104,5 +110,8 @@ export default {
     mobile: '핸드폰번호',
     emailCode: '메일인증번호',
     companyName: '기업명',
+    businessCode: '사업자등록번호',
+    managerName: '담당자명',
+    managerPosition: '직위',
   },
 };
