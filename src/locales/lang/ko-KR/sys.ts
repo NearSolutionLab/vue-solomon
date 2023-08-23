@@ -69,12 +69,12 @@ export default {
     signInFormTitle: '로그인',
     mobileSignInFormTitle: '핸드폰으로 로그인',
     qrSignInFormTitle: 'QR코드 로그인',
-    signUpFormTitle: '로그인',
+    signUpFormTitle: '회원가입',
     forgetFormTitle: '리셋비밀번호',
 
     signInTitle: '백그라운드 관리 시스템',
     signInDesc: '개인 정보를 입력하고 사용하십시오',
-    policy: '我xxx 프라이버시 정책에 동의',
+    policy: '프라이버시 정책에 동의',
     scanSign: `코드 스캔후 '확인'을 클릭하시면 로그인 완료됩니다.`,
 
     loginButton: '로그인',
@@ -94,6 +94,7 @@ export default {
     mobilePlaceholder: '핸드폰번호를 입력해주세요.',
     policyPlaceholder: '체크후 등록 할수 있습니다',
     diffPwd: '두번 입력한 비밀 번호가 일치 하지 않습니다',
+    notVaildEmail: '이메일 형식이 올바르지 않습니다',
 
     userName: '계정',
     password: '비밀번호',
@@ -101,5 +102,7 @@ export default {
     email: '메일',
     smsCode: '문자인증번호',
     mobile: '핸드폰번호',
+    emailCode: '메일인증번호',
+    companyName: '기업명',
   },
 };

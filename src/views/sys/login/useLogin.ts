@@ -70,6 +70,16 @@ export function useFormRules(formData?: Recordable) {
     };
   };
 
+  const validateEmail = () => {
+    return async (_: RuleObject, value: string) => {
+      const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+      if (!regex.test(value)) {
+        return Promise.reject(t('sys.login.notVaildEmail'));
+      }
+      return Promise.resolve();
+    };
+  };
+
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
     const accountFormRule = unref(getAccountFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
@@ -90,6 +100,7 @@ export function useFormRules(formData?: Recordable) {
             { validator: validateConfirmPassword(formData?.password), trigger: 'change' },
           ],
           policy: [{ validator: validatePolicy, trigger: 'change' }],
+          email: [{ validator: validateEmail(), trigger: 'blur' }],
           ...mobileRule,
         };
 

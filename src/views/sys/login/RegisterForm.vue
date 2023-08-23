@@ -2,28 +2,29 @@
   <div v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
-      <FormItem name="account" class="enter-x">
+      <Divider type="horizontal" orientation="left"> 로그인 정보 </Divider>
+      <!-- <FormItem name="account" class="enter-x">
         <Input
           class="fix-auto-fill"
           size="large"
           v-model:value="formData.account"
           :placeholder="t('sys.login.userName')"
         />
-      </FormItem>
-      <FormItem name="mobile" class="enter-x">
+      </FormItem> -->
+      <FormItem name="email" class="enter-x">
         <Input
-          size="large"
-          v-model:value="formData.mobile"
-          :placeholder="t('sys.login.mobile')"
           class="fix-auto-fill"
+          size="large"
+          v-model:value="formData.email"
+          :placeholder="t('sys.login.email')"
         />
       </FormItem>
       <FormItem name="sms" class="enter-x">
         <CountdownInput
           size="large"
           class="fix-auto-fill"
-          v-model:value="formData.sms"
-          :placeholder="t('sys.login.smsCode')"
+          v-model:value="formData.emailCode"
+          :placeholder="t('sys.login.emailCode')"
         />
       </FormItem>
       <FormItem name="password" class="enter-x">
@@ -41,7 +42,48 @@
           :placeholder="t('sys.login.confirmPassword')"
         />
       </FormItem>
-
+      <Divider type="horizontal" orientation="left"> 회원 정보 </Divider>
+      <FormItem name="companyName" class="enter-x">
+        <Input
+          class="fix-auto-fill"
+          size="large"
+          v-model:value="formData.companyName"
+          :placeholder="t('sys.login.companyName')"
+        />
+      </FormItem>
+      <FormItem name="companyName" class="enter-x">
+        <Input
+          class="fix-auto-fill"
+          size="large"
+          v-model:value="formData.companyName"
+          :placeholder="t('sys.login.companyName')"
+        />
+      </FormItem>
+      <FormItem name="companyName" class="enter-x">
+        <Input
+          class="fix-auto-fill"
+          size="large"
+          v-model:value="formData.companyName"
+          :placeholder="t('sys.login.companyName')"
+        />
+      </FormItem>
+      <FormItem name="companyName" class="enter-x">
+        <Input
+          class="fix-auto-fill"
+          size="large"
+          v-model:value="formData.companyName"
+          :placeholder="t('sys.login.companyName')"
+        />
+      </FormItem>
+      <FormItem name="companyName" class="enter-x">
+        <Input
+          class="fix-auto-fill"
+          size="large"
+          v-model:value="formData.companyName"
+          :placeholder="t('sys.login.companyName')"
+        />
+      </FormItem>
+      <Divider type="horizontal" orientation="left"> 가입 약관 동의 </Divider>
       <FormItem class="enter-x" name="policy">
         <!-- No logic, you need to deal with it yourself -->
         <Checkbox v-model:checked="formData.policy" size="small">
@@ -68,7 +110,7 @@
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-  import { Form, Input, Button, Checkbox } from 'ant-design-vue';
+  import { Form, Input, Button, Checkbox, Divider } from 'ant-design-vue';
   import { StrengthMeter } from '/@/components/StrengthMeter';
   import { CountdownInput } from '/@/components/CountDown';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -89,6 +131,9 @@
     mobile: '',
     sms: '',
     policy: false,
+    email: '',
+    emailCode: '',
+    companyName: '',
   });
 
   const { getFormRules } = useFormRules(formData);
