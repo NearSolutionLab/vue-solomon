@@ -13,6 +13,7 @@
   import CodeMirrorEditor from './codemirror/CodeMirror.vue';
   import { isString } from '/@/utils/is';
   import { MODE } from './typing';
+  import type { PropType } from 'vue';
 
   const props = defineProps({
     value: { type: [Object, String] as PropType<Record<string, any> | string> },
