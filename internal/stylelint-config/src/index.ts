@@ -87,6 +87,7 @@ export default {
       ],
       { severity: 'error' },
     ],
+    'media-query-no-invalid': null,
   },
   ignoreFiles: ['**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts'],
 };
