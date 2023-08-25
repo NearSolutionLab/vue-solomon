@@ -85,6 +85,9 @@
         <Checkbox v-model:checked="formData.solomonPolicy" size="small">
           {{ t('sys.login.solomonPolicy') }}
         </Checkbox>
+        <Button type="link" class="enter-x" @click="openSolomonPolicyRegisterModal">
+          {{ t('sys.login.details') }}
+        </Button>
       </FormItem>
       <FormItem class="enter-x" name="privacyPolicy">
         <Checkbox v-model:checked="formData.privacyPolicy" size="small">
@@ -106,6 +109,7 @@
         {{ t('sys.login.backSignIn') }}
       </Button>
     </Form>
+    <SolomonPolicyModal @register="SolomonPolicyRegister" @ok="okSolomonPolicyModalHandler" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -120,6 +124,8 @@
   import { useUserStore } from '/@/store/modules/user';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRouter } from 'vue-router';
+  import { useModal } from '/@/components/Modal';
+  import SolomonPolicyModal from '/@/views/sys/login/SolomonPolicyModal.vue';
 
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
@@ -243,4 +249,14 @@
       loading.value = false;
     }
   }
+
+  const [
+    SolomonPolicyRegister,
+    { openModal: openSolomonPolicyRegisterModal, closeModal: closeSolomonPolicyModal },
+  ] = useModal();
+
+  const okSolomonPolicyModalHandler = () => {
+    formData.solomonPolicy = true;
+    closeSolomonPolicyModal();
+  };
 </script>

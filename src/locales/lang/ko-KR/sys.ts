@@ -79,6 +79,7 @@ export default {
     privacyPolicy: '개인정보 수집 및 이용에 동의합니다. (필수)',
     policy: '프라이버시 정책에 동의',
     scanSign: `코드 스캔후 '확인'을 클릭하시면 로그인 완료됩니다.`,
+    details: '상세보기',
 
     loginButton: '로그인',
     registerButton: '등록',
