@@ -74,6 +74,9 @@ export default {
 
     signInTitle: 'Near Solomon',
     signInDesc: '물류 데이터 최적화 시스템',
+    allPolicy: '모든 약관에 동의합니다.',
+    solomonPolicy: '솔로몬 이용 약관에 동의합니다. (필수)',
+    privacyPolicy: '개인정보 수집 및 이용에 동의합니다. (필수)',
     policy: '프라이버시 정책에 동의',
     scanSign: `코드 스캔후 '확인'을 클릭하시면 로그인 완료됩니다.`,
 

@@ -2,7 +2,7 @@
   <div v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
-      <!-- <Divider type="horizontal" orientation="left"> 로그인 정보 </Divider> -->
+      <Divider type="horizontal" orientation="left"> 로그인 정보 </Divider>
       <FormItem name="account" class="enter-x">
         <Input
           class="fix-auto-fill"
@@ -34,7 +34,7 @@
           :placeholder="t('sys.login.confirmPassword')"
         />
       </FormItem>
-      <!-- <Divider type="horizontal" orientation="left"> 회원 정보 </Divider> -->
+      <Divider type="horizontal" orientation="left"> 회원 정보 </Divider>
       <FormItem name="companyName" class="enter-x">
         <Input
           class="fix-auto-fill"
@@ -75,11 +75,20 @@
           :placeholder="t('sys.login.mobile')"
         />
       </FormItem>
-      <!-- <Divider type="horizontal" orientation="left"> 가입 약관 동의 </Divider> -->
+      <Divider type="horizontal" orientation="left"> 가입 약관 동의 </Divider>
       <FormItem class="enter-x" name="policy">
-        <!-- No logic, you need to deal with it yourself -->
-        <Checkbox v-model:checked="formData.policy" size="small">
-          {{ t('sys.login.policy') }}
+        <Checkbox v-model:checked="formData.policy" size="small" @change="onCheckAllChange">
+          {{ t('sys.login.allPolicy') }}
+        </Checkbox>
+      </FormItem>
+      <FormItem class="enter-x" name="solomonPolicy">
+        <Checkbox v-model:checked="formData.solomonPolicy" size="small">
+          {{ t('sys.login.solomonPolicy') }}
+        </Checkbox>
+      </FormItem>
+      <FormItem class="enter-x" name="privacyPolicy">
+        <Checkbox v-model:checked="formData.privacyPolicy" size="small">
+          {{ t('sys.login.privacyPolicy') }}
         </Checkbox>
       </FormItem>
 
@@ -100,15 +109,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, unref, computed } from 'vue';
+  import { reactive, ref, unref, computed, watch } from 'vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-  import {
-    Form,
-    Input,
-    Button,
-    Checkbox,
-    // , Divider
-  } from 'ant-design-vue';
+  import { Form, Input, Button, Checkbox, Divider } from 'ant-design-vue';
   import { StrengthMeter } from '/@/components/StrengthMeter';
   import { CountdownInput } from '/@/components/CountDown';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -129,7 +132,6 @@
 
   const formRef = ref();
   const loading = ref(false);
-
   const formData = reactive({
     account: '',
     emailCode: '',
@@ -140,8 +142,26 @@
     managerName: '',
     managerPosition: '',
     mobile: '',
+    solomonPolicy: false,
+    privacyPolicy: false,
     policy: false,
   });
+
+  const onCheckAllChange = (e: any) => {
+    if (e.target.checked) {
+      formData.solomonPolicy = true;
+      formData.privacyPolicy = true;
+    } else {
+      formData.solomonPolicy = false;
+      formData.privacyPolicy = false;
+    }
+  };
+  watch(
+    () => [formData.solomonPolicy, formData.privacyPolicy],
+    (values) => {
+      formData.policy = values.every((val) => val);
+    },
+  );
 
   // const formData = reactive({
   //   account: 'test@nearsolution.co.kr',
