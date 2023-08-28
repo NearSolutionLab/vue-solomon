@@ -17,6 +17,7 @@
           class="fix-auto-fill"
           v-model:value="formData.emailCode"
           :placeholder="t('sys.login.emailCode')"
+          :sendCodeApi="sendCode"
         />
       </FormItem>
       <FormItem name="password" class="enter-x">
@@ -93,6 +94,9 @@
         <Checkbox v-model:checked="formData.privacyPolicy" size="small">
           {{ t('sys.login.privacyPolicy') }}
         </Checkbox>
+        <Button type="link" class="enter-x" @click="openPrivacyPolicyRegisterModal">
+          {{ t('sys.login.details') }}
+        </Button>
       </FormItem>
 
       <Button
@@ -110,6 +114,7 @@
       </Button>
     </Form>
     <SolomonPolicyModal @register="SolomonPolicyRegister" @ok="okSolomonPolicyModalHandler" />
+    <PrivacyPolicyModal @register="PrivacyPolicyRegister" @ok="okPrivacyPolicyModalHandler" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -126,6 +131,7 @@
   import { useRouter } from 'vue-router';
   import { useModal } from '/@/components/Modal';
   import SolomonPolicyModal from '/@/views/sys/login/SolomonPolicyModal.vue';
+  import PrivacyPolicyModal from '/@/views/sys/login/PrivacyPolicyModal.vue';
 
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
@@ -254,9 +260,22 @@
     SolomonPolicyRegister,
     { openModal: openSolomonPolicyRegisterModal, closeModal: closeSolomonPolicyModal },
   ] = useModal();
+  const [
+    PrivacyPolicyRegister,
+    { openModal: openPrivacyPolicyRegisterModal, closeModal: closePrivacyPolicyModal },
+  ] = useModal();
 
   const okSolomonPolicyModalHandler = () => {
     formData.solomonPolicy = true;
     closeSolomonPolicyModal();
+  };
+
+  const okPrivacyPolicyModalHandler = () => {
+    formData.privacyPolicy = true;
+    closePrivacyPolicyModal();
+  };
+
+  const sendCode = async () => {
+    return true;
   };
 </script>
