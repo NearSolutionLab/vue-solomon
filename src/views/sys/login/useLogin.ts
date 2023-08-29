@@ -49,7 +49,6 @@ export function useFormValid<T extends Object = any>(formRef: Ref<FormInstance>)
 export function useFormRules(formData?: Recordable) {
   const { t } = useI18n();
 
-  const getEmailCodeFormRule = computed(() => createRule(t('sys.login.emailCodePlaceholder')));
   const getPasswordFormRule = computed(() => createRule(t('sys.login.passwordPlaceholder')));
   const getMobileFormRule = computed(() => createRule(t('sys.login.mobilePlaceholder')));
   const getCompanyNameFormRule = computed(() => createRule(t('sys.login.companyNamePlaceholder')));
@@ -87,6 +86,19 @@ export function useFormRules(formData?: Recordable) {
     };
   };
 
+  const validateEmailCode = () => {
+    return async (_: RuleObject, value: string) => {
+      if (!value) {
+        return Promise.reject(t('sys.login.emailCodePlaceholder'));
+      }
+      const regex = new RegExp('[0-9]{6}');
+      if (!regex.test(value)) {
+        return Promise.reject(t('sys.login.notValidEmailCode'));
+      }
+      return Promise.resolve();
+    };
+  };
+
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
     const passwordFormRule = unref(getPasswordFormRule);
     const mobileFormRule = unref(getMobileFormRule);
@@ -94,11 +106,10 @@ export function useFormRules(formData?: Recordable) {
     const businessCodeFormRule = unref(getBusinessCodeFormRule);
     const managerNameFormRule = unref(getManagerNameFormRule);
     const managerPositionFormRule = unref(getManagerPositionFormRule);
-    const emailCodeFormRule = unref(getEmailCodeFormRule);
 
     const accountRule = {
       account: [{ validator: validateEmail(), trigger: 'blur' }],
-      emailCode: emailCodeFormRule,
+      emailCode: [{ validator: validateEmailCode(), trigger: 'blur' }],
     };
 
     switch (unref(currentState)) {

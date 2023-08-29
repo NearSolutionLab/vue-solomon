@@ -5,20 +5,47 @@
       <Divider type="horizontal" orientation="left"> 로그인 정보 </Divider>
       <FormItem name="account" class="enter-x">
         <Input
-          class="fix-auto-fill"
+          :class="prefixCls"
           size="large"
           v-model:value="formData.account"
           :placeholder="t('sys.login.email')"
-        />
+          :disabled="isCodeChecked"
+          autocomplete="off"
+        >
+          <template #addonAfter>
+            <Button
+              size="large"
+              class="enter-x"
+              @click="requestCode"
+              :loading="codeRequestLoading"
+              :disabled="isCodeChecked"
+            >
+              {{ getCodeRequestButtonText }}
+            </Button>
+          </template>
+        </Input>
       </FormItem>
       <FormItem name="emailCode" class="enter-x">
-        <CountdownInput
+        <Input
+          :class="prefixCls"
           size="large"
-          class="fix-auto-fill"
           v-model:value="formData.emailCode"
           :placeholder="t('sys.login.emailCode')"
-          :sendCodeApi="sendCode"
-        />
+          :disabled="!isCodeRequested || isCodeChecked"
+          autocomplete="off"
+        >
+          <template #addonAfter>
+            <Button
+              size="large"
+              class="enter-x"
+              @click="checkCode"
+              :loading="codeCheckLoading"
+              :disabled="!isCodeRequested || isCodeChecked"
+            >
+              {{ getCodeCheckButtonText }}
+            </Button>
+          </template>
+        </Input>
       </FormItem>
       <FormItem name="password" class="enter-x">
         <StrengthMeter
@@ -122,7 +149,6 @@
   import LoginFormTitle from './LoginFormTitle.vue';
   import { Form, Input, Button, Checkbox, Divider } from 'ant-design-vue';
   import { StrengthMeter } from '/@/components/StrengthMeter';
-  import { CountdownInput } from '/@/components/CountDown';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
@@ -138,7 +164,7 @@
   const { t } = useI18n();
   const { notification, createErrorModal } = useMessage();
   const { handleBackLogin, getLoginState } = useLoginState();
-  const { prefixCls } = useDesign('login');
+  const { prefixCls } = useDesign('register-input');
   const userStore = useUserStore();
   const router = useRouter();
 
@@ -196,7 +222,6 @@
   async function handleRegister() {
     const data = await validForm();
     if (!data) return;
-    console.log(data);
     try {
       loading.value = true;
       const userInfo = await userStore.register({
@@ -275,7 +300,56 @@
     closePrivacyPolicyModal();
   };
 
-  const sendCode = async () => {
-    return true;
+  const isCodeRequested = ref(false);
+  const codeRequestLoading = ref(false);
+  const getCodeRequestButtonText = computed(() => {
+    return !isCodeRequested.value ? '이메일 인증' : '재전송';
+  });
+  const requestCode = async () => {
+    const data = await formRef.value.validateFields(['account']);
+
+    codeRequestLoading.value = true;
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    const result = await userStore.requestEmailCode(data.account);
+    console.log(result);
+    if (result) {
+      notification.success({
+        message: '인증코드 전송',
+        description: `인증코드가 전송되었습니다`,
+        duration: 3,
+      });
+    }
+    isCodeRequested.value = true;
+    codeRequestLoading.value = false;
+  };
+
+  const isCodeChecked = ref(false);
+  const codeCheckLoading = ref(false);
+  const getCodeCheckButtonText = computed(() => {
+    return !isCodeChecked.value ? '인증하기' : '인증완료';
+  });
+
+  const checkCode = async () => {
+    await formRef.value.validateFields(['emailCode']);
+
+    codeCheckLoading.value = true;
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    isCodeChecked.value = true;
+    codeCheckLoading.value = false;
   };
 </script>
+<style lang="less">
+  @prefix-cls: ~'@{namespace}-register-input';
+
+  .@{prefix-cls} {
+    .ant-input-group-addon {
+      padding-right: 0;
+      border: none;
+      background-color: transparent;
+
+      button {
+        font-size: 14px;
+      }
+    }
+  }
+</style>

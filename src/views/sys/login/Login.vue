@@ -77,6 +77,7 @@
   @prefix-cls: ~'@{namespace}-login';
   @logo-prefix-cls: ~'@{namespace}-app-logo';
   @countdown-prefix-cls: ~'@{namespace}-countdown-input';
+  @register-prefix-cls: ~'@{namespace}-register-input';
   @dark-bg: #293146;
 
   html[data-theme='dark'] {
@@ -207,6 +208,10 @@
     }
 
     .@{countdown-prefix-cls} input {
+      min-width: unset;
+    }
+
+    .@{register-prefix-cls} input {
       min-width: unset;
     }
 

@@ -10,6 +10,8 @@ enum Api {
   GetPermCode = '/vue/getPermCode',
   TestRetry = '/testRetry',
   Register = '/customers/join',
+  RequestEmailCode = '/user_auth/send/',
+  CheckEmailCode = '/user_auth/confirm/',
 }
 
 /**
@@ -65,4 +67,14 @@ export function register(params: RegisterParams, mode: ErrorMessageMode = 'modal
       errorMessageMode: mode,
     },
   );
+}
+
+export function requestEmailCode(userId: string) {
+  return defHttp.post({
+    url: Api.RequestEmailCode + userId,
+    params: {
+      emailId: userId,
+      authType: 'JOIN',
+    },
+  });
 }
