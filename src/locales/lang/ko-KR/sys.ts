@@ -104,6 +104,7 @@ export default {
     businessCodePlaceholder: '사업자등록번호를 입력해주세요',
     managerNamePlaceholder: '담당자명을 입력해주세요',
     managerPositionPlaceholder: '직위를 입력해주세요',
+    emailPlaceholder: '이메일을 입력해주세요.',
     emailCodePlaceholder: '인증번호를 입력해주세요.',
     notValidEmailCode: '인증번호는 6자리 숫자입니다.',
 

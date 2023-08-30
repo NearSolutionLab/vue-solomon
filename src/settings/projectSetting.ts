@@ -98,9 +98,9 @@ const setting: ProjectConfig = {
     // Menu width
     menuWidth: 210,
     // Menu mode
-    mode: MenuModeEnum.INLINE,
+    mode: MenuModeEnum.HORIZONTAL,
     // Menu type
-    type: MenuTypeEnum.MIX,
+    type: MenuTypeEnum.TOP_MENU,
     // Menu theme
     theme: ThemeEnum.DARK,
     // Split menu
