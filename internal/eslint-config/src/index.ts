@@ -29,7 +29,9 @@ export default {
     'no-case-declarations': 'off',
     'no-use-before-define': 'off',
     'space-before-function-paren': 'off',
-
+    'no-undef': 'off',
+    'no-empty': 'off',
+    'no-empty-pattern': 'off',
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',

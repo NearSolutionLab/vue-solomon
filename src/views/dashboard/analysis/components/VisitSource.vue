@@ -1,5 +1,5 @@
 <template>
-  <Card title="访问来源" :loading="loading">
+  <Card title="접근경로" :loading="loading">
     <div ref="chartRef" :style="{ width, height }"></div>
   </Card>
 </template>
@@ -39,7 +39,7 @@
         series: [
           {
             color: ['#5ab1ef', '#b6a2de', '#67e0e3', '#2ec7c9'],
-            name: '访问来源',
+            name: '접근경로',
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,
@@ -63,10 +63,10 @@
               show: false,
             },
             data: [
-              { value: 1048, name: '搜索引擎' },
-              { value: 735, name: '直接访问' },
-              { value: 580, name: '邮件营销' },
-              { value: 484, name: '联盟广告' },
+              { value: 1048, name: '검색엔진' },
+              { value: 735, name: '직접방문' },
+              { value: 580, name: '메일광고' },
+              { value: 484, name: '기업광고' },
             ],
             animationType: 'scale',
             animationEasing: 'exponentialInOut',

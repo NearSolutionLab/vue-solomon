@@ -1,14 +1,17 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
+import { LoginParams, LoginResultModel, GetUserInfoModel, RegisterParams } from './model/userModel';
 
 import { ErrorMessageMode } from '/#/axios';
 
 enum Api {
   Login = '/login',
   Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
-  GetPermCode = '/getPermCode',
+  GetUserInfo = '/vue/getUserInfo',
+  GetPermCode = '/vue/getPermCode',
   TestRetry = '/testRetry',
+  Register = '/customers/join',
+  RequestEmailCode = '/user_auth/send/',
+  CheckEmailCode = '/user_auth/confirm/',
 }
 
 /**
@@ -34,11 +37,11 @@ export function getUserInfo() {
 }
 
 export function getPermCode() {
-  return defHttp.get<string[]>({ url: Api.GetPermCode });
+  return defHttp.post<string[]>({ url: Api.GetPermCode });
 }
 
 export function doLogout() {
-  return defHttp.get({ url: Api.Logout });
+  return defHttp.post({ url: Api.Logout });
 }
 
 export function testRetry() {
@@ -52,4 +55,32 @@ export function testRetry() {
       },
     },
   );
+}
+
+export function register(params: RegisterParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post(
+    {
+      url: Api.Register,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+export function requestEmailCode(userId: string) {
+  return defHttp.post({
+    url: Api.RequestEmailCode + userId,
+    params: {
+      emailId: userId,
+      authType: 'JOIN',
+    },
+  });
+}
+
+export function checkEmailCode(userId: string, emailCode: string) {
+  return defHttp.get({
+    url: Api.CheckEmailCode + `${userId}/${emailCode}`,
+  });
 }
