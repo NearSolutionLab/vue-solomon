@@ -2,6 +2,7 @@ import type { ValidationRule, FormInstance } from 'ant-design-vue/lib/form/Form'
 import type { RuleObject, NamePath } from 'ant-design-vue/lib/form/interface';
 import { ref, computed, unref, Ref } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
+import { useMessage } from '/@/hooks/web/useMessage';
 
 export enum LoginStateEnum {
   LOGIN,
@@ -99,6 +100,21 @@ export function useFormRules(formData?: Recordable) {
     };
   };
 
+  const validateEmailCodeCheck = (isCodeChecked: boolean) => {
+    const { notification } = useMessage();
+    return async (_: RuleObject) => {
+      if (!isCodeChecked) {
+        notification.error({
+          message: '인증에러',
+          description: '메일인증이 되지 않았습니다.',
+          duration: 3,
+        });
+        return Promise.reject('메일인증이 되지 않았습니다.');
+      }
+      return Promise.resolve();
+    };
+  };
+
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
     const passwordFormRule = unref(getPasswordFormRule);
     const mobileFormRule = unref(getMobileFormRule);
@@ -127,6 +143,7 @@ export function useFormRules(formData?: Recordable) {
           policy: [{ validator: validatePolicy, trigger: 'change' }],
           mobile: mobileFormRule,
           ...accountRule,
+          emailCodeCheck: [{ validator: validateEmailCodeCheck(formData?.isCodeChecked) }],
         };
 
       // reset password form rules

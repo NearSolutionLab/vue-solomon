@@ -7,7 +7,14 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams, RegisterParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi, register, requestEmailCode } from '/@/api/sys/user';
+import {
+  doLogout,
+  getUserInfo,
+  loginApi,
+  register,
+  requestEmailCode,
+  checkEmailCode,
+} from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -196,6 +203,22 @@ export const useUserStore = defineStore({
     async requestEmailCode(userId: string): Promise<any> {
       try {
         const data = await requestEmailCode(userId);
+        const { status, result, errorMessage } = data;
+        if (!status) {
+          throw new Error(errorMessage);
+        }
+        return result;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    },
+
+    /**
+     * @description: check email code
+     */
+    async checkEmailCode(userId: string, emailCode: string): Promise<any> {
+      try {
+        const data = await checkEmailCode(userId, emailCode);
         const { status, result, errorMessage } = data;
         if (!status) {
           throw new Error(errorMessage);

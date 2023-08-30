@@ -9,7 +9,7 @@
           size="large"
           v-model:value="formData.account"
           :placeholder="t('sys.login.email')"
-          :disabled="isCodeChecked"
+          :disabled="formData.isCodeChecked"
           autocomplete="off"
         >
           <template #addonAfter>
@@ -18,7 +18,7 @@
               class="enter-x"
               @click="requestCode"
               :loading="codeRequestLoading"
-              :disabled="isCodeChecked"
+              :disabled="formData.isCodeChecked"
             >
               {{ getCodeRequestButtonText }}
             </Button>
@@ -31,7 +31,7 @@
           size="large"
           v-model:value="formData.emailCode"
           :placeholder="t('sys.login.emailCode')"
-          :disabled="!isCodeRequested || isCodeChecked"
+          :disabled="!isCodeRequested || formData.isCodeChecked"
           autocomplete="off"
         >
           <template #addonAfter>
@@ -40,7 +40,7 @@
               class="enter-x"
               @click="checkCode"
               :loading="codeCheckLoading"
-              :disabled="!isCodeRequested || isCodeChecked"
+              :disabled="!isCodeRequested || formData.isCodeChecked"
             >
               {{ getCodeCheckButtonText }}
             </Button>
@@ -125,6 +125,7 @@
           {{ t('sys.login.details') }}
         </Button>
       </FormItem>
+      <FormItem v-show="false" name="emailCodeCheck" class="enter-x" />
 
       <Button
         type="primary"
@@ -183,6 +184,7 @@
     solomonPolicy: false,
     privacyPolicy: false,
     policy: false,
+    isCodeChecked: false,
   });
 
   const onCheckAllChange = (e: any) => {
@@ -200,19 +202,6 @@
       formData.policy = values.every((val) => val);
     },
   );
-
-  // const formData = reactive({
-  //   account: 'test@nearsolution.co.kr',
-  //   password: 'abcd1234!',
-  //   confirmPassword: 'abcd1234!',
-  //   mobile: '01028283728',
-  //   policy: true,
-  //   emailCode: '123456',
-  //   companyName: '니어솔루션',
-  //   businessCode: '119273777238123',
-  //   managerName: '매니저',
-  //   managerPosition: '매니저',
-  // });
 
   const { getFormRules } = useFormRules(formData);
   const { validForm } = useFormValid(formRef);
@@ -235,7 +224,7 @@
         mode: 'none', // 기본 오류 메시지를 표시하지 않음
       });
 
-      // const userInfo = await new Promise((resolve) => {
+      // const userInfo: any = await new Promise((resolve) => {
       //   setTimeout(() => {
       //     resolve({
       //       domainId: 1039,
@@ -274,7 +263,7 @@
       createErrorModal({
         title: t('sys.api.errorTip'),
         content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
-        getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
+        getContainer: () => document.body,
       });
     } finally {
       loading.value = false;
@@ -308,34 +297,58 @@
   const requestCode = async () => {
     const data = await formRef.value.validateFields(['account']);
 
-    codeRequestLoading.value = true;
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    const result = await userStore.requestEmailCode(data.account);
-    console.log(result);
-    if (result) {
-      notification.success({
-        message: '인증코드 전송',
-        description: `인증코드가 전송되었습니다`,
-        duration: 3,
+    try {
+      codeRequestLoading.value = true;
+      // const result = await new Promise((resolve) => setTimeout(() => resolve(true), 1000));
+      const result = await userStore.requestEmailCode(data.account);
+      if (result) {
+        notification.success({
+          message: '인증코드 전송',
+          description: `인증코드가 전송되었습니다`,
+          duration: 3,
+        });
+      }
+    } catch (error) {
+      createErrorModal({
+        title: t('sys.api.errorTip'),
+        content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+        getContainer: () => document.body,
       });
+    } finally {
+      isCodeRequested.value = true;
+      codeRequestLoading.value = false;
     }
-    isCodeRequested.value = true;
-    codeRequestLoading.value = false;
   };
 
-  const isCodeChecked = ref(false);
   const codeCheckLoading = ref(false);
   const getCodeCheckButtonText = computed(() => {
-    return !isCodeChecked.value ? '인증하기' : '인증완료';
+    return !formData.isCodeChecked ? '인증하기' : '인증완료';
   });
 
   const checkCode = async () => {
-    await formRef.value.validateFields(['emailCode']);
+    const data = await formRef.value.validateFields(['emailCode']);
 
-    codeCheckLoading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    isCodeChecked.value = true;
-    codeCheckLoading.value = false;
+    try {
+      codeCheckLoading.value = true;
+      // const result = await new Promise((resolve) => setTimeout(() => resolve(true), 1000));
+      const result = await userStore.checkEmailCode(formData.account, data.emailCode);
+      if (result) {
+        notification.success({
+          message: '인증하기',
+          description: `인증코드가 확인되었습니다`,
+          duration: 3,
+        });
+        formData.isCodeChecked = true;
+      }
+    } catch (error) {
+      createErrorModal({
+        title: t('sys.api.errorTip'),
+        content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+        getContainer: () => document.body,
+      });
+    } finally {
+      codeCheckLoading.value = false;
+    }
   };
 </script>
 <style lang="less">

@@ -78,3 +78,9 @@ export function requestEmailCode(userId: string) {
     },
   });
 }
+
+export function checkEmailCode(userId: string, emailCode: string) {
+  return defHttp.get({
+    url: Api.CheckEmailCode + `${userId}/${emailCode}`,
+  });
+}
