@@ -80,6 +80,9 @@ export function requestEmailCode(userId: string) {
 }
 
 export function checkEmailCode(userId: string, emailCode: string) {
+  // if (isFakeDataMode()) {
+  //   return new Promise((resolve) => setTimeout(() => resolve(true), 1000));
+  // }
   return defHttp.get({
     url: Api.CheckEmailCode + `${userId}/${emailCode}`,
   });

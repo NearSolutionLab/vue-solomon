@@ -157,4 +157,5 @@ export interface GlobEnvConfig {
   VITE_GLOB_API_URL_PREFIX?: string;
   // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
+  VITE_USE_FAKE_DATA?: string;
 }
