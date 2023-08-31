@@ -79,6 +79,9 @@ export function useFormRules(formData?: Recordable) {
 
   const validateEmail = () => {
     return async (_: RuleObject, value: string) => {
+      if (!value) {
+        return Promise.reject(t('sys.login.emailPlaceholder'));
+      }
       const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
       if (!regex.test(value)) {
         return Promise.reject(t('sys.login.notVaildEmail'));

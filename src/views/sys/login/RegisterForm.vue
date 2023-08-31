@@ -224,29 +224,6 @@
         mode: 'none', // 기본 오류 메시지를 표시하지 않음
       });
 
-      // const userInfo: any = await new Promise((resolve) => {
-      //   setTimeout(() => {
-      //     resolve({
-      //       domainId: 1039,
-      //       creatorId: 'khw@nearsolution.co.kr',
-      //       updaterId: 'khw@nearsolution.co.kr',
-      //       createdAt: '2023-08-23 16:14:13',
-      //       updatedAt: '2023-08-23 16:14:13',
-      //       id: 'khw1@nearsolution.co.kr',
-      //       login: 'khw1@nearsolution.co.kr',
-      //       email: 'khw1@nearsolution.co.kr',
-      //       encryptedPassword: 'f47c4b720cd560809b27592e4933f897170e7cfe999a3f80d04c7b2887aa8843',
-      //       name: '테스트유저',
-      //       phoneNo: '01028283728',
-      //       position: '매니저',
-      //       locale: 'ko',
-      //       timezone: 'Asia/Seoul',
-      //       activeFlag: true,
-      //       accountType: 'user',
-      //     });
-      //   });
-      // });
-
       if (userInfo) {
         notification.success({
           message: t('sys.login.registerSuccessTitle'),
@@ -299,7 +276,6 @@
 
     try {
       codeRequestLoading.value = true;
-      // const result = await new Promise((resolve) => setTimeout(() => resolve(true), 1000));
       const result = await userStore.requestEmailCode(data.account);
       if (result) {
         notification.success({
@@ -330,7 +306,6 @@
 
     try {
       codeCheckLoading.value = true;
-      // const result = await new Promise((resolve) => setTimeout(() => resolve(true), 1000));
       const result = await userStore.checkEmailCode(formData.account, data.emailCode);
       if (result) {
         notification.success({

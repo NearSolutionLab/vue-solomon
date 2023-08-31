@@ -29,14 +29,20 @@ export function getAppEnvConfig() {
     ? // Get the global configuration (the configuration will be extracted independently when packaging)
       (import.meta.env as unknown as GlobEnvConfig)
     : (window[ENV_NAME] as unknown as GlobEnvConfig);
-  const { VITE_GLOB_APP_TITLE, VITE_GLOB_API_URL, VITE_GLOB_API_URL_PREFIX, VITE_GLOB_UPLOAD_URL } =
-    ENV;
+  const {
+    VITE_GLOB_APP_TITLE,
+    VITE_GLOB_API_URL,
+    VITE_GLOB_API_URL_PREFIX,
+    VITE_GLOB_UPLOAD_URL,
+    VITE_USE_FAKE_DATA,
+  } = ENV;
 
   return {
     VITE_GLOB_APP_TITLE,
     VITE_GLOB_API_URL,
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
+    VITE_USE_FAKE_DATA,
   };
 }
 
@@ -75,4 +81,13 @@ export function isDevMode(): boolean {
  */
 export function isProdMode(): boolean {
   return import.meta.env.PROD;
+}
+
+/**
+ * @description: Whether to use fake data
+ * @returns:
+ * @example:
+ */
+export function isFakeDataMode(): boolean {
+  return getAppEnvConfig().VITE_USE_FAKE_DATA === 'true' ? true : false;
 }

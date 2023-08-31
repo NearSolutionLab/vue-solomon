@@ -23,6 +23,7 @@ import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { isArray } from '/@/utils/is';
 import { h } from 'vue';
+import { isFakeDataMode } from '/@/utils/env';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -186,7 +187,36 @@ export const useUserStore = defineStore({
     ): Promise<any> {
       try {
         const { mode, ...registerParams } = params;
-        const data = await register(registerParams, mode);
+        const data = isFakeDataMode()
+          ? await new Promise((resolve) =>
+              setTimeout(
+                () =>
+                  resolve({
+                    status: true,
+                    result: {
+                      domainId: 1039,
+                      creatorId: 'khw@nearsolution.co.kr',
+                      updaterId: 'khw@nearsolution.co.kr',
+                      createdAt: '2023-08-23 16:14:13',
+                      updatedAt: '2023-08-23 16:14:13',
+                      id: 'khw1@nearsolution.co.kr',
+                      login: 'khw1@nearsolution.co.kr',
+                      email: 'khw1@nearsolution.co.kr',
+                      encryptedPassword:
+                        'f47c4b720cd560809b27592e4933f897170e7cfe999a3f80d04c7b2887aa8843',
+                      name: '테스트유저',
+                      phoneNo: '01028283728',
+                      position: '매니저',
+                      locale: 'ko',
+                      timezone: 'Asia/Seoul',
+                      activeFlag: true,
+                      accountType: 'user',
+                    },
+                  }),
+                1000,
+              ),
+            )
+          : await register(registerParams, mode);
         const { status, result, errorMessage } = data;
         if (!status) {
           throw new Error(errorMessage);
@@ -202,7 +232,20 @@ export const useUserStore = defineStore({
      */
     async requestEmailCode(userId: string): Promise<any> {
       try {
-        const data = await requestEmailCode(userId);
+        const a = isFakeDataMode();
+        console.log(a);
+        const data = isFakeDataMode()
+          ? await new Promise((resolve) =>
+              setTimeout(
+                () =>
+                  resolve({
+                    status: true,
+                    result: true,
+                  }),
+                1000,
+              ),
+            )
+          : await requestEmailCode(userId);
         const { status, result, errorMessage } = data;
         if (!status) {
           throw new Error(errorMessage);
@@ -218,7 +261,18 @@ export const useUserStore = defineStore({
      */
     async checkEmailCode(userId: string, emailCode: string): Promise<any> {
       try {
-        const data = await checkEmailCode(userId, emailCode);
+        const data = isFakeDataMode()
+          ? await new Promise((resolve) =>
+              setTimeout(
+                () =>
+                  resolve({
+                    status: true,
+                    result: true,
+                  }),
+                1000,
+              ),
+            )
+          : await checkEmailCode(userId, emailCode);
         const { status, result, errorMessage } = data;
         if (!status) {
           throw new Error(errorMessage);
