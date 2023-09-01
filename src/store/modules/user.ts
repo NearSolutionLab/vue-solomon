@@ -232,8 +232,6 @@ export const useUserStore = defineStore({
      */
     async requestEmailCode(userId: string): Promise<any> {
       try {
-        const a = isFakeDataMode();
-        console.log(a);
         const data = isFakeDataMode()
           ? await new Promise((resolve) =>
               setTimeout(
