@@ -89,7 +89,7 @@
     min-height: 100%;
     overflow: hidden;
     // background-color: #0095d0;
-    background-color: #fff;
+    background-color: rgb(144 147 153 / 30%);
 
     .@{prefix-cls}-form {
       background-color: #fff;
