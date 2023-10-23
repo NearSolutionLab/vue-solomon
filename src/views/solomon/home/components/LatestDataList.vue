@@ -40,7 +40,7 @@
   import { ref, onMounted } from 'vue';
   import { List, Progress } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { getOptimizeResultByStatus } from '/@/api/solomon/home';
+  import { getServiceList } from '/@/api/solomon/service';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { formatNumber } from '/@/utils/numberUtil';
 
@@ -53,9 +53,14 @@
   const list = ref([]);
 
   onMounted(async () => {
-    const { result } = await getOptimizeResultByStatus();
-    list.value = (result.items || []).map((item) => {
-      console.log(formatNumber({ num: item.dataSize || 0 }));
+    const params = {
+      statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,END',
+      periodFilter: 'month',
+      limit: 6,
+      page: 1,
+    };
+    const { items } = await getServiceList(params);
+    list.value = (items || []).map((item) => {
       return {
         serviceName: item.service?.serviceName || '',
         name: item.name || '',
