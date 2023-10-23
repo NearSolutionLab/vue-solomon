@@ -4,6 +4,7 @@ enum Api {
   GetCapaAnalysisReport = '/request/das_capa/get_data',
 }
 
-export const GetCapaAnalysisReport = (id) => {
-  return defHttp.get({ url: Api.GetCapaAnalysisReport + '/' + id });
+export const GetCapaAnalysisReport = async (id) => {
+  const { result } = await defHttp.get({ url: Api.GetCapaAnalysisReport + '/' + id });
+  return result;
 };
