@@ -31,11 +31,18 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getServiceList } from '/@/api/solomon/service';
   import { columns, searchFormSchema } from './service.data';
+  import { useRouter } from 'vue-router';
+
+  const SERVICE_REPORT_MAP: { [service: string]: string } = {
+    'services.outbound.capa_analysis': 'CapaAnalysisPage',
+    // 'service.outbound.out_bound_analysis': '',
+  };
 
   export default defineComponent({
     name: 'RoleManagement',
     components: { BasicTable, TableAction },
     setup() {
+      const router = useRouter();
       const [registerTable, { reload }] = useTable({
         title: '진행완료',
         api: getCompleteServices,
@@ -78,7 +85,14 @@
       }
 
       function handleReport(record: Recordable) {
-        console.log(record);
+        if (SERVICE_REPORT_MAP[record.service.serviceNameKey]) {
+          router.push({
+            name: SERVICE_REPORT_MAP[record.service.serviceNameKey],
+            params: {
+              id: record.id,
+            },
+          });
+        }
       }
 
       function handleDelete(record: Recordable) {
