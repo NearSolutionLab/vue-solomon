@@ -1,6 +1,38 @@
 <template>
-  <PageWrapper v-loading="loadingRef" title="주문 패턴 분석 리포트">
-    <div ref="chartRef" :style="{ height, width }"></div>
+  <PageWrapper v-loading="loadingRef">
+    <template #headerContent>
+      <ReportHeader
+        :title="`주문 패턴 분석 리포트`"
+        :dataSetName="dataSetName"
+        :recommended="recommended"
+      />
+    </template>
+    <div class="flex flex-col">
+      <div class="flex-none h-96 flex flex-row pb-4">
+        <div class="flex-1 pr-4">
+          <BasicTable @register="registerTable1" @row-click="rowClick" />
+        </div>
+        <div ref="chartRef" class="flex-1"></div>
+      </div>
+      <div class="flex-none h-96 flex flex-row">
+        <div class="flex-1">
+          <BasicTable @register="registerTable2">
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'action'">
+                <TableAction
+                  :actions="[
+                    {
+                      icon: 'vscode-icons:file-type-excel',
+                      onClick: downloadReport.bind(null, record),
+                    },
+                  ]"
+                />
+              </template>
+            </template>
+          </BasicTable>
+        </div>
+      </div>
+    </div>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -8,28 +40,110 @@
   import { onMounted, ref, Ref } from 'vue';
   import { GetCapaAnalysisReport } from '/@/api/solomon/report';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import ReportHeader from '/@/views/solomon/report/components/ReportHeader.vue';
+  import { formatNumber, stringToNumber } from '/@/utils/numberUtil';
+  import { performancePerOrdersColumns, orderResultColumns } from './meta.data';
+
+  const [registerTable1, { setTableData: setTable1Data }] = useTable({
+    title: '배치당 주문 수에 따른 주문처리 효율',
+    columns: performancePerOrdersColumns,
+    useSearchForm: false,
+    showTableSetting: false,
+    bordered: true,
+    showIndexColumn: false,
+    rowSelection: {
+      type: 'radio',
+    },
+    isCanResizeParent: true,
+  });
+
+  const [registerTable2, { setTableData: setTable2Data }] = useTable({
+    title: '일자 별 주문 분석 결과',
+    columns: orderResultColumns,
+    useSearchForm: false,
+    showTableSetting: false,
+    bordered: true,
+    showIndexColumn: false,
+    isCanResizeParent: true,
+    pagination: false,
+    showSummary: true,
+    maxHeight: 200,
+    summaryFunc: handleSummary,
+    actionColumn: {
+      width: 30,
+      title: '',
+      dataIndex: 'action',
+      // slots: { customRender: 'action' },
+      fixed: undefined,
+    },
+  });
+
+  function handleSummary(tableData: any[]) {
+    let performanceRatio = 0;
+    tableData.forEach((item) => {
+      performanceRatio += stringToNumber(item.performanceRatio);
+    });
+    let avg = formatNumber({ num: performanceRatio / tableData.length, decimals: 2 });
+    return [
+      {
+        date: '평균',
+        performanceRatio: avg,
+      },
+    ];
+  }
+
+  const rowClick = (e) => {
+    const data = e.details.map((detail) => {
+      return {
+        date: detail.date.slice(0, 10),
+        groupCount: formatNumber({ num: detail.groupCount }),
+        batchSize: formatNumber({ num: detail.batchSize }),
+        orderCount: formatNumber({ num: detail.orderCount }),
+        skuCount: formatNumber({ num: detail.skuCount }),
+        randomSkuCount: formatNumber({ num: detail.randomSkuCount }),
+        combinationCount: formatNumber({ num: detail.combinationCount }),
+        eaSum: formatNumber({ num: detail.eaSum }),
+        performanceRatio: formatNumber({ num: detail.performanceRatio, decimals: 2 }),
+      };
+    });
+    setTable2Data(data);
+  };
 
   const props = defineProps({
     id: { type: String },
-    width: {
-      type: String as PropType<string>,
-      default: '50%',
-    },
-    height: {
-      type: String as PropType<string>,
-      default: 'calc(50vh - 78px)',
-    },
   });
   const loadingRef = ref(false);
   const chartRef = ref<HTMLDivElement | null>(null);
+  const dataSetName = ref();
+  const recommended = ref();
   const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
   onMounted(async () => {
     loadingRef.value = true;
     const result = await GetCapaAnalysisReport(props.id);
+    dataSetName.value = result.dataSetName;
+    const [highestPerformance] = result.capaAnalysisList.sort(
+      (a, b) => b.performanceRatio - a.performanceRatio,
+    );
     const data = result.capaAnalysisList.map((item) => {
-      return [item.orderCount, item.performanceRatio];
+      return [item.orderCount, Math.round(item.performanceRatio * 100) / 100];
     });
+    setTable1Data(
+      (result.capaAnalysisList || []).map((item) => {
+        return {
+          orderCount: formatNumber({ num: item.orderCount }),
+          orderCountPerSku: formatNumber({ num: item.orderCountPerSku, decimals: 2 }),
+          performanceRatio: formatNumber({ num: item.performanceRatio, decimals: 2 }),
+          details: item.details,
+        };
+      }),
+    );
+    recommended.value = {
+      orderCount: formatNumber({ num: highestPerformance.orderCount }),
+      orderCountPerSku: formatNumber({ num: highestPerformance.orderCountPerSku, decimals: 2 }),
+      performanceRatio: formatNumber({ num: highestPerformance.performanceRatio, decimals: 2 }),
+    };
     loadingRef.value = false;
 
     setOptions({
@@ -82,4 +196,8 @@
       ],
     });
   });
+
+  function downloadReport(record: Recordable) {
+    console.log(record);
+  }
 </script>
