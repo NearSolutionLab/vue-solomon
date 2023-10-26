@@ -1,7 +1,7 @@
 <template>
   <PageWrapper v-loading="loadingRef">
     <template #headerContent>
-      <ReportHeader
+      <CapaAnalysisHeader
         :title="`주문 패턴 분석 리포트`"
         :dataSetName="dataSetName"
         :recommended="recommended"
@@ -39,7 +39,7 @@
   import { getCapaAnalysisReport, getDasCapaDetails } from '/@/api/solomon/report';
   import { useECharts } from '/@/hooks/web/useECharts';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import ReportHeader from '/@/views/solomon/report/components/ReportHeader.vue';
+  import CapaAnalysisHeader from '/@/views/solomon/report/capa-analysis/components/CapaAnalysisHeader.vue';
   import { performancePerOrdersColumns, orderResultColumns } from './meta.data';
   import { jsonToMultipleSheetXlsx } from '/@/components/Excel/src/Export2Excel';
 

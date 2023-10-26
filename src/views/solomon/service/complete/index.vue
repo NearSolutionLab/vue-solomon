@@ -34,7 +34,7 @@
 
   const SERVICE_REPORT_MAP: { [service: string]: string } = {
     'services.outbound.capa_analysis': 'CapaAnalysisPage',
-    // 'service.outbound.out_bound_analysis': '',
+    'service.outbound.out_bound_analysis': 'OutBoundAnalysisPage',
   };
 
   export default defineComponent({
