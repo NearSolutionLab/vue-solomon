@@ -20,7 +20,8 @@ function setColumnWidth(data, worksheet, min = 3) {
     Object.keys(item).forEach((key) => {
       const cur = item[key];
       const length = cur?.length ?? min;
-      obj[key] = Math.max(length, obj[key] ?? min);
+      const keyLength = key.length ?? min;
+      obj[key] = Math.max(length, keyLength, obj[key] ?? min);
     });
   });
   Object.keys(obj).forEach((key) => {

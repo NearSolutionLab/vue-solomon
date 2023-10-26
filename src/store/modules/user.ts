@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { store } from '/@/store';
 import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
-import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
+import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY, CURRENT_USER_CREDENTIALS } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams, RegisterParams } from '/@/api/sys/model/userModel';
 import {
@@ -31,6 +31,7 @@ interface UserState {
   roleList: RoleEnum[];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
+  currentUserCredentials: Nullable<any>;
 }
 
 export const useUserStore = defineStore({
@@ -46,6 +47,7 @@ export const useUserStore = defineStore({
     sessionTimeout: false,
     // Last fetch time
     lastUpdateTime: 0,
+    currentUserCredentials: null,
   }),
   getters: {
     getUserInfo(state): UserInfo {
@@ -59,6 +61,9 @@ export const useUserStore = defineStore({
     },
     getSessionTimeout(state): boolean {
       return !!state.sessionTimeout;
+    },
+    getCurrentUserCredentials(state): any {
+      return state.currentUserCredentials || getAuthCache<any>(CURRENT_USER_CREDENTIALS) || {};
     },
     getLastUpdateTime(state): number {
       return state.lastUpdateTime;
@@ -81,6 +86,10 @@ export const useUserStore = defineStore({
     setSessionTimeout(flag: boolean) {
       this.sessionTimeout = flag;
     },
+    setCurrentUserCredentials(info: any) {
+      this.currentUserCredentials = info;
+      setAuthCache(CURRENT_USER_CREDENTIALS, info);
+    },
     resetState() {
       this.userInfo = null;
       this.token = '';
@@ -99,6 +108,7 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
+        this.setCurrentUserCredentials(data);
         const { token } = data;
 
         // save token
@@ -232,8 +242,6 @@ export const useUserStore = defineStore({
      */
     async requestEmailCode(userId: string): Promise<any> {
       try {
-        const a = isFakeDataMode();
-        console.log(a);
         const data = isFakeDataMode()
           ? await new Promise((resolve) =>
               setTimeout(
