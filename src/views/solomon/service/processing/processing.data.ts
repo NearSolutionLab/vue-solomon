@@ -1,4 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { formatNumber } from '/@/utils/numberUtil';
 import { Progress } from 'ant-design-vue';
 import { h } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
@@ -24,6 +25,9 @@ export const columns: BasicColumn[] = [
     title: '데이터크기',
     dataIndex: 'dataSize',
     width: 100,
+    customRender: ({ text }) => {
+      return formatNumber({ num: text });
+    },
   },
   {
     title: '상태',

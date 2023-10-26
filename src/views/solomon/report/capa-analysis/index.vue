@@ -40,7 +40,6 @@
   import { useECharts } from '/@/hooks/web/useECharts';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import ReportHeader from '/@/views/solomon/report/components/ReportHeader.vue';
-  import { formatNumber, stringToNumber } from '/@/utils/numberUtil';
   import { performancePerOrdersColumns, orderResultColumns } from './meta.data';
   import { jsonToMultipleSheetXlsx } from '/@/components/Excel/src/Export2Excel';
 
@@ -91,11 +90,8 @@
   });
 
   function handleSummary(tableData: any[]) {
-    let performanceRatio = tableData.reduce(
-      (acc, curr) => (acc += stringToNumber(curr.performanceRatio)),
-      0,
-    );
-    let avg = formatNumber({ num: performanceRatio / tableData.length, decimals: 2 });
+    let performanceRatio = tableData.reduce((acc, curr) => (acc += curr.performanceRatio), 0);
+    let avg = performanceRatio / tableData.length;
     return [
       {
         date: '평균',
@@ -108,14 +104,14 @@
     const data = e.details.map((detail) => {
       return {
         date: detail.date.slice(0, 10),
-        groupCount: formatNumber({ num: detail.groupCount }),
-        batchSize: formatNumber({ num: detail.batchSize }),
-        orderCount: formatNumber({ num: detail.orderCount }),
-        skuCount: formatNumber({ num: detail.skuCount }),
-        randomSkuCount: formatNumber({ num: detail.randomSkuCount }),
-        combinationCount: formatNumber({ num: detail.combinationCount }),
-        eaSum: formatNumber({ num: detail.eaSum }),
-        performanceRatio: formatNumber({ num: detail.performanceRatio, decimals: 2 }),
+        groupCount: detail.groupCount,
+        batchSize: detail.batchSize,
+        orderCount: detail.orderCount,
+        skuCount: detail.skuCount,
+        randomSkuCount: detail.randomSkuCount,
+        combinationCount: detail.combinationCount,
+        eaSum: detail.eaSum,
+        performanceRatio: detail.performanceRatio,
       };
     });
     setTable2Data(data);
@@ -135,17 +131,17 @@
     setTable1Data(
       (result.capaAnalysisList || []).map((item) => {
         return {
-          orderCount: formatNumber({ num: item.orderCount }),
-          orderCountPerSku: formatNumber({ num: item.orderCountPerSku, decimals: 2 }),
-          performanceRatio: formatNumber({ num: item.performanceRatio, decimals: 2 }),
+          orderCount: item.orderCount,
+          orderCountPerSku: item.orderCountPerSku,
+          performanceRatio: item.performanceRatio,
           details: item.details,
         };
       }),
     );
     recommended.value = {
-      orderCount: formatNumber({ num: highestPerformance.orderCount }),
-      orderCountPerSku: formatNumber({ num: highestPerformance.orderCountPerSku, decimals: 2 }),
-      performanceRatio: formatNumber({ num: highestPerformance.performanceRatio, decimals: 2 }),
+      orderCount: highestPerformance.orderCount,
+      orderCountPerSku: highestPerformance.orderCountPerSku,
+      performanceRatio: highestPerformance.performanceRatio,
     };
     loadingRef.value = false;
 

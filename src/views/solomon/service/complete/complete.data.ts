@@ -1,4 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { formatNumber } from '/@/utils/numberUtil';
 
 export const columns: BasicColumn[] = [
   {
@@ -19,6 +20,9 @@ export const columns: BasicColumn[] = [
     title: '데이터크기',
     dataIndex: 'dataSize',
     width: 100,
+    customRender: ({ text }) => {
+      return formatNumber({ num: text });
+    },
   },
   {
     title: '생성일시',

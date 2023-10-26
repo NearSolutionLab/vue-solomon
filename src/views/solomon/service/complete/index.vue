@@ -27,10 +27,9 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { formatNumber } from '/@/utils/numberUtil';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getServiceList } from '/@/api/solomon/service';
-  import { columns, searchFormSchema } from './service.data';
+  import { columns, searchFormSchema } from './complete.data';
   import { useRouter } from 'vue-router';
 
   const SERVICE_REPORT_MAP: { [service: string]: string } = {
@@ -80,7 +79,7 @@
         return (items || []).map((item) => ({
           ...item,
           serviceName: item.service?.serviceName,
-          dataSize: formatNumber({ num: item.dataSize || 0 }),
+          dataSize: item.dataSize || 0,
         }));
       }
 
