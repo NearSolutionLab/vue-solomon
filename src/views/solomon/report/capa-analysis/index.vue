@@ -44,6 +44,16 @@
   import { performancePerOrdersColumns, orderResultColumns } from './meta.data';
   import { jsonToMultipleSheetXlsx } from '/@/components/Excel/src/Export2Excel';
 
+  const props = defineProps({
+    id: { type: String },
+  });
+  const loadingRef = ref(false);
+  const chartRef = ref<HTMLDivElement | null>(null);
+  const dataSetName = ref();
+  const recommended = ref();
+  let requestId = null;
+  const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+
   const [registerTable1, { setTableData: setTable1Data }] = useTable({
     title: '배치당 주문 수에 따른 주문처리 효율',
     columns: performancePerOrdersColumns,
@@ -81,10 +91,10 @@
   });
 
   function handleSummary(tableData: any[]) {
-    let performanceRatio = 0;
-    tableData.forEach((item) => {
-      performanceRatio += stringToNumber(item.performanceRatio);
-    });
+    let performanceRatio = tableData.reduce(
+      (acc, curr) => (acc += stringToNumber(curr.performanceRatio)),
+      0,
+    );
     let avg = formatNumber({ num: performanceRatio / tableData.length, decimals: 2 });
     return [
       {
@@ -110,16 +120,6 @@
     });
     setTable2Data(data);
   };
-
-  const props = defineProps({
-    id: { type: String },
-  });
-  const loadingRef = ref(false);
-  const chartRef = ref<HTMLDivElement | null>(null);
-  const dataSetName = ref();
-  const recommended = ref();
-  let requestId = null;
-  const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
   onMounted(async () => {
     loadingRef.value = true;
