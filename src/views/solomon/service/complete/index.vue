@@ -66,7 +66,8 @@
 
       async function getCompleteServices(params) {
         const requestParams = {
-          statuses: 'END,ERROR',
+          // statuses: 'END,ERROR',
+          statuses: 'END',
           page: params.page,
           limit: params.pageSize,
         };
