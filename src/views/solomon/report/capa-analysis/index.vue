@@ -8,7 +8,7 @@
         <div class="flex-none w-1/2 pr-4 h-90">
           <BasicTable @register="registerTable1" @row-click="rowClick" />
         </div>
-        <div ref="chartRef" class="flex-none w-1/2 h-92"></div>
+        <CapaAnalysisChart class="flex-none w-1/2 h-92" :chartData="chartData" />
       </div>
       <div class="flex-none h-96">
         <BasicTable @register="registerTable2">
@@ -31,11 +31,11 @@
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
-  import { onMounted, ref, Ref } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { getCapaAnalysisReport, getDasCapaDetails } from '/@/api/solomon/report';
-  import { useECharts } from '/@/hooks/web/useECharts';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import CapaAnalysisHeader from '/@/views/solomon/report/capa-analysis/components/CapaAnalysisHeader.vue';
+  import CapaAnalysisChart from './components/CapaAnalysisChart.vue';
   import { performancePerOrdersColumns, orderResultColumns } from './meta.data';
   import { jsonToMultipleSheetXlsx } from '/@/components/Excel/src/Export2Excel';
 
@@ -43,10 +43,9 @@
     id: { type: String },
   });
   const loadingRef = ref(false);
-  const chartRef = ref<HTMLDivElement | null>(null);
   const headerData = ref();
+  const chartData = ref();
   let requestId = null;
-  const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
   const [registerTable1, { setTableData: setTable1Data }] = useTable({
     title: '배치당 주문 수에 따른 주문처리 효율',
@@ -119,10 +118,10 @@
       dataSetName,
       capaAnalysisList,
     };
+    chartData.value = {
+      capaAnalysisList,
+    };
     requestId = rId;
-    const data = capaAnalysisList.map((item) => {
-      return [item.orderCount, Math.round(item.performanceRatio * 100) / 100];
-    });
     setTable1Data(
       (capaAnalysisList || []).map((item) => {
         return {
@@ -134,56 +133,6 @@
       }),
     );
     loadingRef.value = false;
-
-    setOptions({
-      backgroundColor: '#0f375f',
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-          label: {
-            show: true,
-            backgroundColor: '#333',
-          },
-        },
-      },
-      legend: {
-        data: ['line'],
-        textStyle: {
-          color: '#ccc',
-        },
-      },
-      xAxis: {
-        name: '주문수',
-        axisLine: {
-          lineStyle: {
-            color: '#ccc',
-          },
-        },
-        scale: true,
-      },
-      yAxis: {
-        name: '효율',
-        splitLine: { show: false },
-        axisLine: {
-          lineStyle: {
-            color: '#ccc',
-          },
-        },
-        scale: true,
-      },
-      series: [
-        {
-          name: '효율',
-          type: 'line',
-          smooth: true,
-          showAllSymbol: 'auto',
-          symbol: 'emptyCircle',
-          symbolSize: 15,
-          data,
-        },
-      ],
-    });
   });
 
   async function downloadReport(record: Recordable) {
