@@ -1,11 +1,7 @@
 <template>
   <PageWrapper v-loading="loadingRef">
     <template #headerContent>
-      <CapaAnalysisHeader
-        :title="`주문 패턴 분석 리포트`"
-        :dataSetName="dataSetName"
-        :recommended="recommended"
-      />
+      <CapaAnalysisHeader :headerData="headerData" />
     </template>
     <div class="flex flex-col">
       <div class="flex-none h-96 flex flex-row pb-4">
@@ -48,8 +44,7 @@
   });
   const loadingRef = ref(false);
   const chartRef = ref<HTMLDivElement | null>(null);
-  const dataSetName = ref();
-  const recommended = ref();
+  const headerData = ref();
   let requestId = null;
   const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
@@ -119,17 +114,17 @@
 
   onMounted(async () => {
     loadingRef.value = true;
-    const result = await getCapaAnalysisReport(props.id);
-    requestId = result.requestId;
-    dataSetName.value = result.dataSetName;
-    const [highestPerformance] = result.capaAnalysisList.sort(
-      (a, b) => b.performanceRatio - a.performanceRatio,
-    );
-    const data = result.capaAnalysisList.map((item) => {
+    const { capaAnalysisList, requestId: rId, dataSetName } = await getCapaAnalysisReport(props.id);
+    headerData.value = {
+      dataSetName,
+      capaAnalysisList,
+    };
+    requestId = rId;
+    const data = capaAnalysisList.map((item) => {
       return [item.orderCount, Math.round(item.performanceRatio * 100) / 100];
     });
     setTable1Data(
-      (result.capaAnalysisList || []).map((item) => {
+      (capaAnalysisList || []).map((item) => {
         return {
           orderCount: item.orderCount,
           orderCountPerSku: item.orderCountPerSku,
@@ -138,11 +133,6 @@
         };
       }),
     );
-    recommended.value = {
-      orderCount: highestPerformance.orderCount,
-      orderCountPerSku: highestPerformance.orderCountPerSku,
-      performanceRatio: highestPerformance.performanceRatio,
-    };
     loadingRef.value = false;
 
     setOptions({

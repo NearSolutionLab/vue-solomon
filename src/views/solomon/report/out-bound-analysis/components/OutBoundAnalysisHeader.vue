@@ -1,7 +1,7 @@
 <template>
   <div class="lg:flex">
     <div class="md:ml-6 flex flex-col justify-center md:mt-0 mt-2">
-      <h1 class="md:text-lg text-md"> {{ title }} </h1>
+      <h1 class="md:text-lg text-md"> 출고 물동량 분석 리포트 </h1>
       <!-- <span class="text-secondary"> </span> -->
     </div>
     <div class="flex flex-1 justify-end md:mt-0 mt-4">
@@ -37,9 +37,6 @@
   import { computed } from 'vue';
 
   const props = defineProps({
-    title: {
-      type: String as PropType<string>,
-    },
     headerData: {
       type: Array as PropType<any[]>,
     },

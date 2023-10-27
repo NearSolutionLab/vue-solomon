@@ -1,7 +1,7 @@
 <template>
   <PageWrapper v-loading="loadingRef">
     <template #headerContent>
-      <OutBoundAnalysisHeader :title="`출고 물동량 분석 리포트`" :headerData="headerData" />
+      <OutBoundAnalysisHeader :headerData="headerData" />
     </template>
   </PageWrapper>
 </template>
