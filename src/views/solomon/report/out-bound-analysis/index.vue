@@ -9,6 +9,10 @@
         <OutBoundAnalysisChart1 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData1" />
         <OutBoundAnalysisChart2 class="flex-none w-1/2 h-92" :chartData="chartData2" />
       </div>
+      <div class="flex-none h-96 flex flex-row pb-4">
+        <OutBoundAnalysisChart3 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData3" />
+        <OutBoundAnalysisChart4 class="flex-none w-1/2 h-92" :chartData="chartData4" />
+      </div>
     </div>
   </PageWrapper>
 </template>
@@ -21,6 +25,8 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import OutBoundAnalysisChart1 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart1.vue';
   import OutBoundAnalysisChart2 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart2.vue';
+  import OutBoundAnalysisChart3 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart3.vue';
+  import OutBoundAnalysisChart4 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart4.vue';
 
   const props = defineProps({
     id: { type: String },
@@ -29,6 +35,8 @@
   const headerData = ref();
   const chartData1 = ref();
   const chartData2 = ref();
+  const chartData3 = ref();
+  const chartData4 = ref();
 
   const { prefixCls } = useDesign('out-bound-analysis');
   const [formRegister, { validate, resetSchema }] = useForm({
@@ -104,9 +112,12 @@
     chartData2.value = {
       weeklyAnalysis,
     };
-    console.log(quarterAnalysis);
-    console.log(ratioAnalysis);
-    console.log(weeklyAnalysis);
+    chartData3.value = {
+      ratioAnalysis,
+    };
+    chartData4.value = {
+      quarterAnalysis,
+    };
   }
 </script>
 <style lang="less">

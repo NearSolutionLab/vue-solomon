@@ -35,7 +35,7 @@
           },
         },
         legend: {
-          // data: ['line'],
+          top: 20,
           textStyle: {
             color: '#ccc',
           },
@@ -58,6 +58,9 @@
             },
           },
           scale: true,
+        },
+        grid: {
+          bottom: 40,
         },
         series: [
           {

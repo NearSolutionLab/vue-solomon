@@ -26,6 +26,12 @@
       const valueList = data.map((item) => item[1]);
       setOptions({
         backgroundColor: '#0f375f',
+        title: {
+          text: '연간 출고주문 건수 추이',
+          textStyle: {
+            color: '#ccc',
+          },
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -38,6 +44,7 @@
         },
         legend: {
           // data: ['line'],
+          top: 20,
           textStyle: {
             color: '#ccc',
           },
@@ -61,6 +68,9 @@
             },
           },
           scale: true,
+        },
+        grid: {
+          bottom: 40,
         },
         series: [
           {
