@@ -14,6 +14,13 @@
         <OutBoundAnalysisChart4 class="flex-none w-1/2 h-92" :chartData="chartData4" />
       </div>
     </div>
+    <div class="flex-none h-96">
+      <BasicTable @register="registerTable">
+        <template #toolbar>
+          <a-button @click="aoaToExcel"> 결과 다운로드 </a-button>
+        </template>
+      </BasicTable>
+    </div>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -27,6 +34,9 @@
   import OutBoundAnalysisChart2 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart2.vue';
   import OutBoundAnalysisChart3 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart3.vue';
   import OutBoundAnalysisChart4 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart4.vue';
+  import { BasicTable, useTable } from '/@/components/Table';
+  import { columns } from './meta.data';
+  import { jsonToSheetXlsx } from '/@/components/Excel/src/Export2Excel';
 
   const props = defineProps({
     id: { type: String },
@@ -48,6 +58,66 @@
     compact: true,
     submitFunc: handleSubmit,
   });
+
+  const [registerTable, { setTableData, getDataSource }] = useTable({
+    title: '월별 출고량 통계',
+    columns,
+    useSearchForm: false,
+    showTableSetting: false,
+    bordered: true,
+    showIndexColumn: false,
+    isCanResizeParent: true,
+    pagination: false,
+    showSummary: true,
+    maxHeight: 180,
+    summaryFunc: handleSummary,
+    actionColumn: {
+      width: 30,
+      title: '',
+      dataIndex: 'action',
+      // slots: { customRender: 'action' },
+      fixed: undefined,
+    },
+  });
+
+  const aoaToExcel = () => {
+    const header = columns.reduce((acc, column: any) => {
+      return {
+        ...acc,
+        [column.dataIndex]: column.title,
+      };
+    }, {});
+    const data = getDataSource().map((d) => {
+      const obj = {};
+      Object.keys(header).forEach((key) => {
+        obj[key] = d[key] ?? '';
+      });
+      return obj;
+    });
+    jsonToSheetXlsx({
+      data,
+      header,
+      filename: '월별 출고량 통계.xlsx',
+    });
+  };
+
+  function handleSummary(tableData: any[]) {
+    let summation = tableData.reduce((acc, curr) => {
+      Object.keys(curr).forEach((key) => {
+        if (key === 'orderCount' || key === 'skuCount' || key === 'pcs')
+          acc[key] = !acc[key] ? curr[key] : (acc[key] += curr[key]);
+      });
+      return acc;
+    }, {});
+    return [
+      {
+        date: '계',
+        orderCount: summation.orderCount,
+        skuCount: summation.skuCount,
+        pcs: summation.pcs,
+      },
+    ];
+  }
 
   onMounted(async () => {
     loadingRef.value = true;
@@ -86,6 +156,16 @@
       ratioAnalysis,
       weeklyAnalysis,
     });
+    setTableData(
+      (monthlyAnalysis || []).map((item) => {
+        return {
+          date: item.x,
+          orderCount: item.order_count,
+          skuCount: item.sku_count,
+          pcs: item.y,
+        };
+      }),
+    );
     loadingRef.value = false;
   });
 
