@@ -6,6 +6,7 @@ export default {
     service: '서비스',
     complete: '진행완료',
     processing: '진행중',
+    run: '실행',
   },
   organization: {
     organization: '조직관리',

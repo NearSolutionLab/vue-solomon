@@ -16,6 +16,15 @@ const service: AppRouteModule = {
   },
   children: [
     {
+      path: 'run',
+      name: 'RunPage',
+      component: () => import('/@/views/solomon/service/run/index.vue'),
+      meta: {
+        title: t('routes.solomon.service.run'),
+        hideMenu: false,
+      },
+    },
+    {
       path: 'complete',
       name: 'CompletePage',
       component: () => import('/@/views/solomon/service/complete/index.vue'),
