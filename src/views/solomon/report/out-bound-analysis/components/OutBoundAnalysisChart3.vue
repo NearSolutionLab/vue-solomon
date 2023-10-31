@@ -27,7 +27,7 @@
               ...acc,
               {
                 name: curr.x,
-                value: curr.y || 0,
+                value: curr.ea_sum || 0,
               },
             ];
           }
@@ -37,16 +37,24 @@
           return a.value - b.value;
         });
       setOptions({
+        backgroundColor: '#0f375f',
         title: {
           text: '출고현황',
-          left: 'center',
+          left: 'left',
+          textStyle: {
+            color: '#ccc',
+          },
         },
         tooltip: {
           trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)',
         },
         legend: {
           top: '10%',
           left: 'center',
+          textStyle: {
+            color: '#ccc',
+          },
         },
         series: [
           {

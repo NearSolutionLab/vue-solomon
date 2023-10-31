@@ -17,7 +17,7 @@
     <div class="flex-none h-96">
       <BasicTable @register="registerTable">
         <template #toolbar>
-          <a-button @click="aoaToExcel"> 결과 다운로드 </a-button>
+          <a-button @click="jsonToExcel"> 결과 다운로드 </a-button>
         </template>
       </BasicTable>
     </div>
@@ -75,12 +75,11 @@
       width: 30,
       title: '',
       dataIndex: 'action',
-      // slots: { customRender: 'action' },
       fixed: undefined,
     },
   });
 
-  const aoaToExcel = () => {
+  const jsonToExcel = () => {
     const header = columns.reduce((acc, column: any) => {
       return {
         ...acc,
