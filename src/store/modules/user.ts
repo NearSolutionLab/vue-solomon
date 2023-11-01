@@ -6,7 +6,12 @@ import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY, CURRENT_USER_CREDENTIALS } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
-import { GetUserInfoModel, LoginParams, RegisterParams } from '/@/api/sys/model/userModel';
+import {
+  GetUserInfoModel,
+  LoginParams,
+  RegisterParams,
+  CheckPasswordParams,
+} from '/@/api/sys/model/userModel';
 import {
   doLogout,
   getUserInfo,
@@ -14,6 +19,7 @@ import {
   register,
   requestEmailCode,
   checkEmailCode,
+  changePassword,
 } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
@@ -237,10 +243,29 @@ export const useUserStore = defineStore({
       }
     },
 
+    async changePassword(
+      userId: string,
+      params: CheckPasswordParams & {
+        mode?: ErrorMessageMode;
+      },
+    ): Promise<any> {
+      try {
+        const { mode, ...checkPasswordParams } = params;
+        const data = await changePassword(userId, checkPasswordParams, mode);
+        const status = data;
+        if (!status) {
+          throw new Error();
+        }
+        return status;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    },
+
     /**
      * @description: request email code
      */
-    async requestEmailCode(userId: string): Promise<any> {
+    async requestEmailCode(userId: string, authType: string): Promise<any> {
       try {
         const data = isFakeDataMode()
           ? await new Promise((resolve) =>
@@ -253,7 +278,7 @@ export const useUserStore = defineStore({
                 1000,
               ),
             )
-          : await requestEmailCode(userId);
+          : await requestEmailCode(userId, authType);
         const { status, result, errorMessage } = data;
         if (!status) {
           throw new Error(errorMessage);
@@ -267,6 +292,7 @@ export const useUserStore = defineStore({
     /**
      * @description: check email code
      */
+
     async checkEmailCode(userId: string, emailCode: string): Promise<any> {
       try {
         const data = isFakeDataMode()

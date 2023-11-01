@@ -1,5 +1,11 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel, RegisterParams } from './model/userModel';
+import {
+  LoginParams,
+  LoginResultModel,
+  GetUserInfoModel,
+  RegisterParams,
+  CheckPasswordParams,
+} from './model/userModel';
 
 import { ErrorMessageMode } from '/#/axios';
 
@@ -12,6 +18,7 @@ enum Api {
   Register = '/customers/join',
   RequestEmailCode = '/user_auth/send/',
   CheckEmailCode = '/user_auth/confirm/',
+  ChangePassword = '/users/change_pass/',
 }
 
 /**
@@ -69,13 +76,36 @@ export function register(params: RegisterParams, mode: ErrorMessageMode = 'modal
   );
 }
 
-export function requestEmailCode(userId: string) {
+export function changePassword(
+  userId: string,
+  params: CheckPasswordParams,
+  mode: ErrorMessageMode = 'modal',
+) {
+  return defHttp.post(
+    {
+      url: Api.ChangePassword + userId,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+export function requestEmailCode(userId: string, authType: string) {
+  console.log(userId);
   return defHttp.post({
     url: Api.RequestEmailCode + userId,
     params: {
       emailId: userId,
-      authType: 'JOIN',
+      authType: authType,
     },
+  });
+}
+
+export function confirmAuthKey(userId: string, emailCode: string) {
+  return defHttp.get({
+    url: Api.CheckEmailCode + `${userId}/${emailCode}`,
   });
 }
 

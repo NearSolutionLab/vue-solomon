@@ -66,6 +66,7 @@ export default {
   },
   login: {
     backSignIn: '뒤로',
+    nextSignIn: '다음',
     signInFormTitle: '로그인',
     mobileSignInFormTitle: '핸드폰으로 로그인',
     qrSignInFormTitle: 'QR코드 로그인',
@@ -91,6 +92,7 @@ export default {
     loginSuccessTitle: '로그인 성공',
     loginSuccessDesc: '환영합니다.',
     registerSuccessTitle: '회원가입 성공',
+    changePaswordSuccessTitle: '비밀번호 변경 성공',
 
     // placeholder
     accountPlaceholder: '계정을 입력해주세요',
@@ -110,6 +112,7 @@ export default {
 
     userName: '계정',
     password: '비밀번호',
+    newPassword: '새 비밀번호',
     confirmPassword: '확인비밀번호',
     email: '메일',
     smsCode: '문자인증번호',

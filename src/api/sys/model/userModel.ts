@@ -49,3 +49,10 @@ export interface RegisterParams {
   managerPosition: string;
   managerPhoneNo: string;
 }
+
+export interface CheckPasswordParams {
+  login: string;
+  currentPass: string;
+  newPass: string;
+  email: string;
+}
