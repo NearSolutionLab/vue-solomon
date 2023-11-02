@@ -1,26 +1,85 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <DataTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
+    <BasicTable @register="registerTable" class="w-3/4 p-4 xl:w-4/5">
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'octicon:play-16',
+                color: 'success',
+                tooltip: '실행',
+                onClick: runService.bind(null, record),
+              },
+            ]"
+          />
+        </template>
+      </template>
+    </BasicTable>
+    <RunServiceModal @register="registerRunServiceModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
   import DataTree from './DataTree.vue';
-  import { getOptimizeServiceList } from '/@/api/solomon/service';
+  import { getServiceSelectionList } from '/@/api/solomon/service';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { columns } from './meta.data';
+  import { useI18n } from '/@/hooks/web/useI18n';
+  import { useModal } from '/@/components/Modal';
+  import RunServiceModal from './RunServiceModal.vue';
+
+  const { t } = useI18n();
+  const [registerRunServiceModal, { openModal: openRunServiceModal }] = useModal();
+  const [registerTable, { setTableData, reload }] = useTable({
+    title: '서비스 선택',
+    rowKey: 'id',
+    columns,
+    useSearchForm: false,
+    showTableSetting: false,
+    bordered: true,
+    showIndexColumn: false,
+    actionColumn: {
+      width: 120,
+      title: '실행',
+      dataIndex: 'action',
+      // slots: { customRender: 'action' },
+    },
+  });
 
   async function handleSelect({ id, dataType, isLeaf }) {
-    console.log(id);
     if (isLeaf) {
-      const params = {
-        query: JSON.stringify([
-          { name: 'feasible_data_types', operator: 'eq', value: dataType, relation: false },
-        ]),
-      };
-      const result = await getOptimizeServiceList(params);
-      console.log(result);
+      const result = await getServiceSelectionList();
+      const items = result.filter(
+        (res) => res.feasibleDataTypes === dataType && res.active === true,
+      );
+
+      setTableData(
+        (items || []).map((item) => {
+          return {
+            id: item.id,
+            serviceName: item.serviceName,
+            description: t(`solomon.${item.serviceNameKey}.desc`),
+            subscribed: item.subscribed,
+            subscriptionId: item.subscriptionId,
+            dataListId: id,
+            serviceNameKey: item.serviceNameKey,
+          };
+        }),
+      );
     }
 
-    // reload();
+    reload();
   }
+
+  const runService = (record) => {
+    console.log(record);
+    openRunServiceModal(true, record);
+  };
+
+  const handleSuccess = (e) => {
+    console.log(e);
+  };
 </script>
