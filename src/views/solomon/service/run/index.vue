@@ -79,7 +79,7 @@
     openRunServiceModal(true, record);
   };
 
-  const handleSuccess = (e) => {
-    console.log(e);
+  const handleSuccess = (result) => {
+    console.log(result);
   };
 </script>

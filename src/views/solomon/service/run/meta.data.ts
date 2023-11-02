@@ -76,32 +76,7 @@ export const columns: BasicColumn[] = [
   },
 ];
 
-export const OutboundAnalysisFormSchema: FormSchema[] = [
-  {
-    field: 'name',
-    label: '제목',
-    component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
-    rules: [
-      {
-        required: true,
-        message: '필수항목 입니다',
-      },
-      // {
-      //   validator(_, value) {
-      //     return new Promise((resolve, reject) => {
-      //       isNameExist(value)
-      //         .then(() => resolve())
-      //         .catch((err) => {
-      //           reject(err.message || '서비스명 중복');
-      //         });
-      //     });
-      //   },
-      // },
-    ],
-  },
-];
-
+// 주문 패턴 분석 서비스
 export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -113,17 +88,99 @@ export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
         required: true,
         message: '필수항목 입니다',
       },
-      // {
-      //   validator(_, value) {
-      //     return new Promise((resolve, reject) => {
-      //       isNameExist(value)
-      //         .then(() => resolve())
-      //         .catch((err) => {
-      //           reject(err.message || '서비스명 중복');
-      //         });
-      //     });
-      //   },
-      // },
+    ],
+  },
+  {
+    field: '[startDate, endDate]',
+    label: '날짜',
+    component: 'RangePicker',
+    componentProps: {
+      format: 'YYYY-MM-DD',
+      placeholder: ['시작날짜', '종료날짜'],
+    },
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+  {
+    field: 'orders',
+    label: '기준 주문 수',
+    component: 'InputNumber',
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+];
+
+export const OutboundAnalysisFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: '제목',
+    component: 'Input',
+    helpMessage: ['제목을 입력하세요'],
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+  {
+    field: '[startDate, endDate]',
+    label: '날짜',
+    component: 'RangePicker',
+    componentProps: {
+      format: 'YYYY-MM-DD',
+      placeholder: ['시작날짜', '종료날짜'],
+    },
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+];
+
+export const OutboundShippingBatchFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: '제목',
+    component: 'Input',
+    helpMessage: ['제목을 입력하세요'],
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+  {
+    field: 'orders',
+    label: '기준 주문 수',
+    component: 'InputNumber',
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+  {
+    field: 'count',
+    label: '추출 횟수',
+    component: 'InputNumber',
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
     ],
   },
 ];
