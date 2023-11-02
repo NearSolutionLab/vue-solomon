@@ -19,10 +19,22 @@
     OutboundAnalysisFormSchema,
     OutboundCapaAnalysisFormSchema,
     OutboundShippingBatchFormSchema,
+    ABCOptimizationFormSchema,
+    OutboundABCAnalysisFormSchema,
+    InventoryAnalysisFormSchema,
+    InboundAnalysisFormSchema,
   } from './meta.data';
   import { FormSchema } from '/@/components/Table';
   import { formatToDate } from '/@/utils/dateUtil';
-  import { analyzeOutboundVolume, analyzeOutboundOrderPattern } from '/@/api/solomon/service';
+  import {
+    analyzeOutboundVolume,
+    analyzeOutboundOrderPattern,
+    createOutboundShippingBatch,
+    optimizeABC,
+    analyzeOutboundABC,
+    analyzeInventory,
+    analyzeInboundVolume,
+  } from '/@/api/solomon/service';
 
   export default defineComponent({
     name: 'RunServiceModal',
@@ -46,6 +58,10 @@
         'services.outbound.capa_analysis': OutboundCapaAnalysisFormSchema, // 주문 패턴 분석 서비스
         'service.outbound.out_bound_analysis': OutboundAnalysisFormSchema, // 출고 물동량 분석
         'services.outbound.shipping_batch': OutboundShippingBatchFormSchema, // DAS 출고 배치 생성
+        'service.inventory.ABCOptimize': ABCOptimizationFormSchema, // ABC분석 서비스
+        'services.outbound.abc_analysis': OutboundABCAnalysisFormSchema, // 출고 물동량 ABC분석
+        'service.inventory.inventory_analysis': InventoryAnalysisFormSchema, // 재고 물동량 분석
+        'service.inbound.in_bound_analysis': InboundAnalysisFormSchema, // 입고 물동량 분석
       };
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner((data) => {
@@ -85,6 +101,23 @@
           }
           // DAS 출고 배치 생성
           else if (serviceNameKey.value === 'services.outbound.shipping_batch') {
+            result = await createOutboundShippingBatch(data);
+          }
+          // ABC분석 서비스
+          else if (serviceNameKey.value === 'service.inventory.ABCOptimize') {
+            result = await optimizeABC(data);
+          }
+          // 출고 물동량 ABC분석
+          else if (serviceNameKey.value === 'services.outbound.abc_analysis') {
+            result = await analyzeOutboundABC(data);
+          }
+          // 재고 물동량 분석
+          else if (serviceNameKey.value === 'service.inventory.inventory_analysis') {
+            result = await analyzeInventory(data);
+          }
+          // 입고 물동량 분석
+          else if (serviceNameKey.value === 'service.inbound.in_bound_analysis') {
+            result = await analyzeInboundVolume(data);
           }
 
           closeModal();
@@ -95,6 +128,7 @@
       }
 
       function getServiceVariables(values: any) {
+        // 주문 패턴 분석 서비스
         if (serviceNameKey.value === 'services.outbound.capa_analysis') {
           const [startDate, endDate] = values['[startDate, endDate]'];
           return {
@@ -103,6 +137,7 @@
             batch_list: parseInt(values.orders),
           };
         }
+        // 출고 물동량 분석
         if (serviceNameKey.value === 'service.outbound.out_bound_analysis') {
           const [startDate, endDate] = values['[startDate, endDate]'];
           return {
@@ -110,6 +145,37 @@
             end_date: formatToDate(endDate),
           };
         }
+        // DAS 출고 배치 생성
+        if (serviceNameKey.value === 'services.outbound.shipping_batch') {
+          const [startDate, endDate] = values['[startDate, endDate]'];
+          return {
+            start_date: formatToDate(startDate),
+            end_date: formatToDate(endDate),
+            batch_size: parseInt(values.orders),
+            count: parseInt(values.count),
+          };
+        }
+        // ABC분석 서비스
+        if (serviceNameKey.value === 'service.inventory.ABCOptimize') {
+          return {};
+        }
+        // 출고 물동량 ABC분석
+        if (serviceNameKey.value === 'services.outbound.abc_analysis') {
+          return {};
+        }
+        // 재고 물동량 분석
+        if (serviceNameKey.value === 'service.inventory.inventory_analysis') {
+          return {};
+        }
+        // 입고 물동량 분석
+        if (serviceNameKey.value === 'service.inbound.in_bound_analysis') {
+          const [startDate, endDate] = values['[startDate, endDate]'];
+          return {
+            start_date: formatToDate(startDate),
+            end_date: formatToDate(endDate),
+          };
+        }
+        return {};
       }
 
       return { registerModal, registerForm, handleSubmit, title };

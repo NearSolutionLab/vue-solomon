@@ -91,6 +91,17 @@ export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
     ],
   },
   {
+    field: 'orders',
+    label: '기준 주문 수',
+    component: 'InputNumber',
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+  {
     field: '[startDate, endDate]',
     label: '날짜',
     component: 'RangePicker',
@@ -105,19 +116,9 @@ export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
       },
     ],
   },
-  {
-    field: 'orders',
-    label: '기준 주문 수',
-    component: 'InputNumber',
-    rules: [
-      {
-        required: true,
-        message: '필수항목 입니다',
-      },
-    ],
-  },
 ];
 
+// 출고 물동량 분석
 export const OutboundAnalysisFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -148,6 +149,7 @@ export const OutboundAnalysisFormSchema: FormSchema[] = [
   },
 ];
 
+// DAS 출고 배치 생성
 export const OutboundShippingBatchFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -176,6 +178,100 @@ export const OutboundShippingBatchFormSchema: FormSchema[] = [
     field: 'count',
     label: '추출 횟수',
     component: 'InputNumber',
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+  {
+    field: '[startDate, endDate]',
+    label: '날짜',
+    component: 'RangePicker',
+    componentProps: {
+      format: 'YYYY-MM-DD',
+      placeholder: ['시작날짜', '종료날짜'],
+    },
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+];
+
+// ABC분석 서비스
+export const ABCOptimizationFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: '제목',
+    component: 'Input',
+    helpMessage: ['제목을 입력하세요'],
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+];
+
+// 출고 물동량 ABC분석
+export const OutboundABCAnalysisFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: '제목',
+    component: 'Input',
+    helpMessage: ['제목을 입력하세요'],
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+];
+
+// 재고 물동량 분석
+export const InventoryAnalysisFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: '제목',
+    component: 'Input',
+    helpMessage: ['제목을 입력하세요'],
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+];
+
+// 입고 물동량 분석
+export const InboundAnalysisFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: '제목',
+    component: 'Input',
+    helpMessage: ['제목을 입력하세요'],
+    rules: [
+      {
+        required: true,
+        message: '필수항목 입니다',
+      },
+    ],
+  },
+  {
+    field: '[startDate, endDate]',
+    label: '날짜',
+    component: 'RangePicker',
+    componentProps: {
+      format: 'YYYY-MM-DD',
+      placeholder: ['시작날짜', '종료날짜'],
+    },
     rules: [
       {
         required: true,
