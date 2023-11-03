@@ -67,7 +67,6 @@
       const [registerModal, { setModalProps, closeModal }] = useModalInner((data) => {
         resetFields();
         setModalProps({ confirmLoading: false });
-        console.log(data);
         title.value = data.serviceName || '';
         serviceNameKey.value = data.serviceNameKey || '';
         dataId.value = data.dataListId || '';

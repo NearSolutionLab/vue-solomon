@@ -28,13 +28,32 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getServiceList } from '/@/api/solomon/service';
+  import {
+    getServiceList,
+    deleteOutboundOrderPattern,
+    deleteOutboundVolume,
+    deleteOutboundShippingBatch,
+    deleteABCOptimization,
+    deleteOutboundABC,
+    deleteInventoryAnalysis,
+    deleteInboundVolume,
+  } from '/@/api/solomon/service';
   import { columns, searchFormSchema } from './complete.data';
   import { useRouter } from 'vue-router';
 
   const SERVICE_REPORT_MAP: { [service: string]: string } = {
     'services.outbound.capa_analysis': 'CapaAnalysisPage',
     'service.outbound.out_bound_analysis': 'OutBoundAnalysisPage',
+  };
+
+  const SERVICE_API_DEL_FUNCTION_MAP: { [service: string]: (requestId: string) => Promise<any> } = {
+    'services.outbound.capa_analysis': (requestId) => deleteOutboundOrderPattern(requestId),
+    'service.outbound.out_bound_analysis': (requestId) => deleteOutboundVolume(requestId),
+    'services.outbound.shipping_batch': (requestId) => deleteOutboundShippingBatch(requestId),
+    'service.inventory.ABCOptimize': (requestId) => deleteABCOptimization(requestId),
+    'services.outbound.abc_analysis': (requestId) => deleteOutboundABC(requestId),
+    'service.inventory.inventory_analysis': (requestId) => deleteInventoryAnalysis(requestId),
+    'service.inbound.in_bound_analysis': (requestId) => deleteInboundVolume(requestId),
   };
 
   export default defineComponent({
@@ -95,11 +114,8 @@
         }
       }
 
-      function handleDelete(record: Recordable) {
-        console.log(record);
-      }
-
-      function handleSuccess() {
+      async function handleDelete(record: Recordable) {
+        await SERVICE_API_DEL_FUNCTION_MAP[record.service.serviceNameKey](record.id);
         reload();
       }
 
@@ -107,7 +123,6 @@
         registerTable,
         handleReport,
         handleDelete,
-        handleSuccess,
       };
     },
   });
