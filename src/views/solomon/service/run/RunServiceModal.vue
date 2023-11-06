@@ -168,6 +168,7 @@
         }
         // 입고 물동량 분석
         if (serviceNameKey.value === 'service.inbound.in_bound_analysis') {
+          if (!values['[startDate, endDate]']) return {};
           const [startDate, endDate] = values['[startDate, endDate]'];
           return {
             start_date: formatToDate(startDate),
