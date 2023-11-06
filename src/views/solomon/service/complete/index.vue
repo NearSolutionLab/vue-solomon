@@ -44,6 +44,7 @@
   const SERVICE_REPORT_MAP: { [service: string]: string } = {
     'services.outbound.capa_analysis': 'CapaAnalysisPage',
     'service.outbound.out_bound_analysis': 'OutBoundAnalysisPage',
+    'service.inventory.inventory_analysis': 'InventoryAnalysisPage',
   };
 
   const SERVICE_API_DEL_FUNCTION_MAP: { [service: string]: (requestId: string) => Promise<any> } = {

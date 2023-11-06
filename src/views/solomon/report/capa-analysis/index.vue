@@ -33,6 +33,7 @@
   import { PageWrapper } from '/@/components/Page';
   import { onMounted, ref } from 'vue';
   import { getCapaAnalysisReport, getDasCapaDetails } from '/@/api/solomon/report';
+  import { getOptimizeRequest } from '/@/api/solomon/service';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import CapaAnalysisHeader from '/@/views/solomon/report/capa-analysis/components/CapaAnalysisHeader.vue';
   import CapaAnalysisChart from './components/CapaAnalysisChart.vue';
@@ -113,9 +114,20 @@
 
   onMounted(async () => {
     loadingRef.value = true;
-    const { capaAnalysisList, requestId: rId, dataSetName } = await getCapaAnalysisReport(props.id);
+    const { capaAnalysisList, requestId: rId } = await getCapaAnalysisReport(props.id);
+    const { items } = await getOptimizeRequest({
+      query: JSON.stringify([
+        {
+          name: 'id',
+          operator: 'eq',
+          value: props.id,
+          relation: false,
+        },
+      ]),
+    });
+    const title = items[0]?.name || '';
     headerData.value = {
-      dataSetName,
+      title,
       capaAnalysisList,
     };
     chartData.value = {

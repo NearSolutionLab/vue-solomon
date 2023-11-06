@@ -2,7 +2,7 @@
   <div class="lg:flex">
     <div class="md:ml-6 flex flex-col justify-center md:mt-0 mt-2">
       <h1 class="md:text-lg text-md"> 출고 물동량 분석 리포트 </h1>
-      <!-- <span class="text-secondary"> </span> -->
+      <span class="text-secondary"> 문서명: {{ getTitle }} </span>
     </div>
     <div class="flex flex-1 justify-end md:mt-0 mt-4">
       <div class="flex flex-col justify-center text-right">
@@ -38,13 +38,17 @@
 
   const props = defineProps({
     headerData: {
-      type: Array as PropType<any[]>,
+      type: Object,
     },
+  });
+
+  const getTitle = computed(() => {
+    return props.headerData?.title || '';
   });
 
   const getHighestOrders = computed(() => {
     let num = 0;
-    props.headerData?.forEach((item) => {
+    (props.headerData?.monthlyAnalysis || []).forEach((item) => {
       if (item.order_count > num) num = item.order_count;
     });
     return formatNumber({ num });
@@ -52,7 +56,7 @@
 
   const getLowestOrders = computed(() => {
     let num = Infinity;
-    props.headerData?.forEach((item) => {
+    (props.headerData?.monthlyAnalysis || []).forEach((item) => {
       if (item.order_count < num) num = item.order_count;
     });
     if (num === Infinity) num = 0;
@@ -60,15 +64,18 @@
   });
 
   const getAverageOrders = computed(() => {
-    let summation = props.headerData?.reduce((acc, curr) => (acc += curr.order_count), 0);
-    let orderLen = props.headerData?.length || 0;
+    let summation = (props.headerData?.monthlyAnalysis || []).reduce(
+      (acc, curr) => (acc += curr.order_count),
+      0,
+    );
+    let orderLen = (props.headerData?.monthlyAnalysis || []).length || 0;
     const num = orderLen > 0 ? summation / orderLen : 0;
     return formatNumber({ num });
   });
 
   const getHighestY = computed(() => {
     let num = 0;
-    props.headerData?.forEach((item) => {
+    (props.headerData?.monthlyAnalysis || []).forEach((item) => {
       if (item.y > num) num = item.y;
     });
     return formatNumber({ num });
@@ -76,7 +83,7 @@
 
   const getLowestY = computed(() => {
     let num = Infinity;
-    props.headerData?.forEach((item) => {
+    (props.headerData?.monthlyAnalysis || []).forEach((item) => {
       if (item.y < num) num = item.y;
     });
     if (num === Infinity) num = 0;
@@ -84,8 +91,11 @@
   });
 
   const getAverageY = computed(() => {
-    let summation = props.headerData?.reduce((acc, curr) => (acc += curr.y), 0);
-    let orderLen = props.headerData?.length || 0;
+    let summation = (props.headerData?.monthlyAnalysis || []).reduce(
+      (acc, curr) => (acc += curr.y),
+      0,
+    );
+    let orderLen = (props.headerData?.monthlyAnalysis || []).length || 0;
     const num = orderLen > 0 ? summation / orderLen : 0;
     return formatNumber({ num });
   });

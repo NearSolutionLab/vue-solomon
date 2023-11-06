@@ -34,6 +34,16 @@ const report: AppRouteModule = {
       },
       props: (route: any) => ({ ...route.params }),
     },
+    {
+      path: 'inventory-analysis/:id',
+      name: 'InventoryAnalysisPage',
+      component: () => import('/@/views/solomon/report/inventory-analysis/index.vue'),
+      meta: {
+        title: '재고 물동량 분석 리포트',
+        hideMenu: false,
+      },
+      props: (route: any) => ({ ...route.params }),
+    },
   ],
 };
 
