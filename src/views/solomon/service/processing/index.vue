@@ -30,7 +30,8 @@
 
       async function getProcessingServices(params) {
         const requestParams = {
-          statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,FETCHING',
+          // statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,FETCHING',
+          statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,FETCHING,ERROR',
           page: params.page,
           limit: params.pageSize,
         };

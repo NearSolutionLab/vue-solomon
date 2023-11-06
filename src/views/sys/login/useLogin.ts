@@ -49,7 +49,6 @@ export function useFormValid<T extends Object = any>(formRef: Ref<FormInstance>)
 
 export function useFormRules(formData?: Recordable) {
   const { t } = useI18n();
-
   const getPasswordFormRule = computed(() => createRule(t('sys.login.passwordPlaceholder')));
   const getMobileFormRule = computed(() => createRule(t('sys.login.mobilePlaceholder')));
   const getCompanyNameFormRule = computed(() => createRule(t('sys.login.companyNamePlaceholder')));
@@ -118,6 +117,21 @@ export function useFormRules(formData?: Recordable) {
     };
   };
 
+  // const validatePasswordCheck = (isPasswordChecked: boolean) => {
+  //   const { notification } = useMessage();
+  //   return async (_: RuleObject) => {
+  //     if (!isPasswordChecked) {
+  //       notification.error({
+  //         message: '인증에러',
+  //         description: '메일인증이 되지 않았습니다.',
+  //         duration: 3,
+  //       });
+  //       return Promise.reject('메일인증이 되지 않았습니다.');
+  //     }
+  //     return Promise.resolve();
+  //   };
+  // };
+
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
     const passwordFormRule = unref(getPasswordFormRule);
     const mobileFormRule = unref(getMobileFormRule);
@@ -152,7 +166,13 @@ export function useFormRules(formData?: Recordable) {
       // reset password form rules
       case LoginStateEnum.RESET_PASSWORD:
         return {
+          password: passwordFormRule,
+          confirmPassword: [
+            { validator: validateConfirmPassword(formData?.newPassword), trigger: 'change' },
+          ],
+          mobile: mobileFormRule,
           ...accountRule,
+          emailCodeCheck: [{ validator: validateEmailCodeCheck(formData?.isCodeChecked) }],
         };
 
       // mobile form rules

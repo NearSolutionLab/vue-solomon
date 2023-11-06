@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="progress">
-                  <Progress :percent="item.progress" status="active" />
+                  <Progress :percent="item.progress" :status="item.progressStatus" />
                 </div>
               </template>
             </ListItemMeta>
@@ -68,6 +68,8 @@
         requestDate: item.requestDate || '',
         status: item.status ? t(`solomon.optimizeResultStatus.${item.status}`) : '',
         progress: item.progress || 0,
+        progressStatus:
+          item.status === 'END' ? 'success' : item.status === 'ERROR' ? 'exception' : 'active',
       };
     });
   });

@@ -276,7 +276,7 @@
 
     try {
       codeRequestLoading.value = true;
-      const result = await userStore.requestEmailCode(data.account);
+      const result = await userStore.requestEmailCode(data.account, 'Join');
       if (result) {
         notification.success({
           message: '인증코드 전송',

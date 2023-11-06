@@ -191,7 +191,7 @@ export interface BasicTableProps<T = any> {
   // 序号列配置
   indexColumnProps?: BasicColumn;
   actionColumn?: BasicColumn;
-  // 文本超过宽度是否显示。。。
+  // 텍스트가 너비를 초과하면 표시할지 여부
   ellipsis?: boolean;
   // 是否继承父级高度（父级高度-表单高度-padding高度）
   isCanResizeParent?: boolean;

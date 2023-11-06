@@ -1,18 +1,14 @@
 <template>
   <PageWrapper v-loading="loadingRef">
     <template #headerContent>
-      <ReportHeader
-        :title="`주문 패턴 분석 리포트`"
-        :dataSetName="dataSetName"
-        :recommended="recommended"
-      />
+      <CapaAnalysisHeader :headerData="headerData" />
     </template>
     <div class="flex flex-col">
       <div class="flex-none h-96 flex flex-row pb-4">
         <div class="flex-none w-1/2 pr-4 h-90">
           <BasicTable @register="registerTable1" @row-click="rowClick" />
         </div>
-        <div ref="chartRef" class="flex-none w-1/2 h-92"></div>
+        <CapaAnalysisChart class="flex-none w-1/2 h-92" :chartData="chartData" />
       </div>
       <div class="flex-none h-96">
         <BasicTable @register="registerTable2">
@@ -35,11 +31,11 @@
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
-  import { onMounted, ref, Ref } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { getCapaAnalysisReport, getDasCapaDetails } from '/@/api/solomon/report';
-  import { useECharts } from '/@/hooks/web/useECharts';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import ReportHeader from '/@/views/solomon/report/components/ReportHeader.vue';
+  import CapaAnalysisHeader from '/@/views/solomon/report/capa-analysis/components/CapaAnalysisHeader.vue';
+  import CapaAnalysisChart from './components/CapaAnalysisChart.vue';
   import { performancePerOrdersColumns, orderResultColumns } from './meta.data';
   import { jsonToMultipleSheetXlsx } from '/@/components/Excel/src/Export2Excel';
 
@@ -47,11 +43,9 @@
     id: { type: String },
   });
   const loadingRef = ref(false);
-  const chartRef = ref<HTMLDivElement | null>(null);
-  const dataSetName = ref();
-  const recommended = ref();
+  const headerData = ref();
+  const chartData = ref();
   let requestId = null;
-  const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
   const [registerTable1, { setTableData: setTable1Data }] = useTable({
     title: '배치당 주문 수에 따른 주문처리 효율',
@@ -119,17 +113,17 @@
 
   onMounted(async () => {
     loadingRef.value = true;
-    const result = await getCapaAnalysisReport(props.id);
-    requestId = result.requestId;
-    dataSetName.value = result.dataSetName;
-    const [highestPerformance] = result.capaAnalysisList.sort(
-      (a, b) => b.performanceRatio - a.performanceRatio,
-    );
-    const data = result.capaAnalysisList.map((item) => {
-      return [item.orderCount, Math.round(item.performanceRatio * 100) / 100];
-    });
+    const { capaAnalysisList, requestId: rId, dataSetName } = await getCapaAnalysisReport(props.id);
+    headerData.value = {
+      dataSetName,
+      capaAnalysisList,
+    };
+    chartData.value = {
+      capaAnalysisList,
+    };
+    requestId = rId;
     setTable1Data(
-      (result.capaAnalysisList || []).map((item) => {
+      (capaAnalysisList || []).map((item) => {
         return {
           orderCount: item.orderCount,
           orderCountPerSku: item.orderCountPerSku,
@@ -138,62 +132,7 @@
         };
       }),
     );
-    recommended.value = {
-      orderCount: highestPerformance.orderCount,
-      orderCountPerSku: highestPerformance.orderCountPerSku,
-      performanceRatio: highestPerformance.performanceRatio,
-    };
     loadingRef.value = false;
-
-    setOptions({
-      backgroundColor: '#0f375f',
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-          label: {
-            show: true,
-            backgroundColor: '#333',
-          },
-        },
-      },
-      legend: {
-        data: ['line'],
-        textStyle: {
-          color: '#ccc',
-        },
-      },
-      xAxis: {
-        name: '주문수',
-        axisLine: {
-          lineStyle: {
-            color: '#ccc',
-          },
-        },
-        scale: true,
-      },
-      yAxis: {
-        name: '효율',
-        splitLine: { show: false },
-        axisLine: {
-          lineStyle: {
-            color: '#ccc',
-          },
-        },
-        scale: true,
-      },
-      series: [
-        {
-          name: '효율',
-          type: 'line',
-          smooth: true,
-          showAllSymbol: 'auto',
-          symbol: 'emptyCircle',
-          symbolSize: 15,
-          data,
-        },
-      ],
-    });
   });
 
   async function downloadReport(record: Recordable) {

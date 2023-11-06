@@ -395,6 +395,7 @@
     }
 
     .ant-table-wrapper {
+      height: 100%;
       padding: 6px;
       border-radius: 2px;
       background-color: @component-background;

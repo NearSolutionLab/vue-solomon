@@ -6,6 +6,7 @@ export default {
     service: 'Service',
     complete: 'Complete',
     processing: 'Processing',
+    run: 'Run',
   },
   organization: {
     organization: 'Organization',
