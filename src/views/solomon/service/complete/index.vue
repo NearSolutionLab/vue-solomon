@@ -45,6 +45,7 @@
     'services.outbound.capa_analysis': 'CapaAnalysisPage',
     'service.outbound.out_bound_analysis': 'OutBoundAnalysisPage',
     'service.inventory.inventory_analysis': 'InventoryAnalysisPage',
+    'service.inbound.in_bound_analysis': 'InBoundAnalysisPage',
   };
 
   const SERVICE_API_DEL_FUNCTION_MAP: { [service: string]: (requestId: string) => Promise<any> } = {
@@ -58,7 +59,7 @@
   };
 
   export default defineComponent({
-    name: 'RoleManagement',
+    name: 'CompleteServices',
     components: { BasicTable, TableAction },
     setup() {
       const router = useRouter();

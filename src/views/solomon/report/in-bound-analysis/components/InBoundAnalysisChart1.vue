@@ -18,39 +18,16 @@
     () => props.chartData,
     () => {
       if (!props.chartData) return;
-      const { quarterAnalysis } = props.chartData;
-      let _cat = '';
-      const quarterList = quarterAnalysis.reduce((acc, curr) => {
-        if (acc.length === 0) {
-          _cat = curr.category;
-          return [...acc, curr.x];
-        } else if (_cat === curr.category) {
-          return [...acc, curr.x];
-        } else {
-          return acc;
-        }
-      }, []);
-
-      const series = quarterAnalysis.reduce((acc, curr) => {
-        const exists = acc.find((i) => i.name === curr.category);
-        if (exists) {
-          exists.data.push(curr.y);
-          return acc;
-        }
-        return [
-          ...acc,
-          {
-            name: curr.category,
-            type: 'line',
-            data: [curr.y],
-          },
-        ];
-      }, []);
-
+      const { monthlyAnalysis } = props.chartData;
+      const data = monthlyAnalysis.map((item) => {
+        return [item.x, item.y];
+      });
+      const dateList = data.map((item) => item[0]);
+      const valueList = data.map((item) => item[1]);
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: '분기 별 출고주문 건수',
+          text: '연간 입고량 추이',
           textStyle: {
             color: '#ccc',
           },
@@ -66,23 +43,24 @@
           },
         },
         legend: {
+          // data: ['line'],
           top: 20,
           textStyle: {
             color: '#ccc',
           },
         },
         xAxis: {
-          name: '분기',
+          name: '월',
           axisLine: {
             lineStyle: {
               color: '#ccc',
             },
           },
           scale: true,
-          data: quarterList,
+          data: dateList,
         },
         yAxis: {
-          name: '출고량(PCS)',
+          name: '입고량(PCS)',
           splitLine: { show: false },
           axisLine: {
             lineStyle: {
@@ -94,7 +72,17 @@
         grid: {
           bottom: 40,
         },
-        series,
+        series: [
+          {
+            name: '입고량(PCS)',
+            type: 'line',
+            smooth: true,
+            showAllSymbol: 'auto',
+            symbol: 'emptyCircle',
+            symbolSize: 15,
+            data: valueList,
+          },
+        ],
       });
     },
     { immediate: true },
