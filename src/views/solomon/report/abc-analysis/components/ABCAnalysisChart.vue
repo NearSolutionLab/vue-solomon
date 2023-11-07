@@ -36,7 +36,7 @@
     | 'Z';
 
   // add additional non-letter characters to this union as desired
-  type GradeType = UpperCaseCharacter | Lowercase<UpperCaseCharacter>;
+  type GradeType = UpperCaseCharacter;
 
   type ABCGrade = {
     grade_qty: GradeType;
