@@ -54,6 +54,16 @@ const report: AppRouteModule = {
       },
       props: (route: any) => ({ ...route.params }),
     },
+    {
+      path: 'abc-analysis/:id',
+      name: 'ABCAnalysisPage',
+      component: () => import('/@/views/solomon/report/abc-analysis/index.vue'),
+      meta: {
+        title: 'ABC 분석 리포트',
+        hideMenu: false,
+      },
+      props: (route: any) => ({ ...route.params }),
+    },
   ],
 };
 

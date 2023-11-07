@@ -46,6 +46,7 @@
     'service.outbound.out_bound_analysis': 'OutBoundAnalysisPage',
     'service.inventory.inventory_analysis': 'InventoryAnalysisPage',
     'service.inbound.in_bound_analysis': 'InBoundAnalysisPage',
+    'services.outbound.abc_analysis': 'ABCAnalysisPage',
   };
 
   const SERVICE_API_DEL_FUNCTION_MAP: { [service: string]: (requestId: string) => Promise<any> } = {

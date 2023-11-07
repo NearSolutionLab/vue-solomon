@@ -6,6 +6,7 @@ enum Api {
   GetOutBoundAnalysisReport = '/request/volume_analysis/out_bound_analysis/get_data',
   GetInventoryAnalysisReport = '/request/volume_analysis/inventory_analysis/get_data',
   GetInBoundAnalysisReport = '/request/volume_analysis/in_bound_analysis/get_data',
+  GetABCAnalysisReport = '/request/abc_analysis/get_data',
 }
 
 export const getCapaAnalysisReport = async (id) => {
@@ -41,5 +42,10 @@ export const getInBoundAnalysisReport = async (requestId, storageMethod?) => {
   const url =
     Api.GetInBoundAnalysisReport + '/' + requestId + `${storageMethod ? '/' + storageMethod : ''}`;
   const { result } = await defHttp.get({ url });
+  return result;
+};
+
+export const getABCAnalysisReport = async (id) => {
+  const { result } = await defHttp.get({ url: Api.GetABCAnalysisReport + '/' + id });
   return result;
 };
