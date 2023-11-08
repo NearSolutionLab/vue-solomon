@@ -40,14 +40,7 @@
   } from '/@/api/solomon/service';
   import { columns, searchFormSchema } from './complete.data';
   import { useRouter } from 'vue-router';
-
-  const SERVICE_REPORT_MAP: { [service: string]: string } = {
-    'services.outbound.capa_analysis': 'CapaAnalysisPage',
-    'service.outbound.out_bound_analysis': 'OutBoundAnalysisPage',
-    'service.inventory.inventory_analysis': 'InventoryAnalysisPage',
-    'service.inbound.in_bound_analysis': 'InBoundAnalysisPage',
-    'services.outbound.abc_analysis': 'ABCAnalysisPage',
-  };
+  import { SERVICE_REPORT_MAP } from '/@/views/solomon/serviceMapping';
 
   const SERVICE_API_DEL_FUNCTION_MAP: { [service: string]: (requestId: string) => Promise<any> } = {
     'services.outbound.capa_analysis': (requestId) => deleteOutboundOrderPattern(requestId),

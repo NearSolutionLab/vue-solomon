@@ -21,12 +21,16 @@
                 <div class="date">
                   <div><span>날짜</span>{{ item.requestDate }}</div>
                 </div>
-                <div class="status">
-                  <div><span>상태</span>{{ item.status }}</div>
-                </div>
 
                 <div class="progress">
-                  <Progress :percent="item.progress" :status="item.progressStatus" />
+                  <Progress
+                    v-if="item.progressStatus !== 'success'"
+                    :percent="item.progress"
+                    :status="item.progressStatus"
+                  />
+                  <Tag class="tag" v-else :color="item.color" @click="() => onClick(item)">{{
+                    item.status
+                  }}</Tag>
                 </div>
               </template>
             </ListItemMeta>
@@ -38,12 +42,15 @@
 </template>
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
-  import { List, Progress } from 'ant-design-vue';
+  import { List, Progress, Tag } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { getServiceList } from '/@/api/solomon/service';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { formatNumber } from '/@/utils/numberUtil';
+  import { SERVICE_REPORT_MAP } from '/@/views/solomon/serviceMapping';
+  import { useRouter } from 'vue-router';
 
+  const router = useRouter();
   const { t } = useI18n();
   const { prefixCls } = useDesign('latest-data-list');
 
@@ -62,6 +69,8 @@
     const { items } = await getServiceList(params);
     list.value = (items || []).map((item) => {
       return {
+        id: item.id,
+        serviceNameKey: item.service?.serviceNameKey || '',
         serviceName: item.service?.serviceName || '',
         name: item.name || '',
         dataSize: formatNumber({ num: item.dataSize || 0 }),
@@ -70,9 +79,21 @@
         progress: item.progress || 0,
         progressStatus:
           item.status === 'END' ? 'success' : item.status === 'ERROR' ? 'exception' : 'active',
+        color: item.status === 'END' ? 'green' : item.status === 'ERROR' ? 'red' : 'blue',
       };
     });
   });
+
+  const onClick = (record) => {
+    if (SERVICE_REPORT_MAP[record.serviceNameKey]) {
+      router.push({
+        name: SERVICE_REPORT_MAP[record.serviceNameKey],
+        params: {
+          id: record.id,
+        },
+      });
+    }
+  };
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-latest-data-list';
@@ -99,7 +120,7 @@
 
       .name {
         display: inline-block;
-        width: 30%;
+        width: 35%;
         text-align: center;
 
         div {
@@ -131,7 +152,7 @@
 
       .date {
         display: inline-block;
-        width: 20%;
+        width: 25%;
         text-align: center;
 
         div {
@@ -164,7 +185,12 @@
       .progress {
         display: inline-block;
         width: 20%;
+        text-align: center;
         vertical-align: 50%;
+
+        .tag:hover {
+          cursor: pointer;
+        }
       }
     }
   }
