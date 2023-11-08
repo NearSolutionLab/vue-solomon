@@ -1,17 +1,17 @@
 <template>
   <PageWrapper v-loading="loadingRef" :class="prefixCls" contentClass="overflow-visible">
     <template #headerContent>
-      <OutBoundAnalysisHeader :headerData="headerData" />
+      <InBoundAnalysisHeader :headerData="headerData" />
     </template>
     <BasicForm @register="formRegister" />
     <div class="flex flex-col">
       <div class="flex-none h-96 flex flex-row pb-4">
-        <OutBoundAnalysisChart1 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData1" />
-        <OutBoundAnalysisChart2 class="flex-none w-1/2 h-92" :chartData="chartData2" />
+        <InBoundAnalysisChart1 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData1" />
+        <InBoundAnalysisChart2 class="flex-none w-1/2 h-92" :chartData="chartData2" />
       </div>
       <div class="flex-none h-96 flex flex-row pb-4">
-        <OutBoundAnalysisChart3 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData3" />
-        <OutBoundAnalysisChart4 class="flex-none w-1/2 h-92" :chartData="chartData4" />
+        <InBoundAnalysisChart3 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData3" />
+        <InBoundAnalysisChart4 class="flex-none w-1/2 h-92" :chartData="chartData4" />
       </div>
     </div>
     <div class="flex-none h-96">
@@ -26,14 +26,14 @@
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
   import { onMounted, ref } from 'vue';
-  import { getOutBoundAnalysisReport } from '/@/api/solomon/report';
-  import OutBoundAnalysisHeader from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisHeader.vue';
+  import { getInBoundAnalysisReport } from '/@/api/solomon/report';
+  import InBoundAnalysisHeader from '/@/views/solomon/report/in-bound-analysis/components/InBoundAnalysisHeader.vue';
   import { BasicForm, useForm } from '/@/components/Form';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import OutBoundAnalysisChart1 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart1.vue';
-  import OutBoundAnalysisChart2 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart2.vue';
-  import OutBoundAnalysisChart3 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart3.vue';
-  import OutBoundAnalysisChart4 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart4.vue';
+  import InBoundAnalysisChart1 from '/@/views/solomon/report/in-bound-analysis/components/InBoundAnalysisChart1.vue';
+  import InBoundAnalysisChart2 from '/@/views/solomon/report/in-bound-analysis/components/InBoundAnalysisChart2.vue';
+  import InBoundAnalysisChart3 from '/@/views/solomon/report/in-bound-analysis/components/InBoundAnalysisChart3.vue';
+  import InBoundAnalysisChart4 from '/@/views/solomon/report/in-bound-analysis/components/InBoundAnalysisChart4.vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { columns } from './meta.data';
   import { jsonToSheetXlsx } from '/@/components/Excel/src/Export2Excel';
@@ -49,7 +49,7 @@
   const chartData3 = ref();
   const chartData4 = ref();
 
-  const { prefixCls } = useDesign('out-bound-analysis');
+  const { prefixCls } = useDesign('in-bound-analysis');
   const [formRegister, { validate, resetSchema }] = useForm({
     labelWidth: 120,
     submitButtonOptions: {
@@ -61,7 +61,7 @@
   });
 
   const [registerTable, { setTableData, getDataSource }] = useTable({
-    title: '월별 출고량 통계',
+    title: '월별 입고량 통계',
     columns,
     useSearchForm: false,
     showTableSetting: false,
@@ -97,7 +97,7 @@
     jsonToSheetXlsx({
       data,
       header,
-      filename: `${headerData.value.title || '월별 출고량 통계'}.xlsx`,
+      filename: `${headerData.value.title || '월별 입고량 통계'}.xlsx`,
     });
   };
 
@@ -122,7 +122,7 @@
   onMounted(async () => {
     loadingRef.value = true;
     const { storageMethodList, monthlyAnalysis, quarterAnalysis, ratioAnalysis, weeklyAnalysis } =
-      await getOutBoundAnalysisReport(props.id);
+      await getInBoundAnalysisReport(props.id);
 
     const { items } = await getOptimizeRequest({
       query: JSON.stringify([
@@ -187,7 +187,7 @@
     loadingRef.value = true;
     const { storageMethod } = await validate();
     const { monthlyAnalysis, quarterAnalysis, ratioAnalysis, weeklyAnalysis } =
-      await getOutBoundAnalysisReport(props.id, storageMethod);
+      await getInBoundAnalysisReport(props.id, storageMethod);
 
     const { items } = await getOptimizeRequest({
       query: JSON.stringify([
@@ -237,7 +237,7 @@
   }
 </script>
 <style lang="less">
-  @prefix-cls: ~'@{namespace}-out-bound-analysis';
+  @prefix-cls: ~'@{namespace}-in-bound-analysis';
 
   .@{prefix-cls} {
     max-width: 100%;

@@ -50,7 +50,7 @@
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: '분기 별 출고주문 건수',
+          text: '분기 별 입고량',
           textStyle: {
             color: '#ccc',
           },
@@ -82,7 +82,7 @@
           data: quarterList,
         },
         yAxis: {
-          name: '출고량(PCS)',
+          name: '입고량(PCS)',
           splitLine: { show: false },
           axisLine: {
             lineStyle: {

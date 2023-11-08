@@ -34,6 +34,36 @@ const report: AppRouteModule = {
       },
       props: (route: any) => ({ ...route.params }),
     },
+    {
+      path: 'inventory-analysis/:id',
+      name: 'InventoryAnalysisPage',
+      component: () => import('/@/views/solomon/report/inventory-analysis/index.vue'),
+      meta: {
+        title: '재고 물동량 분석 리포트',
+        hideMenu: false,
+      },
+      props: (route: any) => ({ ...route.params }),
+    },
+    {
+      path: 'in-bound-analysis/:id',
+      name: 'InBoundAnalysisPage',
+      component: () => import('/@/views/solomon/report/in-bound-analysis/index.vue'),
+      meta: {
+        title: '입고 물동량 분석 리포트',
+        hideMenu: false,
+      },
+      props: (route: any) => ({ ...route.params }),
+    },
+    {
+      path: 'abc-analysis/:id',
+      name: 'ABCAnalysisPage',
+      component: () => import('/@/views/solomon/report/abc-analysis/index.vue'),
+      meta: {
+        title: 'ABC 분석 리포트',
+        hideMenu: false,
+      },
+      props: (route: any) => ({ ...route.params }),
+    },
   ],
 };
 

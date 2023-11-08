@@ -10,7 +10,7 @@
   import { columns, searchFormSchema } from './processing.data';
 
   export default defineComponent({
-    name: 'RoleManagement',
+    name: 'RunningServices',
     components: { BasicTable },
     setup() {
       const [registerTable, { reload }] = useTable({

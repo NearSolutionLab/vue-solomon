@@ -274,8 +274,7 @@ export const InboundAnalysisFormSchema: FormSchema[] = [
     },
     rules: [
       {
-        required: true,
-        message: '필수항목 입니다',
+        required: false,
       },
     ],
   },

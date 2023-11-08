@@ -2,7 +2,7 @@
   <div class="lg:flex">
     <div class="md:ml-6 flex flex-col justify-center md:mt-0 mt-2">
       <h1 class="md:text-lg text-md"> 주문 패턴 분석 리포트 </h1>
-      <span class="text-secondary"> 요청번호: {{ getHeaderData.dataSetName }} </span>
+      <span class="text-secondary"> 문서명: {{ getHeaderData.title }} </span>
     </div>
     <div class="flex flex-1 justify-end md:mt-0 mt-4">
       <div class="flex flex-col justify-center text-right">
@@ -36,7 +36,7 @@
       (a, b) => b.performanceRatio - a.performanceRatio,
     );
     return {
-      dataSetName: props.headerData?.dataSetName,
+      title: props.headerData?.title,
       orderCount: formatNumber({ num: highestPerformance?.orderCount || 0 }),
       orderCountPerSku: formatNumber({
         num: highestPerformance?.orderCountPerSku || 0,

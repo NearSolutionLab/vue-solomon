@@ -1,6 +1,7 @@
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
+  GetOptimizeRequest = '/requests/monitoring',
   GetServiceList = '/requests/monitoring/search',
   GetOptimizeServiceList = '/services',
   GetServiceSelectionList = '/services/list',
@@ -12,6 +13,11 @@ enum Api {
   InventoryAnalysis = '/request/volume_analysis/inventory_analysis',
   InboundVolumeAnalysis = '/request/volume_analysis/in_bound_analysis',
 }
+
+export const getOptimizeRequest = async (params) => {
+  const { result } = await defHttp.get({ url: Api.GetOptimizeRequest, params });
+  return result;
+};
 
 export const getServiceList = async (params) => {
   const { result } = await defHttp.get({ url: Api.GetServiceList, params });

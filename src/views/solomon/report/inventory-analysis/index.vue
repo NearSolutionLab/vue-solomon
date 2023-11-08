@@ -1,17 +1,17 @@
 <template>
   <PageWrapper v-loading="loadingRef" :class="prefixCls" contentClass="overflow-visible">
     <template #headerContent>
-      <OutBoundAnalysisHeader :headerData="headerData" />
+      <InventoryAnalysisHeader :headerData="headerData" />
     </template>
     <BasicForm @register="formRegister" />
     <div class="flex flex-col">
       <div class="flex-none h-96 flex flex-row pb-4">
-        <OutBoundAnalysisChart1 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData1" />
-        <OutBoundAnalysisChart2 class="flex-none w-1/2 h-92" :chartData="chartData2" />
+        <InventoryAnalysisChart1 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData1" />
+        <InventoryAnalysisChart2 class="flex-none w-1/2 h-92" :chartData="chartData2" />
       </div>
       <div class="flex-none h-96 flex flex-row pb-4">
-        <OutBoundAnalysisChart3 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData3" />
-        <OutBoundAnalysisChart4 class="flex-none w-1/2 h-92" :chartData="chartData4" />
+        <InventoryAnalysisChart3 class="flex-none w-1/2 pr-4 h-92" :chartData="chartData3" />
+        <InventoryAnalysisChart4 class="flex-none w-1/2 h-92" :chartData="chartData4" />
       </div>
     </div>
     <div class="flex-none h-96">
@@ -26,14 +26,14 @@
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
   import { onMounted, ref } from 'vue';
-  import { getOutBoundAnalysisReport } from '/@/api/solomon/report';
-  import OutBoundAnalysisHeader from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisHeader.vue';
+  import { getInventoryAnalysisReport } from '/@/api/solomon/report';
+  import InventoryAnalysisHeader from '/@/views/solomon/report/inventory-analysis/components/InventoryAnalysisHeader.vue';
   import { BasicForm, useForm } from '/@/components/Form';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import OutBoundAnalysisChart1 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart1.vue';
-  import OutBoundAnalysisChart2 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart2.vue';
-  import OutBoundAnalysisChart3 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart3.vue';
-  import OutBoundAnalysisChart4 from '/@/views/solomon/report/out-bound-analysis/components/OutBoundAnalysisChart4.vue';
+  import InventoryAnalysisChart1 from '/@/views/solomon/report/inventory-analysis/components/InventoryAnalysisChart1.vue';
+  import InventoryAnalysisChart2 from '/@/views/solomon/report/inventory-analysis/components/InventoryAnalysisChart2.vue';
+  import InventoryAnalysisChart3 from '/@/views/solomon/report/inventory-analysis/components/InventoryAnalysisChart3.vue';
+  import InventoryAnalysisChart4 from '/@/views/solomon/report/inventory-analysis/components/InventoryAnalysisChart4.vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { columns } from './meta.data';
   import { jsonToSheetXlsx } from '/@/components/Excel/src/Export2Excel';
@@ -49,7 +49,7 @@
   const chartData3 = ref();
   const chartData4 = ref();
 
-  const { prefixCls } = useDesign('out-bound-analysis');
+  const { prefixCls } = useDesign('inventory-analysis');
   const [formRegister, { validate, resetSchema }] = useForm({
     labelWidth: 120,
     submitButtonOptions: {
@@ -61,7 +61,7 @@
   });
 
   const [registerTable, { setTableData, getDataSource }] = useTable({
-    title: '월별 출고량 통계',
+    title: '월별 재고 통계',
     columns,
     useSearchForm: false,
     showTableSetting: false,
@@ -97,14 +97,14 @@
     jsonToSheetXlsx({
       data,
       header,
-      filename: `${headerData.value.title || '월별 출고량 통계'}.xlsx`,
+      filename: `${headerData.value.title || '재고 물동량 분석 리포트'}.xlsx`,
     });
   };
 
   function handleSummary(tableData: any[]) {
     let summation = tableData.reduce((acc, curr) => {
       Object.keys(curr).forEach((key) => {
-        if (key === 'orderCount' || key === 'skuCount' || key === 'pcs')
+        if (key === 'locCount' || key === 'skuCount' || key === 'pcs')
           acc[key] = !acc[key] ? curr[key] : (acc[key] += curr[key]);
       });
       return acc;
@@ -112,7 +112,7 @@
     return [
       {
         date: '계',
-        orderCount: summation.orderCount,
+        locCount: summation.locCount,
         skuCount: summation.skuCount,
         pcs: summation.pcs,
       },
@@ -121,8 +121,13 @@
 
   onMounted(async () => {
     loadingRef.value = true;
-    const { storageMethodList, monthlyAnalysis, quarterAnalysis, ratioAnalysis, weeklyAnalysis } =
-      await getOutBoundAnalysisReport(props.id);
+    const {
+      storageMethodList = [],
+      monthlyAnalysis,
+      categoryAnalysis = [],
+      brandAnalysis = [],
+      errorAnalysis = [],
+    } = await getInventoryAnalysisReport(props.id);
 
     const { items } = await getOptimizeRequest({
       query: JSON.stringify([
@@ -166,15 +171,15 @@
     updateReportData({
       title,
       monthlyAnalysis,
-      quarterAnalysis,
-      ratioAnalysis,
-      weeklyAnalysis,
+      categoryAnalysis,
+      brandAnalysis,
+      errorAnalysis,
     });
     setTableData(
       (monthlyAnalysis || []).map((item) => {
         return {
           date: item.x,
-          orderCount: item.order_count,
+          locCount: item.loc_count,
           skuCount: item.sku_count,
           pcs: item.y,
         };
@@ -186,8 +191,8 @@
   async function handleSubmit() {
     loadingRef.value = true;
     const { storageMethod } = await validate();
-    const { monthlyAnalysis, quarterAnalysis, ratioAnalysis, weeklyAnalysis } =
-      await getOutBoundAnalysisReport(props.id, storageMethod);
+    const { monthlyAnalysis, categoryAnalysis, brandAnalysis, errorAnalysis } =
+      await getInventoryAnalysisReport(props.id, storageMethod);
 
     const { items } = await getOptimizeRequest({
       query: JSON.stringify([
@@ -204,9 +209,9 @@
     updateReportData({
       title,
       monthlyAnalysis,
-      quarterAnalysis,
-      ratioAnalysis,
-      weeklyAnalysis,
+      categoryAnalysis,
+      brandAnalysis,
+      errorAnalysis,
     });
     loadingRef.value = false;
   }
@@ -214,9 +219,9 @@
   function updateReportData({
     title,
     monthlyAnalysis,
-    quarterAnalysis,
-    ratioAnalysis,
-    weeklyAnalysis,
+    categoryAnalysis,
+    brandAnalysis,
+    errorAnalysis,
   }) {
     headerData.value = {
       title,
@@ -226,18 +231,18 @@
       monthlyAnalysis,
     };
     chartData2.value = {
-      weeklyAnalysis,
+      categoryAnalysis,
     };
     chartData3.value = {
-      ratioAnalysis,
+      brandAnalysis,
     };
     chartData4.value = {
-      quarterAnalysis,
+      errorAnalysis,
     };
   }
 </script>
 <style lang="less">
-  @prefix-cls: ~'@{namespace}-out-bound-analysis';
+  @prefix-cls: ~'@{namespace}-inventory-analysis';
 
   .@{prefix-cls} {
     max-width: 100%;
