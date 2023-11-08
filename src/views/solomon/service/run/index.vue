@@ -30,8 +30,10 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useModal } from '/@/components/Modal';
   import RunServiceModal from './RunServiceModal.vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
   const { t } = useI18n();
+  const { notification } = useMessage();
   const [registerRunServiceModal, { openModal: openRunServiceModal }] = useModal();
   const [registerTable, { setTableData, reload }] = useTable({
     title: '서비스 선택',
@@ -75,11 +77,15 @@
   }
 
   const runService = (record) => {
-    console.log(record);
     openRunServiceModal(true, record);
   };
 
   const handleSuccess = (result) => {
     console.log(result);
+    notification.success({
+      message: '서비스 실행 완료',
+      description: `서비스가 실행되었습니다`,
+      duration: 3,
+    });
   };
 </script>
