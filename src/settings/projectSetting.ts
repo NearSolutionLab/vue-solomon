@@ -74,6 +74,8 @@ const setting: ProjectConfig = {
     showNotice: false,
     // Whether to display the menu search
     showSearch: false,
+
+    showUserInfo: true,
   },
 
   // Menu configuration

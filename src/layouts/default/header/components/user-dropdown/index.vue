@@ -25,6 +25,12 @@
           icon="ion:lock-closed-outline"
         />
         <MenuItem
+          v-if="getShowUserInfo"
+          key="info"
+          :text="t('layout.header.tolltipUserInfo')"
+          icon="ion:lock-closed-outline"
+        />
+        <MenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
           icon="ion:power-outline"
@@ -33,6 +39,7 @@
     </template>
   </Dropdown>
   <LockAction @register="register" />
+  <ShowUserInfo @register="registerUser" />
 </template>
 <script lang="ts">
   // components
@@ -55,7 +62,7 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'info';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -65,6 +72,7 @@
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
       MenuDivider: Menu.Divider,
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
+      ShowUserInfo: createAsyncComponent(() => import('../user/UserInfoModal.vue')),
     },
     props: {
       theme: propTypes.oneOf(['dark', 'light']),
@@ -72,20 +80,45 @@
     setup() {
       const { prefixCls } = useDesign('header-user-dropdown');
       const { t } = useI18n();
-      const { getShowDoc, getUseLockPage } = useHeaderSetting();
+      const { getShowDoc, getUseLockPage, getShowUserInfo } = useHeaderSetting();
       const userStore = useUserStore();
 
       const getUserInfo = computed(() => {
-        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
-        return { realName, avatar: avatar || headerImg, desc };
+        const {
+          realName = '',
+          avatar,
+          desc,
+          userId,
+          companyName,
+          businessCode,
+          mobile,
+          position,
+          userName,
+        } = userStore.getUserInfo || {};
+        return {
+          realName,
+          avatar: avatar || headerImg,
+          desc,
+          userId,
+          companyName,
+          businessCode,
+          mobile,
+          position,
+          userName,
+        };
       });
 
       const [register, { openModal }] = useModal();
+      const [registerUser, { openModal: openUserInfoModal }] = useModal();
 
       function handleLock() {
         openModal(true);
       }
 
+      function handleUserInfo() {
+        const data = getUserInfo;
+        openUserInfoModal(true, data);
+      }
       //  login out
       function handleLoginOut() {
         userStore.confirmLoginOut();
@@ -107,6 +140,9 @@
           case 'lock':
             handleLock();
             break;
+          case 'info':
+            handleUserInfo();
+            break;
         }
       }
 
@@ -118,6 +154,8 @@
         getShowDoc,
         register,
         getUseLockPage,
+        registerUser,
+        getShowUserInfo,
       };
     },
   });
