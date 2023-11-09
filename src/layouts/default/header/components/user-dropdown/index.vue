@@ -28,7 +28,7 @@
           v-if="getShowUserInfo"
           key="info"
           :text="t('layout.header.tolltipUserInfo')"
-          icon="ion:lock-closed-outline"
+          icon="ion:person-circle-outline"
         />
         <MenuItem
           key="logout"
