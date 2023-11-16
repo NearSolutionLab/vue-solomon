@@ -56,6 +56,7 @@ export default {
     noDataTitle: '현재 페이지에 데이터 없음',
     networkErrorTitle: '네트워크 오류',
     networkErrorSubTitle: '네트워크 연결이 끊겼습니다. 네트워크를 확인하십시오！',
+    invalidPassword: '현재 비밀번호가 맞지 않습니다.',
   },
   lock: {
     unlock: '클릭하여 잠금해제',
@@ -110,8 +111,9 @@ export default {
     emailCodePlaceholder: '인증번호를 입력해주세요.',
     notValidEmailCode: '인증번호는 6자리 숫자입니다.',
 
-    userName: '계정',
+    userName: '이름',
     password: '비밀번호',
+    currentPassword: '현재 비밀번호',
     newPassword: '새 비밀번호',
     confirmPassword: '확인비밀번호',
     email: '메일',
@@ -122,5 +124,9 @@ export default {
     businessCode: '사업자등록번호',
     managerName: '담당자명',
     managerPosition: '직위',
+    userInfo: '회원정보',
+    account: '계정',
+    accountInfo: '계정정보',
+    myInfo: '내 정보',
   },
 };

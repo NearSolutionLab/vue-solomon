@@ -8,6 +8,7 @@ export enum LoginStateEnum {
   LOGIN,
   REGISTER,
   RESET_PASSWORD,
+  CHANGE_PASSWORD,
   MOBILE,
   QR_CODE,
 }
@@ -165,6 +166,17 @@ export function useFormRules(formData?: Recordable) {
 
       // reset password form rules
       case LoginStateEnum.RESET_PASSWORD:
+        return {
+          password: passwordFormRule,
+          confirmPassword: [
+            { validator: validateConfirmPassword(formData?.newPassword), trigger: 'change' },
+          ],
+          mobile: mobileFormRule,
+          ...accountRule,
+        };
+
+      // mobile form rules
+      case LoginStateEnum.CHANGE_PASSWORD:
         return {
           password: passwordFormRule,
           confirmPassword: [

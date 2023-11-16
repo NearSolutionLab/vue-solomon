@@ -67,7 +67,7 @@ function defineApplicationConfig(defineOptions: DefineOptions = {}) {
       },
       server: {
         port: Number(VITE_PORT),
-        proxy: createProxy(JSON.parse(VITE_PROXY)),
+        ...(mode === 'production' ? {} : { proxy: createProxy(JSON.parse(VITE_PROXY)) }),
       },
       define: defineData,
       build: {

@@ -13,7 +13,7 @@
         <Input
           size="large"
           v-model:value="formData.account"
-          :placeholder="t('sys.login.userName')"
+          :placeholder="t('sys.login.account')"
           class="fix-auto-fill"
         />
       </FormItem>
