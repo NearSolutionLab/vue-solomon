@@ -1,6 +1,73 @@
 <template>
-  <PageWrapper title="초대 현황" />
+  <div>
+    <BasicTable @register="registerTable">
+      <template #toolbar>
+        <a-button type="primary" @click="handleCreate"> 팀원초대 </a-button>
+      </template>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'ant-design:close-outlined',
+                color: 'error',
+                popConfirm: {
+                  title: '취소하시겠습니까?',
+                  placement: 'left',
+                  confirm: handleCancel.bind(null, record),
+                },
+              },
+            ]"
+          />
+        </template>
+      </template>
+    </BasicTable>
+    <InviteDrawer @register="registerDrawer" @success="handleSuccess" />
+  </div>
 </template>
 <script lang="ts" setup>
-  import { PageWrapper } from '/@/components/Page';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { columns } from './meta.data';
+  import { getInvites, deleteInvite } from '/@/api/solomon/organization';
+  import { useDrawer } from '/@/components/Drawer';
+  import InviteDrawer from './InviteDrawer.vue';
+
+  const [registerDrawer, { openDrawer }] = useDrawer();
+  const [registerTable, { reload }] = useTable({
+    title: '초대현황',
+    api: getInviteList,
+    columns,
+    useSearchForm: false,
+    showTableSetting: true,
+    bordered: true,
+    showIndexColumn: false,
+    actionColumn: {
+      width: 50,
+      title: '취소',
+      dataIndex: 'action',
+      // slots: { customRender: 'action' },
+      fixed: undefined,
+    },
+  });
+
+  async function getInviteList(params) {
+    const requestParams = {
+      page: params.page,
+      limit: params.pageSize,
+    };
+    return await getInvites(requestParams);
+  }
+
+  async function handleCancel(record: Recordable) {
+    await deleteInvite(record.emailId);
+    reload();
+  }
+
+  async function handleCreate() {
+    openDrawer(true);
+  }
+
+  function handleSuccess() {
+    reload();
+  }
 </script>
