@@ -13,11 +13,23 @@ interface InviteParams {
   authType: string;
 }
 
+interface ConfirmInvitationParams {
+  userId: string;
+  password: string;
+  companyName: string;
+  businessCode: string;
+  name: string;
+  position?: string;
+  authType: string;
+  domainId: string;
+}
+
 enum Api {
   Members = '/customers/members',
   Users = '/users',
   Invites = '/customers/invites',
-  InviteMember = '/user_auth/invite',
+  InviteMember = '/user_auth/invite_user',
+  ConfirmInvitation = '/customers/confirm_invite',
 }
 
 export const getMembers = async (params) => {
@@ -55,6 +67,14 @@ export const deleteInvite = async (emailId) => {
 export const inviteMember = async (emailId: string, params: InviteParams) => {
   const { result } = await defHttp.post({
     url: Api.InviteMember + '/' + emailId,
+    data: JSON.stringify(params),
+  });
+  return result;
+};
+
+export const confirmInvitation = async (params: ConfirmInvitationParams) => {
+  const { result } = await defHttp.post({
+    url: Api.ConfirmInvitation,
     data: JSON.stringify(params),
   });
   return result;

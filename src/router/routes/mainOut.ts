@@ -17,6 +17,15 @@ export const mainOutRoutes: AppRouteModule[] = [
       ignoreAuth: true,
     },
   },
+  {
+    path: '/invite-confirm',
+    name: 'InviteConfirmPage',
+    component: () => import('/@/views/solomon/organization/invite-confirm/index.vue'),
+    meta: {
+      title: '회원가입',
+      ignoreAuth: true,
+    },
+  },
 ];
 
 export const mainOutRouteNames = mainOutRoutes.map((item) => item.name);
