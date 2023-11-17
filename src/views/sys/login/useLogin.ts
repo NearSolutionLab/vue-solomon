@@ -199,7 +199,32 @@ export function useFormRules(formData?: Recordable) {
         };
     }
   });
-  return { getFormRules };
+
+  const getInvitationFormRules = computed(
+    (): { [k: string]: ValidationRule | ValidationRule[] } => {
+      const passwordFormRule = unref(getPasswordFormRule);
+      const companyNameFormRule = unref(getCompanyNameFormRule);
+      const businessCodeFormRule = unref(getBusinessCodeFormRule);
+      const managerNameFormRule = unref(getManagerNameFormRule);
+
+      const accountRule = {
+        account: [{ validator: validateEmail(), trigger: 'blur' }],
+      };
+
+      return {
+        password: passwordFormRule,
+        confirmPassword: [
+          { validator: validateConfirmPassword(formData?.password), trigger: 'change' },
+        ],
+        companyName: companyNameFormRule,
+        businessCode: businessCodeFormRule,
+        managerName: managerNameFormRule,
+        policy: [{ validator: validatePolicy, trigger: 'change' }],
+        ...accountRule,
+      };
+    },
+  );
+  return { getFormRules, getInvitationFormRules };
 }
 
 function createRule(message: string) {

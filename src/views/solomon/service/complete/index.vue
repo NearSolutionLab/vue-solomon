@@ -91,12 +91,15 @@
         Object.keys(params).forEach((key) => {
           if (params[key]) requestParams[key] = params[key];
         });
-        const { items } = await getServiceList(requestParams);
-        return (items || []).map((item) => ({
-          ...item,
-          serviceName: item.service?.serviceName,
-          dataSize: item.dataSize || 0,
-        }));
+        const { items, total = 0 } = await getServiceList(requestParams);
+        return {
+          items: (items || []).map((item) => ({
+            ...item,
+            serviceName: item.service?.serviceName,
+            dataSize: item.dataSize || 0,
+          })),
+          total,
+        };
       }
 
       function handleReport(record: Recordable) {

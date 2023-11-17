@@ -56,7 +56,11 @@
       page: params.page,
       limit: params.pageSize,
     };
-    return await getMembers(requestParams);
+    const { items, total = 0 } = await getMembers(requestParams);
+    return {
+      items,
+      total,
+    };
   }
 
   function handleEdit(record: Recordable) {
