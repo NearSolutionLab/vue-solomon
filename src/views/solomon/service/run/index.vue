@@ -43,6 +43,7 @@
     showTableSetting: false,
     bordered: true,
     showIndexColumn: false,
+    pagination: false,
     actionColumn: {
       width: 120,
       title: '실행',

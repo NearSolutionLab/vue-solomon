@@ -55,7 +55,11 @@
       page: params.page,
       limit: params.pageSize,
     };
-    return await getInvites(requestParams);
+    const { items, total = 0 } = await getInvites(requestParams);
+    return {
+      items,
+      total,
+    };
   }
 
   async function handleCancel(record: Recordable) {
