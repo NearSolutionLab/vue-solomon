@@ -3,6 +3,13 @@
     <template #headerContent>
       <SystemUsageHeader :headerData="headerData" />
     </template>
+    <div class="flex flex-col">
+      <div class="flex-none h-96 flex flex-row pb-4">
+        <div class="flex-none w-1/2 pr-4 h-90">
+          <UsageTable />
+        </div>
+      </div>
+    </div>
   </PageWrapper>
 </template>
 
@@ -13,6 +20,7 @@
   import { getCustomerUsage } from '/@/api/solomon/home';
   import SystemUsageHeader from '/@/views/solomon/system/system-usage/components/SystemUsageHeader.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import UsageTable from '/@/views/solomon/home/components/UsageTable.vue';
 
   const userStore = useUserStore();
   const loadingRef = ref(false);
@@ -22,10 +30,9 @@
 
   onMounted(async () => {
     loadingRef.value = true;
-    console.log(userStore.getUserInfo);
-    const { currentUsage, customer, customerUsage, monthlyUsage } = await getCustomerUsage(
-      userStore.getUserInfo.customerId,
-    );
+    const customerId = userStore.getCurrentUserCredentials.user.customer.id;
+    const { currentUsage, customer, customerUsage, monthlyUsage } =
+      await getCustomerUsage(customerId);
     console.log(currentUsage, customer, customerUsage, monthlyUsage);
 
     updateReportData({
