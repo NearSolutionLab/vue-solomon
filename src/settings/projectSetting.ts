@@ -74,8 +74,10 @@ const setting: ProjectConfig = {
     showNotice: false,
     // Whether to display the menu search
     showSearch: false,
-
+    // 드랍다운 메뉴에서 내 정보를 표시할 것인지 여부
     showUserInfo: true,
+    // 드랍다운 메뉴에서 시스템 사용량을 표시할 것인지 여부
+    showSysInfo: true,
   },
 
   // Menu configuration

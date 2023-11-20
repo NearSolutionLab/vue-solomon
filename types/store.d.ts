@@ -42,6 +42,7 @@ export interface UserInfo {
   mobile: string;
   position: string;
   userName: string;
+  customerId: string;
 }
 
 export interface BeforeMiniState {

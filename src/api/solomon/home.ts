@@ -4,6 +4,7 @@ enum Api {
   GetCustomerUsage = '/customers/usage',
 }
 
-export const getCustomerUsage = (id) => {
-  return defHttp.get({ url: Api.GetCustomerUsage + '/' + id });
+export const getCustomerUsage = async (id) => {
+  const { result } = await defHttp.get({ url: Api.GetCustomerUsage + '/' + id });
+  return result;
 };

@@ -50,8 +50,8 @@
 
   onMounted(async () => {
     const customerId = userStore.getCurrentUserCredentials.user.customer.id;
-    const { result } = await getCustomerUsage(customerId);
-    const usageItems = (result.currentUsage || []).map((item) => {
+    const { currentUsage } = await getCustomerUsage(customerId);
+    const usageItems = (currentUsage || []).map((item) => {
       return {
         dataSaved: item.serviceNameKey === 'data-saving' ? item.dataUsage : 0,
         dataUsage: item.serviceNameKey === 'data-saving' ? 0 : item.dataUsage,

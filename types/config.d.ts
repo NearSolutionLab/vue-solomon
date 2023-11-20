@@ -58,6 +58,7 @@ export interface HeaderSetting {
   showNotice: boolean;
   showSearch: boolean;
   showUserInfo: boolean;
+  showSysInfo: boolean;
 }
 
 export interface LocaleSetting {

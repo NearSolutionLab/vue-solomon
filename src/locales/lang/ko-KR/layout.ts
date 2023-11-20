@@ -9,7 +9,8 @@ export default {
     tooltipErrorLog: '오류 일지',
     tooltipLock: '화면 잠그기',
     tooltipNotify: '메시지 알림',
-    tolltipUserInfo: '내 정보',
+    tooltipUserInfo: '내 정보',
+    tooltipSystemUsage: '시스템 사용량',
 
     tooltipEntryFull: '전체 화면',
     tooltipExitFull: '전체 화면 종료',

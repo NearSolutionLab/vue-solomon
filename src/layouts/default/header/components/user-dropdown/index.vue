@@ -27,8 +27,14 @@
         <MenuItem
           v-if="getShowUserInfo"
           key="info"
-          :text="t('layout.header.tolltipUserInfo')"
+          :text="t('layout.header.tooltipUserInfo')"
           icon="ion:person-circle-outline"
+        />
+        <MenuItem
+          v-if="getShowUserInfo"
+          key="system-usage"
+          :text="t('layout.header.tooltipSystemUsage')"
+          icon="ion:information-circle-outline"
         />
         <MenuItem
           key="logout"
@@ -61,8 +67,9 @@
   import { openWindow } from '/@/utils';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import { useRouter } from 'vue-router';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock' | 'info';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'info' | 'system-usage';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -78,6 +85,7 @@
       theme: propTypes.oneOf(['dark', 'light']),
     },
     setup() {
+      const router = useRouter();
       const { prefixCls } = useDesign('header-user-dropdown');
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage, getShowUserInfo } = useHeaderSetting();
@@ -142,6 +150,11 @@
             break;
           case 'info':
             handleUserInfo();
+            break;
+          case 'system-usage':
+            router.push({
+              name: 'SystemUsagePage',
+            });
             break;
         }
       }
