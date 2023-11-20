@@ -4,9 +4,12 @@
       <SystemUsageHeader :headerData="headerData" />
     </template>
     <div class="flex flex-col">
-      <div class="flex-none h-96 flex flex-row pb-4">
-        <div class="flex-none w-1/2 pr-4 h-90">
+      <div class="flex-none flex flex-row pb-4">
+        <div class="flex-none w-3/5 pr-4">
           <UsageTable />
+        </div>
+        <div class="flex-none w-2/5">
+          <BasicTable @register="register" />
         </div>
       </div>
     </div>
@@ -20,7 +23,9 @@
   import { getCustomerUsage } from '/@/api/solomon/home';
   import SystemUsageHeader from '/@/views/solomon/system/system-usage/components/SystemUsageHeader.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { BasicTable, useTable } from '/@/components/Table';
   import UsageTable from '/@/views/solomon/home/components/UsageTable.vue';
+  import { columns } from './meta.data';
 
   const userStore = useUserStore();
   const loadingRef = ref(false);
@@ -28,12 +33,22 @@
 
   const { prefixCls } = useDesign('system-usage');
 
+  const [register, { setTableData }] = useTable({
+    title: '월별 과금 현황',
+    columns,
+    useSearchForm: false,
+    showTableSetting: false,
+    bordered: true,
+    showIndexColumn: false,
+    pagination: false,
+    isCanResizeParent: true,
+  });
+
   onMounted(async () => {
     loadingRef.value = true;
     const customerId = userStore.getCurrentUserCredentials.user.customer.id;
     const { currentUsage, customer, customerUsage, monthlyUsage } =
       await getCustomerUsage(customerId);
-    console.log(currentUsage, customer, customerUsage, monthlyUsage);
 
     updateReportData({
       currentUsage,
@@ -44,13 +59,30 @@
     loadingRef.value = false;
   });
 
-  function updateReportData({ currentUsage, customer, customerUsage, monthlyUsage }) {
+  function updateReportData({ currentUsage, customer, customerUsage, monthlyUsage = [] }) {
     headerData.value = {
       currentUsage,
       customer,
       customerUsage,
     };
-    console.log(monthlyUsage);
+
+    const monthlyUsageData: any[] = monthlyUsage.map((item: any) => {
+      return {
+        month: item.month,
+        basicCalc: '월간',
+        amount: item.amount,
+      };
+    });
+    // const monthlyUsageData = Array(10)
+    //   .fill()
+    //   .map((item, index) => {
+    //     return {
+    //       month: index + 1,
+    //       basicCalc: '월간',
+    //       amount: index * 1000,
+    //     };
+    //   });
+    setTableData(monthlyUsageData);
   }
 </script>
 <style lang="less">
