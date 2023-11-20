@@ -1,5 +1,4 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import { FormSchema } from '/@/components/Form';
 
 export const inboundColumns: BasicColumn[] = [
   {
@@ -9,27 +8,30 @@ export const inboundColumns: BasicColumn[] = [
   {
     title: '날짜',
     dataIndex: 'date',
-    width: 100,
+    width: 160,
   },
   {
     title: '고객',
     dataIndex: 'orderNo',
-    width: 120,
+    ellipsis: false,
+    width: 180,
   },
   {
     title: 'SKU번호',
     dataIndex: 'skuNo',
-    width: 120,
+    ellipsis: false,
+    width: 180,
   },
   {
     title: 'SKU이름',
     dataIndex: 'skuName',
-    width: 120,
+    ellipsis: false,
+    width: 250,
   },
   {
     title: '수량',
     dataIndex: 'eaCount',
-    width: 120,
+    width: 100,
   },
   {
     title: '저장방식',
@@ -66,27 +68,31 @@ export const outboundColumns: BasicColumn[] = [
   {
     title: '날짜',
     dataIndex: 'date',
-    width: 100,
+    width: 160,
+    ellipsis: false,
   },
   {
     title: '주문번호',
     dataIndex: 'orderNo',
-    width: 120,
+    width: 160,
+    ellipsis: false,
   },
   {
     title: 'SKU번호',
     dataIndex: 'skuNo',
-    width: 120,
+    width: 160,
+    ellipsis: false,
   },
   {
     title: 'SKU이름',
     dataIndex: 'skuName',
-    width: 120,
+    width: 230,
+    ellipsis: false,
   },
   {
     title: '수량',
     dataIndex: 'eaCount',
-    width: 120,
+    width: 100,
   },
   {
     title: '저장방식',
@@ -123,12 +129,13 @@ export const inventoryColumns: BasicColumn[] = [
   {
     title: '날짜',
     dataIndex: 'date',
-    width: 100,
+    width: 160,
+    ellipsis: false,
   },
   {
     title: '창고코드',
     dataIndex: 'whCode',
-    width: 120,
+    width: 100,
   },
   {
     title: '로케이션코드',
@@ -138,17 +145,19 @@ export const inventoryColumns: BasicColumn[] = [
   {
     title: 'SKU번호',
     dataIndex: 'skuNo',
-    width: 120,
+    width: 160,
+    ellipsis: false,
   },
   {
     title: 'SKU이름',
     dataIndex: 'skuName',
-    width: 120,
+    width: 250,
+    ellipsis: false,
   },
   {
     title: '수량',
     dataIndex: 'eaCount',
-    width: 120,
+    width: 100,
   },
   {
     title: '로케이션타입',
