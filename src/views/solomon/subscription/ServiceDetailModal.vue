@@ -3,14 +3,14 @@
     v-bind="$attrs"
     @register="registerModal"
     :title="title"
-    :width="700"
+    :width="750"
     :minHeight="500"
   >
     <div class="text-xl text-center font-bold mb-2" :subtitle="subtitle">{{ subtitle }}</div>
     <BasicForm @register="registerForm" />
     <div>
       <p>서비스 이미지</p>
-      <img src="../../../assets/images/logo.png" class="" />
+      <div class="serviceImg"><img src="../../../assets/images/logo.png" /></div>
     </div>
   </BasicModal>
 </template>
@@ -69,3 +69,10 @@
     },
   });
 </script>
+<style lang="less" scoped>
+  .serviceImg {
+    display: flex;
+    justify-content: center;
+    border: 1px solid rgb(216 216 26);
+  }
+</style>

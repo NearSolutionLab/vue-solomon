@@ -102,17 +102,4 @@ export const serviceDetailFormSchema: FormSchema[] = [
       readonly: true,
     },
   },
-  {
-    field: 'serviceImage',
-    label: '서비스 이미지',
-    component: 'Render',
-    render: () =>
-      h('div', {}, [
-        h('p', '서비스 주요 효과 이미지:'),
-        h('img', {
-          src: '/@/assets/images/serviceDetailSample.png',
-          alt: '서비스 이미지',
-        }),
-      ]),
-  },
 ];
