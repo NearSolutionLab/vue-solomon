@@ -1,19 +1,21 @@
 <template>
-  <BasicTable @register="registerTable" class="p-4" :pageSize="20">
-    <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'action'">
-        <TableAction
-          :actions="[
-            {
-              icon: 'fluent-mdl2:report-document',
-              onClick: showDetail.bind(null, record),
-            },
-          ]"
-        />
+  <div>
+    <BasicTable @register="registerTable" class="p-4" :pageSize="20">
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'fluent-mdl2:report-document',
+                onClick: showDetail.bind(null, record),
+              },
+            ]"
+          />
+        </template>
       </template>
-    </template>
-  </BasicTable>
-  <ServiceDetailModal @register="registerServiceDetailModal" @success="handleSuccess" />
+    </BasicTable>
+    <ServiceDetailModal @register="registerServiceDetailModal" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -58,11 +60,6 @@
   }
 
   const showDetail = (record) => {
-    console.log('record>>>', record);
     openServiceDetailModal(true, record);
-  };
-
-  const handleSuccess = (result) => {
-    console.log(result);
   };
 </script>
