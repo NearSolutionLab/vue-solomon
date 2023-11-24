@@ -89,7 +89,7 @@ export const serviceDetailFormSchema: FormSchema[] = [
   {
     field: 'serviceDescription',
     label: '서비스 설명',
-    component: 'InputTextArea',
+    component: 'Input',
     componentProps: {
       readonly: true,
     },
@@ -97,7 +97,7 @@ export const serviceDetailFormSchema: FormSchema[] = [
   {
     field: 'serviceEffect',
     label: '서비스 주요 효과',
-    component: 'InputTextArea',
+    component: 'Input',
     componentProps: {
       readonly: true,
     },
