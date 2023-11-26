@@ -8,6 +8,9 @@ export default {
     END: '완료',
   },
   data: {
+    name: '데이터셋 이름',
+    type: '데이터 유형',
+    method: '업로드 방법',
     outbound: '출고',
     OUTBOUND: '출고',
     inbound: '입고',

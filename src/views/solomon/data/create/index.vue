@@ -1,0 +1,283 @@
+<template>
+  <div id="app">
+    <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
+      <CollapseContainer title="입력 양식" class="w-1/4 xl:w-1/5 my-custom-form-position">
+        <div>
+          <BasicForm @register="formRegister" ref="formRef" />
+          <Button @click="openExcelModal">다음 단계</Button>
+          <ExcelModal
+            v-if="excelModalVisible"
+            :visible="excelModalVisible"
+            dataType="'123'"
+            modalTitle="Excel 파일 업로드"
+            @ok="handleExcelModalOk"
+            @cancel="handleExcelModalCancel"
+            @success="handleExcelSuccess"
+          />
+        </div>
+      </CollapseContainer>
+      <BasicTable @register="registerTable" class="w-3/4 p-4 xl:w-4/5">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'action'">
+            <TableAction
+              :actions="[
+                {
+                  icon: 'fluent-mdl2:report-document',
+                  onClick: showDetail.bind(null, record),
+                },
+              ]"
+            />
+          </template>
+        </template>
+      </BasicTable>
+      <DataMappingModal @register="registerDataMappingModal" @ok="handleExcelModalOk" />
+      <ServiceDetailModal @register="registerServiceDetailModal" @success="handleSuccess" />
+    </PageWrapper>
+  </div>
+</template>
+<script lang="ts">
+  import { CollapseContainer } from '/@/components/Container/index';
+  import { Button } from 'ant-design-vue';
+  import { PageWrapper } from '/@/components/Page';
+  import { defineComponent, ref } from 'vue';
+  import { BasicTable, useTable, TableAction, BasicColumn } from '/@/components/Table';
+  import { columns, searchFormSchema } from '/@/views/solomon/subscription/subscription.data';
+  import { BasicForm, FormSchema, useForm } from '/@/components/Form/index';
+  import { useDesign } from '/@/hooks/web/useDesign';
+  import { useI18n } from '/@/hooks/web/useI18n';
+  import { useModal } from '/@/components/Modal';
+  import ServiceDetailModal from '/@/views/solomon/subscription/ServiceDetailModal.vue';
+  import { getServiceSelectionList } from '/@/api/solomon/service';
+  import ExcelModal from './ExcelModal.vue';
+  import { ExcelData } from '/@/components/Excel';
+  import DataMappingModal from './DataMappingModal.vue';
+  import {
+    inboundColumns,
+    outboundColumns,
+    inventoryColumns,
+    inboundForm,
+    outboundForm,
+    inventoryForm,
+  } from '../meta.data';
+
+  const { t } = useI18n();
+  const schemas: FormSchema[] = [
+    {
+      field: 'name',
+      component: 'Input',
+      label: t('solomon.data.name'),
+    },
+    {
+      field: 'type',
+      component: 'Select',
+      label: t('solomon.data.type'),
+      componentProps: {
+        options: [
+          {
+            label: '입고',
+            value: 'INBOUND',
+          },
+          {
+            label: '출고',
+            value: 'OUTBOUND',
+          },
+          {
+            label: '재고',
+            value: 'INVENTORY',
+          },
+        ],
+      },
+    },
+    {
+      field: 'method',
+      component: 'Select',
+      label: t('solomon.data.method'),
+      componentProps: {
+        options: [
+          {
+            label: 'Excel',
+            value: 'excel',
+          },
+          // {
+          //   label: 'DB',
+          //   value: 'db',
+          // },
+        ],
+      },
+    },
+  ];
+
+  export default defineComponent({
+    name: 'CreatePage',
+    components: {
+      BasicForm,
+      BasicTable,
+      TableAction,
+      PageWrapper,
+      CollapseContainer,
+      ServiceDetailModal,
+      Button,
+      ExcelModal,
+      DataMappingModal,
+    },
+    setup() {
+      const excelModalVisible = ref(false);
+      const dataMappingModalVisible = ref(false);
+      const formRef = ref();
+      const { prefixCls } = useDesign('header-userInfo-modal');
+      const [formRegister] = useForm({
+        showActionButtonGroup: false,
+        labelWidth: 120,
+        schemas: schemas,
+        baseColProps: { span: 24 },
+        showSubmitButton: true,
+      });
+      const [registerServiceDetailModal, { openModal: openServiceDetailModal }] = useModal();
+      const [registerDataMappingModal, { openModal: openDataMappingModal, setModalProps }] =
+        useModal();
+      const [registerTable] = useTable({
+        title: '전체 서비스',
+        api: getSubscriptionService,
+        rowKey: 'id',
+        columns,
+        formConfig: {
+          labelWidth: 120,
+          schemas: searchFormSchema,
+          autoSubmitOnEnter: true,
+        },
+        useSearchForm: false,
+        showTableSetting: true,
+        bordered: true,
+        showIndexColumn: false,
+        actionColumn: {
+          width: 120,
+          title: '상세보기',
+          dataIndex: 'action',
+          // slots: { customRender: 'action' },
+        },
+      });
+      async function getSubscriptionService() {
+        const result = await getServiceSelectionList();
+        const items = result.map((item) => ({
+          ...item,
+          description: t(`solomon.${item.serviceNameKey}.desc`),
+        }));
+        return items;
+      }
+
+      const showDetail = (record) => {
+        console.log('record>>>', record);
+        openServiceDetailModal(true, record);
+      };
+
+      const handleSuccess = (result) => {
+        console.log(result);
+      };
+
+      const openExcelModal = () => {
+        // 다음 단계 버튼 클릭 시 실행되는 로직, 예: Excel 모달 열기
+        excelModalVisible.value = true;
+      };
+
+      const handleExcelModalOk = (result) => {
+        console.log(result);
+        // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
+        excelModalVisible.value = false;
+      };
+
+      const handleExcelModalCancel = () => {
+        // Excel 모달의 취소 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
+        excelModalVisible.value = false;
+      };
+      async function handleExcelSuccess(result) {
+        const data = await formRef.value.validate();
+        setModalProps({
+          defaultFullscreen: true,
+        });
+        let typeData: {
+          columns: BasicColumn[];
+          forms: FormSchema[];
+          data: ExcelData[];
+        };
+
+        if (data) {
+          if (data.type === 'INBOUND') {
+            typeData = {
+              columns: inboundColumns,
+              forms: inboundForm,
+              data: result,
+            };
+            typeData['forms'].map((form: FormSchema) => {
+              form['componentProps']['options'] = result[0].header.map((col) => {
+                return { label: col, value: col };
+              });
+            });
+
+            openDataMappingModal(true, typeData);
+          } else if (data.type === 'OUTBOUND') {
+            typeData = {
+              columns: outboundColumns,
+              forms: outboundForm,
+              data: result,
+            };
+            typeData['forms'].map((form: FormSchema) => {
+              form['componentProps']['options'] = result[0].header.map((col) => {
+                return { label: col, value: col };
+              });
+            });
+            openDataMappingModal(true, typeData);
+          } else if (data.type === 'INVENTORY') {
+            typeData = {
+              columns: inventoryColumns,
+              forms: inventoryForm,
+              data: result,
+            };
+            typeData['forms'].map((form: FormSchema) => {
+              form['componentProps']['options'] = result[0].header.map((col) => {
+                return { label: col, value: col };
+              });
+            });
+            openDataMappingModal(true, typeData);
+          }
+        }
+
+        console.log('data', data);
+        console.log('success', result);
+      }
+      return {
+        formRef,
+        formRegister,
+        prefixCls,
+        registerTable,
+        registerServiceDetailModal,
+        getSubscriptionService,
+        showDetail,
+        handleSuccess,
+        openExcelModal,
+        handleExcelModalOk,
+        handleExcelModalCancel,
+        excelModalVisible,
+        handleExcelSuccess,
+        dataMappingModalVisible,
+        registerDataMappingModal,
+      };
+    },
+  });
+</script>
+
+<style>
+  #app {
+    text-align: center;
+  }
+
+  .my-custom-form-position {
+    /* 원하는 스타일 또는 위치 조정을 여기에 추가하세요 */
+
+    /* 예: margin-top: 20px; 또는 top: 0; */
+    margin-top: 20px;
+  }
+
+  .my-custom-form-position > div > a-button {
+    position: absolute;
+  }
+</style>

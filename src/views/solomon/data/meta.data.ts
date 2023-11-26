@@ -1,4 +1,5 @@
-import { BasicColumn, FormSchema } from '/@/components/Table';
+import { BasicColumn } from '/@/components/Table';
+import { FormSchema } from '/@/components/Form/index';
 
 export const inboundColumns: BasicColumn[] = [
   {
@@ -191,84 +192,206 @@ export const inventoryColumns: BasicColumn[] = [
   },
 ];
 
-const colProps = {
-  span: 8,
-};
-
-export const outboundTestColumns: FormSchema[] = [
-  {
-    field: 'id',
-    component: 'Input',
-    colProps,
-  },
+export const inboundForm: FormSchema[] = [
   {
     label: '날짜',
     field: 'date',
-
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: '고객',
     field: 'orderNo',
 
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: 'SKU번호',
     field: 'skuNo',
 
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: 'SKU이름',
     field: 'skuName',
 
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: '수량',
     field: 'eaCount',
-
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: '저장방식',
     field: 'storageMethod',
-
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: '카테고리1',
     field: 'category1',
-
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: '카테고리2',
     field: 'category2',
-
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: '카테고리3',
     field: 'category3',
-
-    component: 'Input',
-    colProps,
+    component: 'Select',
+    componentProps: { options: [] },
   },
   {
     label: '카테고리4',
     field: 'category4',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+];
 
-    component: 'Input',
-    colProps,
+export const outboundForm: FormSchema[] = [
+  {
+    label: '날짜',
+    field: 'date',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '주문번호',
+    field: 'orderNo',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: 'SKU번호',
+    field: 'skuNo',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: 'SKU이름',
+    field: 'skuName',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '수량',
+    field: 'eaCount',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '저장방식',
+    field: 'storageMethod',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '카테고리1',
+    field: 'category1',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '카테고리2',
+    field: 'category2',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '카테고리3',
+    field: 'category3',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '카테고리4',
+    field: 'category4',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+];
+
+export const inventoryForm: FormSchema[] = [
+  {
+    label: '날짜',
+    field: 'date',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '창고코드',
+    field: 'whCode',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '로케이션코드',
+    field: 'locCode',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: 'SKU번호',
+    field: 'skuNo',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: 'SKU이름',
+    field: 'skuName',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '수량',
+    field: 'eaCount',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '로케이션타입',
+    field: 'locType',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '재고타입',
+    field: 'invType',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '카테고리',
+    field: 'category',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '로트번호',
+    field: 'lotNo',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '유통기한',
+    field: 'expireDate',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '브랜드',
+    field: 'brand',
+    component: 'Select',
+    componentProps: { options: [] },
   },
 ];

@@ -2,9 +2,7 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <DataTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 p-4 xl:w-4/5">
-      <template #bodyCell="{ column }">
-        <template v-if="column.key === 'action'"> </template>
-      </template>
+      <!-- <template #bodyCell="{ column }"> </template> -->
     </BasicTable>
   </PageWrapper>
 </template>
@@ -14,7 +12,14 @@
   import { getOutBoundData, getInBoundData, getInventoryData } from '/@/api/solomon/data';
   import { BasicTable, useTable } from '/@/components/Table';
   import { inboundColumns, outboundColumns, inventoryColumns } from './meta.data';
+  // import { useI18n } from '/@/hooks/web/useI18n';
+  // import { useModal } from '/@/components/Modal';
+  // import RunServiceModal from './RunServiceModal.vue';
+  // import { useMessage } from '/@/hooks/web/useMessage';
 
+  // const { t } = useI18n();
+  // const { notification } = useMessage();
+  // const [registerRunServiceModal, { openModal: openRunServiceModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
     title: '데이터 조회',
     rowKey: 'id',

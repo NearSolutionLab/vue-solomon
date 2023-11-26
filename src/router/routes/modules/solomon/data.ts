@@ -9,20 +9,38 @@ const data: AppRouteModule = {
   component: LAYOUT,
   redirect: '/data',
   meta: {
-    hideChildrenInMenu: true,
+    hideChildrenInMenu: false,
     icon: 'ion:grid-outline',
-    title: t('routes.solomon.data'),
+    title: t('routes.solomon.data.data'),
     orderNo: 20,
   },
   children: [
     {
-      path: '',
+      path: 'retrieve',
       name: 'DataPage',
       component: () => import('/@/views/solomon/data/index.vue'),
       meta: {
-        title: t('routes.solomon.data'),
+        title: t('routes.solomon.data.retrieve'),
         icon: 'ion:grid-outline',
-        hideMenu: true,
+        hideMenu: false,
+      },
+    },
+    {
+      path: 'create',
+      name: 'CreatePage',
+      component: () => import('/@/views/solomon/data/create/index.vue'),
+      meta: {
+        title: t('routes.solomon.data.create'),
+        hideMenu: false,
+      },
+    },
+    {
+      path: 'processing',
+      name: 'ProcessingPage',
+      component: () => import('/@/views/solomon/data/processing/index.vue'),
+      meta: {
+        title: t('routes.solomon.data.processing'),
+        hideMenu: false,
       },
     },
   ],
