@@ -43,6 +43,8 @@ export default {
   modal: {
     cancelText: '닫기',
     okText: '확인',
+    close: '닫기',
+    maximize: '최대화',
   },
   table: {
     settingDens: '밀도',
