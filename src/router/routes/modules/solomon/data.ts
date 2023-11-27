@@ -21,7 +21,6 @@ const data: AppRouteModule = {
       component: () => import('/@/views/solomon/data/index.vue'),
       meta: {
         title: t('routes.solomon.data.retrieve'),
-        icon: 'ion:grid-outline',
         hideMenu: false,
       },
     },
