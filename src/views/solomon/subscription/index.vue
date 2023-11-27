@@ -1,6 +1,12 @@
 <template>
-  <div>
-    <BasicTable @register="registerTable" class="p-4" :pageSize="20">
+  <PageWrapper>
+    <template #headerContent>
+      <div class="md:ml-6 flex flex-col md:mt-0 mt-2 text-left">
+        <h1 class="md:text-lg text-md">{{ t('solomon.category.subscription.name') }}</h1>
+        <span class="text-secondary">{{ t('solomon.category.subscription.description') }}</span>
+      </div>
+    </template>
+    <BasicTable @register="registerTable" :pageSize="20">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
           <TableAction
@@ -15,10 +21,11 @@
       </template>
     </BasicTable>
     <ServiceDetailModal @register="registerServiceDetailModal" />
-  </div>
+  </PageWrapper>
 </template>
 
 <script lang="ts" setup>
+  import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { columns, searchFormSchema } from './subscription.data';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -43,10 +50,9 @@
     bordered: true,
     showIndexColumn: false,
     actionColumn: {
-      width: 120,
+      width: 100,
       title: '상세보기',
       dataIndex: 'action',
-      // slots: { customRender: 'action' },
     },
   });
 

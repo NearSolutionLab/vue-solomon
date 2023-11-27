@@ -1,5 +1,11 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
+    <template #headerContent>
+      <div class="md:ml-6 flex flex-col md:mt-0 mt-2 text-left">
+        <h1 class="md:text-lg text-md">{{ t('solomon.category.data.name') }}</h1>
+        <span class="text-secondary">{{ t('solomon.category.data.description') }}</span>
+      </div>
+    </template>
     <DataTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 p-4 xl:w-4/5">
       <!-- <template #bodyCell="{ column }"> </template> -->
@@ -12,12 +18,12 @@
   import { getOutBoundData, getInBoundData, getInventoryData } from '/@/api/solomon/data';
   import { BasicTable, useTable } from '/@/components/Table';
   import { inboundColumns, outboundColumns, inventoryColumns } from './meta.data';
-  // import { useI18n } from '/@/hooks/web/useI18n';
+  import { useI18n } from '/@/hooks/web/useI18n';
   // import { useModal } from '/@/components/Modal';
   // import RunServiceModal from './RunServiceModal.vue';
   // import { useMessage } from '/@/hooks/web/useMessage';
 
-  // const { t } = useI18n();
+  const { t } = useI18n();
   // const { notification } = useMessage();
   // const [registerRunServiceModal, { openModal: openRunServiceModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({

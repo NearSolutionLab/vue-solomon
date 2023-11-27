@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <PageWrapper>
+    <template #headerContent>
+      <div class="md:ml-6 flex flex-col md:mt-0 mt-2 text-left">
+        <h1 class="md:text-lg text-md">{{ t('solomon.category.organization.name') }}</h1>
+        <span class="text-secondary">{{ t('solomon.category.organization.description') }}</span>
+      </div>
+    </template>
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 팀원초대 </a-button>
@@ -23,15 +29,18 @@
       </template>
     </BasicTable>
     <InviteDrawer @register="registerDrawer" @success="handleSuccess" />
-  </div>
+  </PageWrapper>
 </template>
 <script lang="ts" setup>
+  import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { columns } from './meta.data';
   import { getInvites, deleteInvite } from '/@/api/solomon/organization';
   import { useDrawer } from '/@/components/Drawer';
   import InviteDrawer from './InviteDrawer.vue';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
+  const { t } = useI18n();
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerTable, { reload }] = useTable({
     title: '초대현황',

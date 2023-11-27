@@ -12,17 +12,17 @@ export const columns: BasicColumn[] = [
   {
     title: '서비스명',
     dataIndex: 'serviceName',
-    width: 100,
+    width: 150,
   },
   {
     title: '설명',
     dataIndex: 'description',
-    width: 300,
+    width: 400,
   },
   {
     title: '구독',
     dataIndex: 'subscribed',
-    width: 120,
+    width: 100,
     customRender: ({ record }) => {
       if (!Reflect.has(record, 'pendingStatus')) {
         record.pendingStatus = false;
@@ -73,6 +73,11 @@ export const columns: BasicColumn[] = [
         },
       });
     },
+  },
+  {
+    title: '분석 횟수',
+    dataIndex: 'serviceCount',
+    width: 100,
   },
 ];
 

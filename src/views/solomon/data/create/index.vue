@@ -1,6 +1,12 @@
 <template>
   <div id="app">
     <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
+      <template #headerContent>
+        <div class="md:ml-6 flex flex-col md:mt-0 mt-2 text-left">
+          <h1 class="md:text-lg text-md">{{ t('solomon.category.data.name') }}</h1>
+          <span class="text-secondary">{{ t('solomon.category.data.description') }}</span>
+        </div>
+      </template>
       <CollapseContainer title="입력 양식" class="w-1/4 xl:w-1/5 my-custom-form-position">
         <div>
           <BasicForm @register="formRegister" ref="formRef" />
@@ -260,6 +266,7 @@
         handleExcelSuccess,
         dataMappingModalVisible,
         registerDataMappingModal,
+        t,
       };
     },
   });

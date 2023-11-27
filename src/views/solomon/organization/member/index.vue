@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <PageWrapper>
+    <template #headerContent>
+      <div class="md:ml-6 flex flex-col md:mt-0 mt-2 text-left">
+        <h1 class="md:text-lg text-md">{{ t('solomon.category.organization.name') }}</h1>
+        <span class="text-secondary">{{ t('solomon.category.organization.description') }}</span>
+      </div>
+    </template>
     <BasicTable @register="registerTable">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -24,15 +30,18 @@
       </template>
     </BasicTable>
     <MemberDrawer @register="registerDrawer" @success="handleSuccess" />
-  </div>
+  </PageWrapper>
 </template>
 <script lang="ts" setup>
+  import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { columns } from './meta.data';
   import { getMembers, deleteMember } from '/@/api/solomon/organization';
   import { useDrawer } from '/@/components/Drawer';
   import MemberDrawer from './MemberDrawer.vue';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
+  const { t } = useI18n();
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerTable, { reload }] = useTable({
     title: '팀원목록',

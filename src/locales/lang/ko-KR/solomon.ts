@@ -18,6 +18,26 @@ export default {
     inventory: '재고',
     INVENTORY: '재고',
   },
+  category: {
+    subscription: {
+      name: '구독',
+      description:
+        '제공하는 서비스를 확인하고 구독/철회하며 또한 서비스에 대한 사용량을 확인합니다.',
+    },
+    data: {
+      name: '데이터',
+      description: '분석 가능한 서비스를 확인하여 데이터의 세부 항목을 설정하고 업로드 합니다.',
+    },
+    service: {
+      name: '서비스',
+      description:
+        '구독한 서비스와 업로드한 데이터를 활용하여 데이터 분석 요청하여 그 결과를 확인합니다.',
+    },
+    organization: {
+      name: '조직관리',
+      description: '사용자의 팀원을 초대하고 관리하는 기능을 제공합니다.',
+    },
+  },
   services: {
     outbound: {
       capa_analysis: {

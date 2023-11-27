@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <PageWrapper>
+    <template #headerContent>
+      <div class="md:ml-6 flex flex-col md:mt-0 mt-2 text-left">
+        <h1 class="md:text-lg text-md">{{ t('solomon.category.service.name') }}</h1>
+        <span class="text-secondary">{{ t('solomon.category.service.description') }}</span>
+      </div>
+    </template>
     <BasicTable @register="registerTable">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -23,9 +29,10 @@
         </template>
       </template>
     </BasicTable>
-  </div>
+  </PageWrapper>
 </template>
 <script lang="ts">
+  import { PageWrapper } from '/@/components/Page';
   import { defineComponent } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import {
@@ -41,7 +48,9 @@
   import { columns, searchFormSchema } from './complete.data';
   import { useRouter } from 'vue-router';
   import { SERVICE_REPORT_MAP } from '/@/views/solomon/serviceMapping';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
+  const { t } = useI18n();
   const SERVICE_API_DEL_FUNCTION_MAP: { [service: string]: (requestId: string) => Promise<any> } = {
     'services.outbound.capa_analysis': (requestId) => deleteOutboundOrderPattern(requestId),
     'service.outbound.out_bound_analysis': (requestId) => deleteOutboundVolume(requestId),
@@ -54,7 +63,7 @@
 
   export default defineComponent({
     name: 'CompleteServices',
-    components: { BasicTable, TableAction },
+    components: { BasicTable, TableAction, PageWrapper },
     setup() {
       const router = useRouter();
       const [registerTable, { reload }] = useTable({
@@ -122,7 +131,13 @@
         registerTable,
         handleReport,
         handleDelete,
+        t,
       };
     },
   });
 </script>
+<style lang="less" scoped>
+  .vben-basic-table-form-container {
+    padding: 0;
+  }
+</style>
