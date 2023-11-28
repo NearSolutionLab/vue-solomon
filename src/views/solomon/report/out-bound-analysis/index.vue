@@ -17,7 +17,7 @@
     <div class="flex-none h-96">
       <BasicTable @register="registerTable">
         <template #toolbar>
-          <a-button @click="jsonToExcel"> 결과 다운로드 </a-button>
+          <a-button @click="downloadReport"> 결과 다운로드 </a-button>
         </template>
       </BasicTable>
     </div>
@@ -38,6 +38,8 @@
   import { columns } from './meta.data';
   import { jsonToSheetXlsx } from '/@/components/Excel/src/Export2Excel';
   import { getOptimizeRequest } from '/@/api/solomon/service';
+  import { initPpt, createMasterSlides } from '/@/utils/ppt-util';
+  import { COMMON_CHART_OPTIONS } from '/@/utils/ppt-enums';
 
   const props = defineProps({
     id: { type: String },
@@ -79,6 +81,122 @@
       fixed: undefined,
     },
   });
+
+  const downloadReport = () => {
+    jsonToPptx();
+    jsonToExcel();
+  };
+
+  const jsonToPptx = () => {
+    const pptx = initPpt();
+    createMasterSlides(pptx);
+    pptx.addSection({ title: `${headerData.value.title || '월별 출고량 통계'}` });
+    const slide = pptx.addSlide({
+      sectionTitle: `${headerData.value.title || '월별 출고량 통계'}`,
+      masterName: 'MASTER_4CHART',
+    });
+    slide.addText(`${headerData.value.title || '월별 출고량 통계'}`, { placeholder: 'header' });
+    assignChart1ToSlide(slide, pptx);
+    assignChart2ToSlide(slide, pptx);
+    assignChart3ToSlide(slide, pptx);
+    assignChart4ToSlide(slide, pptx);
+
+    pptx.writeFile({ fileName: `${headerData.value.title || '월별 출고량 통계'}.pptx` });
+  };
+
+  const assignChart1ToSlide = (slide, pptx) => {
+    const monthlyChartData = [
+      {
+        name: 'Monthly Analysis',
+        labels: (chartData1.value.monthlyAnalysis || []).map((item) => item.x),
+        values: (chartData1.value.monthlyAnalysis || []).map((item) => item.y),
+      },
+    ];
+    slide.addChart(pptx.charts.LINE, monthlyChartData, {
+      ...COMMON_CHART_OPTIONS,
+      placeholder: 'chart1',
+    });
+  };
+
+  const assignChart2ToSlide = (slide, pptx) => {
+    const monthlyChartData = [
+      {
+        name: 'Weekly Analysis',
+        labels: (chartData2.value.weeklyAnalysis || []).map((item) => item.x),
+        values: (chartData2.value.weeklyAnalysis || []).map((item) => item.y),
+      },
+    ];
+    slide.addChart(pptx.charts.BAR, monthlyChartData, {
+      ...COMMON_CHART_OPTIONS,
+      valAxisMinVal:
+        Math.floor(Math.min(...chartData2.value.weeklyAnalysis.map((item) => item.y)) / 100) * 100,
+      title: '요일별 평균 출고량',
+      chartColors: ['418AB3'],
+      valAxisTitle: '단위:PCS',
+      placeholder: 'chart2',
+    });
+  };
+
+  const assignChart3ToSlide = (slide, pptx) => {
+    const monthlyChartData = [
+      {
+        name: 'Ratio Analysis',
+        labels: (chartData3.value.ratioAnalysis || []).map((item) => item.x),
+        values: (chartData3.value.ratioAnalysis || []).map((item) => item.y),
+      },
+    ];
+    slide.addText(`총 ${chartData3.value.ratioAnalysis[0]?.category_num || 0}개 \n품목`, {
+      h: 0.44,
+      w: 0.9,
+      x: 3.2,
+      y: 5.3,
+      fontSize: 12,
+      align: 'center',
+      valign: 'middle',
+      wrap: true,
+    });
+    slide.addChart(pptx.charts.DOUGHNUT, monthlyChartData, {
+      ...COMMON_CHART_OPTIONS,
+      showLabel: true,
+      showLegend: true,
+      showPercent: true,
+      holeSize: 40,
+      title: '주요 품목 출고 현황',
+      layout: { x: 0.1, y: 0.5, w: 0.8, h: 0.8 },
+      dataBorder: { color: 'FFFFFF' },
+      chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
+      valAxisTitle: '단위:PCS',
+      placeholder: 'chart3',
+    });
+  };
+
+  const assignChart4ToSlide = (slide, pptx) => {
+    const series = (chartData4.value.quarterAnalysis || []).reduce((acc, curr) => {
+      const exists = acc.find((i) => i.name === curr.category);
+      if (exists) {
+        exists.labels.push(curr.x);
+        exists.values.push(curr.y);
+        return acc;
+      }
+      return [
+        ...acc,
+        {
+          name: curr.category,
+          labels: [curr.x],
+          values: [curr.y],
+        },
+      ];
+    }, []);
+
+    slide.addChart(pptx.charts.LINE, series, {
+      ...COMMON_CHART_OPTIONS,
+      title: '주요 품목 출고 추이',
+      chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
+      showLegend: true,
+      valAxisTitle: '단위:PCS',
+      placeholder: 'chart4',
+    });
+  };
 
   const jsonToExcel = () => {
     const header = columns.reduce((acc, column: any) => {
