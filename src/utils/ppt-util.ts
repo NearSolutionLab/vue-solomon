@@ -170,4 +170,108 @@ export function createMasterSlides(pptx) {
       },
     ],
   });
+
+  pptx.defineSlideMaster({
+    title: 'MASTER_5CHART',
+    background,
+    slideNumber,
+    objects: [
+      { image: leftTopImage },
+      { image: footerImage },
+      {
+        placeholder: {
+          options: {
+            name: 'header',
+            type: 'title',
+            h: 0.44,
+            w: 9,
+            x: 1.19,
+            y: 0.09,
+            valign: 'middle',
+            align: 'left',
+            color: '3D5874',
+            fontFace,
+            fontSize: 24,
+            bold: true,
+          },
+          text: '',
+        },
+      },
+      {
+        placeholder: {
+          options: {
+            name: 'chart1',
+            type: 'chart',
+            h: 3,
+            w: 5.45,
+            x: 0.68,
+            y: 0.69,
+            valign: 'middle',
+            fontFace,
+          },
+          text: '',
+        },
+      },
+      {
+        placeholder: {
+          options: {
+            name: 'chart2',
+            type: 'chart',
+            h: 3,
+            w: 3.57,
+            x: 6.13,
+            y: 0.69,
+            valign: 'middle',
+            fontFace,
+          },
+          text: '',
+        },
+      },
+      {
+        placeholder: {
+          options: {
+            name: 'chart3',
+            type: 'chart',
+            h: 3,
+            w: 2.95,
+            x: 9.7,
+            y: 0.69,
+            valign: 'middle',
+            fontFace,
+          },
+          text: '',
+        },
+      },
+      {
+        placeholder: {
+          options: {
+            name: 'chart4',
+            type: 'chart',
+            h: 3,
+            w: 5.45,
+            x: 0.68,
+            y: 3.69,
+            valign: 'middle',
+            fontFace,
+          },
+          text: '',
+        },
+      },
+      {
+        placeholder: {
+          options: {
+            name: 'chart5',
+            type: 'chart',
+            h: 3,
+            w: 6.16,
+            x: 6.13,
+            y: 3.69,
+            valign: 'middle',
+            fontFace,
+          },
+          text: '',
+        },
+      },
+    ],
+  });
 }
