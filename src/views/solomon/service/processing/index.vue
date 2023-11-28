@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper>
+  <PageWrapper dense>
     <template #headerContent>
       <div class="md:ml-6 flex flex-col md:mt-0 mt-2 text-left">
         <h1 class="md:text-lg text-md">{{ t('solomon.category.service.name') }}</h1>
@@ -73,8 +73,3 @@
     },
   });
 </script>
-<style lang="less" scoped>
-  .vben-basic-table-form-container {
-    padding: 0;
-  }
-</style>
