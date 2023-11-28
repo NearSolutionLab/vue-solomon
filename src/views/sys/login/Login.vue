@@ -13,7 +13,7 @@
       <AppLogo :alwaysShowTitle="true" />
     </span>
 
-    <div class="container relative h-full py-2 mx-auto sm:px-10">
+    <div class="container relative h-9/10 py-2 mx-auto sm:px-10">
       <div class="flex w-full h-full py-5 overflow-auto">
         <div
           :class="`${prefixCls}-form`"
@@ -25,6 +25,32 @@
         </div>
       </div>
     </div>
+    <div
+      class="flex flex-col items-center justify-center absolute right-0 bottom-0 bg-black w-full h-1/10 text-white"
+    >
+      <div
+        ><span class="mr-6 font-bold">Near solution</span>Copyright &copy; Near solution Inc. All
+        Right Reserved.
+      </div>
+      <div>
+        <a-button size="small" type="link" @click="openSolomonPolicyRegisterModal"
+          >이용약관</a-button
+        >
+        <a-button size="small" type="link" @click="openPrivacyPolicyRegisterModal"
+          >개인정보처리방침</a-button
+        >
+      </div>
+      <SolomonPolicyModal
+        :showCancelBtn="false"
+        @register="SolomonPolicyRegister"
+        @ok="okSolomonPolicyModalHandler"
+      />
+      <PrivacyPolicyModal
+        :showCancelBtn="false"
+        @register="PrivacyPolicyRegister"
+        @ok="okPrivacyPolicyModalHandler"
+      />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -34,6 +60,9 @@
   import RegisterForm from './RegisterForm.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLocaleStore } from '/@/store/modules/locale';
+  import SolomonPolicyModal from '/@/views/sys/login/SolomonPolicyModal.vue';
+  import PrivacyPolicyModal from '/@/views/sys/login/PrivacyPolicyModal.vue';
+  import { useModal } from '/@/components/Modal';
 
   defineProps({
     sessionTimeout: {
@@ -44,6 +73,24 @@
   const { prefixCls } = useDesign('login');
   const localeStore = useLocaleStore();
   const showLocale = localeStore.getShowPicker;
+
+  const [
+    SolomonPolicyRegister,
+    { openModal: openSolomonPolicyRegisterModal, closeModal: closeSolomonPolicyModal },
+  ] = useModal();
+
+  const [
+    PrivacyPolicyRegister,
+    { openModal: openPrivacyPolicyRegisterModal, closeModal: closePrivacyPolicyModal },
+  ] = useModal();
+
+  const okSolomonPolicyModalHandler = () => {
+    closeSolomonPolicyModal();
+  };
+
+  const okPrivacyPolicyModalHandler = () => {
+    closePrivacyPolicyModal();
+  };
 </script>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-login';
@@ -107,23 +154,6 @@
 
       img {
         width: 32px;
-      }
-    }
-
-    .container {
-      .@{logo-prefix-cls} {
-        display: flex;
-        width: 60%;
-        height: 80px;
-
-        &__title {
-          color: #fff;
-          font-size: 24px;
-        }
-
-        img {
-          width: 48px;
-        }
       }
     }
 
