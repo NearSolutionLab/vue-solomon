@@ -1,6 +1,9 @@
 <template>
   <Footer :class="prefixCls" v-if="getShowLayoutFooter" ref="footerRef">
-    <div>Near solution Copyright &copy; Near solution Inc. All Right Reserved. </div>
+    <div
+      ><span class="mr-6 font-bold">Near solution</span>Copyright &copy; Near solution Inc. All
+      Right Reserved.
+    </div>
     <div :class="`${prefixCls}__links`">
       <a-button size="small" type="link" @click="openSolomonPolicyRegisterModal">이용약관</a-button>
       <a-button size="small" type="link" @click="openPrivacyPolicyRegisterModal"
