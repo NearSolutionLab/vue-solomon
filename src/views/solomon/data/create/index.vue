@@ -10,15 +10,14 @@
       <CollapseContainer title="입력 양식" class="w-1/4 xl:w-1/5 my-custom-form-position">
         <div>
           <BasicForm @register="formRegister" ref="formRef" />
-          <Button @click="openExcelModal">다음 단계</Button>
+          <Button @click="openExcel">다음 단계</Button>
           <ExcelModal
-            v-if="excelModalVisible"
-            :visible="excelModalVisible"
             dataType="'123'"
             modalTitle="Excel 파일 업로드"
             @ok="handleExcelModalOk"
             @cancel="handleExcelModalCancel"
             @success="handleExcelSuccess"
+            @register="registerExcelModal"
           />
         </div>
       </CollapseContainer>
@@ -36,7 +35,11 @@
           </template>
         </template>
       </BasicTable>
-      <DataMappingModal @register="registerDataMappingModal" @ok="handleExcelModalOk" />
+      <DataMappingModal
+        @register="registerDataMappingModal"
+        @ok="handleMappingModalOk"
+        @cancel="handleMappingModalCancel"
+      />
       <ServiceDetailModal @register="registerServiceDetailModal" @success="handleSuccess" />
     </PageWrapper>
   </div>
@@ -127,8 +130,6 @@
       DataMappingModal,
     },
     setup() {
-      const excelModalVisible = ref(false);
-      const dataMappingModalVisible = ref(false);
       const formRef = ref();
       const { prefixCls } = useDesign('header-userInfo-modal');
       const [formRegister] = useForm({
@@ -138,9 +139,23 @@
         baseColProps: { span: 24 },
         showSubmitButton: true,
       });
+      const [
+        registerExcelModal,
+        {
+          openModal: openExcelModal,
+          setModalProps: setExcelModalProps,
+          closeModal: closeExcelModal,
+        },
+      ] = useModal();
       const [registerServiceDetailModal, { openModal: openServiceDetailModal }] = useModal();
-      const [registerDataMappingModal, { openModal: openDataMappingModal, setModalProps }] =
-        useModal();
+      const [
+        registerDataMappingModal,
+        {
+          openModal: openDataMappingModal,
+          setModalProps: setMappingModalProps,
+          closeModal: closeMappingModal,
+        },
+      ] = useModal();
       const [registerTable] = useTable({
         title: '전체 서비스',
         api: getSubscriptionService,
@@ -180,24 +195,38 @@
         console.log(result);
       };
 
-      const openExcelModal = () => {
+      const openExcel = () => {
         // 다음 단계 버튼 클릭 시 실행되는 로직, 예: Excel 모달 열기
-        excelModalVisible.value = true;
+        setExcelModalProps({ showOkBtn: false, showCancelBtn: false });
+        openExcelModal(true);
       };
 
       const handleExcelModalOk = (result) => {
         console.log(result);
         // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-        excelModalVisible.value = false;
+        closeExcelModal();
       };
 
       const handleExcelModalCancel = () => {
         // Excel 모달의 취소 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-        excelModalVisible.value = false;
+        closeExcelModal();
+      };
+
+      const handleMappingModalOk = (results) => {
+        console.log('mappingresult a', results[0]);
+
+        // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
+        closeMappingModal();
+      };
+
+      const handleMappingModalCancel = () => {
+        // Excel 모달의 취소 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
+        closeExcelModal();
       };
       async function handleExcelSuccess(result) {
+        console.log('start');
         const data = await formRef.value.validate();
-        setModalProps({
+        setMappingModalProps({
           defaultFullscreen: true,
         });
         let typeData: {
@@ -205,7 +234,7 @@
           forms: FormSchema[];
           data: ExcelData[];
         };
-
+        closeExcelModal();
         if (data) {
           if (data.type === 'INBOUND') {
             typeData = {
@@ -246,9 +275,6 @@
             openDataMappingModal(true, typeData);
           }
         }
-
-        console.log('data', data);
-        console.log('success', result);
       }
       return {
         formRef,
@@ -256,16 +282,17 @@
         prefixCls,
         registerTable,
         registerServiceDetailModal,
+        registerExcelModal,
         getSubscriptionService,
         showDetail,
         handleSuccess,
-        openExcelModal,
+        openExcel,
         handleExcelModalOk,
         handleExcelModalCancel,
-        excelModalVisible,
         handleExcelSuccess,
-        dataMappingModalVisible,
         registerDataMappingModal,
+        handleMappingModalOk,
+        handleMappingModalCancel,
         t,
       };
     },
