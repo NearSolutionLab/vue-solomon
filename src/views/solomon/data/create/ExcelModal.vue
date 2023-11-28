@@ -41,7 +41,6 @@
         console.log(excelDataList);
 
         emit('success', excelDataList);
-        handleCancel(); // 모달 닫기
       };
 
       return {

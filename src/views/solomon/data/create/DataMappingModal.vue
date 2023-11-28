@@ -1,12 +1,7 @@
 <template>
-  <BasicModal @register="registerModal">
+  <BasicModal @register="registerModal" @ok="handleOk">
     <div>
-      <BasicForm
-        @register="registerForm"
-        ref="formRef"
-        @field-value-change="handleChange"
-        @ok="handleOk"
-      />
+      <BasicForm @register="registerForm" ref="formRef" @field-value-change="handleChange" />
     </div>
     <BasicTable @register="registerTable" />
   </BasicModal>
@@ -23,6 +18,7 @@
   let columns: BasicColumn[];
   let forms: FormSchema[];
   let excelData: ExcelData[];
+  let filteredDataListResult: ExcelData[];
   export default {
     components: {
       BasicModal,
@@ -34,9 +30,9 @@
       modalTitle: String,
       dataType: String,
     },
-    setup(props, { emit }) {
+    setup(_, { emit }) {
       const formRef = ref();
-      const [registerModal, {}] = useModalInner((data) => {
+      const [registerModal] = useModalInner((data) => {
         // setModalProps({ confirmLoading: false });
         columns = data.columns;
         forms = data.forms;
@@ -60,24 +56,15 @@
         bordered: true,
         showIndexColumn: false,
       });
-
-      console.log('mapping props', props);
       const handleOk = () => {
-        // OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-        emit('ok');
+        emit('ok', excelData);
       };
-
-      const handleCancel = () => {
-        // 취소 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-        emit('cancel');
-      };
-
       async function handleChange(key, value) {
-        const valueData = await formRef.value.validate();
         console.log('change', key);
         console.log('change value', value);
-        console.log('formRef', valueData);
         console.log('excelData', excelData);
+        const valueData = await formRef.value.validate();
+        console.log('formRef', valueData);
         const filteredColumns = Object.entries(valueData).filter(([_, val]) => val != undefined);
         if (filteredColumns.length == 0) {
           setTableData([]);
@@ -90,15 +77,15 @@
             }
             filteredDataList.push(filteredData);
           }
-
+          console.log(filteredDataList);
           setTableData(filteredDataList);
+          filteredDataListResult[0].results = [...filteredDataList];
         }
       }
 
       return {
-        handleOk,
-        handleCancel,
         handleChange,
+        handleOk,
         registerModal,
         registerTable,
         registerForm,
