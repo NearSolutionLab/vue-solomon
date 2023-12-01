@@ -1,12 +1,12 @@
 import { defHttp } from '/@/utils/http/axios';
-import type { UploadFileParams } from '/#/axios';
+import { ContentTypeEnum } from '/@/enums/httpEnum';
 
 enum Api {
   GetDataSetList = '/data_lists',
   GetOutBoundData = '/out_bound_inputs/',
   GetInBoundData = '/in_bound_inputs/',
   GetInventoryData = '/inventory_inputs/',
-  UploadExcelData = '/upload_by_excel/',
+  UploadExcelData = '/data_lists/upload_by_excel/',
 }
 
 export const getDataSetList = async (params) => {
@@ -29,13 +29,15 @@ export const getInventoryData = async (params) => {
   return { total, items };
 };
 
-export const uploadExcelData = async (name: string, type: string, params: UploadFileParams) => {
-  const response = await defHttp.uploadFile(
-    {
-      url: Api.UploadExcelData + name + '/' + type,
-      method: 'POST',
+export const uploadExcelData = async (name: string, type: string, formData: any) => {
+  const response = await defHttp.post({
+    headers: {
+      'Content-type': ContentTypeEnum.FORM_DATA,
+      // @ts-ignore
+      ignoreCancelToken: true,
     },
-    params,
-  );
+    url: Api.UploadExcelData + name + '/' + type,
+    data: formData,
+  });
   return response;
 };

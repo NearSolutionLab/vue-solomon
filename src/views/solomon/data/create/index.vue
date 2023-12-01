@@ -68,7 +68,8 @@
     inventoryForm,
   } from '../meta.data';
   // import type { UploadProps } from 'ant-design-vue';
-  // import { uploadExcelData } from '/@/api/solomon/data';
+  import { uploadExcelData } from '/@/api/solomon/data';
+
   let rawExcelFile: File;
   const { t } = useI18n();
   const schemas: FormSchema[] = [
@@ -206,10 +207,14 @@
         console.log('results', rawData);
         console.log('rawfile', rawExcelFile);
         if (rawData) {
-          const formData = new FormData();
-          formData.append('fields', JSON.stringify(rawData.header));
+          const formData = new window.FormData();
+          formData.append('file', rawExcelFile);
           formData.append('count', JSON.stringify(rawData.results.length));
-          console.log(formData.getAll('fields'));
+          formData.append('fields', JSON.stringify({ date: 3, orderNo: 4 }));
+          // formData.append('fields', JSON.stringify(rawData.header));
+
+          const result = await uploadExcelData('test_01', 'OUTBOUND', formData);
+          console.log(result);
 
           //   file: rawExcelFile,
           //   data: formData,
