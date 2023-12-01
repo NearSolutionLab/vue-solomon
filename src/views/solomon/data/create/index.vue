@@ -14,8 +14,6 @@
           <ExcelModal
             dataType="'123'"
             modalTitle="Excel 파일 업로드"
-            @ok="handleExcelModalOk"
-            @cancel="handleExcelModalCancel"
             @success="handleExcelSuccess"
             @register="registerExcelModal"
           />
@@ -37,7 +35,7 @@
       </BasicTable>
       <DataMappingModal
         @register="registerDataMappingModal"
-        @ok="handleMappingModalOk"
+        @success="handleMappingModalOk"
         @cancel="handleMappingModalCancel"
       />
       <ServiceDetailModal @register="registerServiceDetailModal" @success="handleSuccess" />
@@ -60,6 +58,7 @@
   import ExcelModal from './ExcelModal.vue';
   import { ExcelData } from '/@/components/Excel';
   import DataMappingModal from './DataMappingModal.vue';
+
   import {
     inboundColumns,
     outboundColumns,
@@ -68,7 +67,9 @@
     outboundForm,
     inventoryForm,
   } from '../meta.data';
-
+  // import type { UploadProps } from 'ant-design-vue';
+  // import { uploadExcelData } from '/@/api/solomon/data';
+  let rawExcelFile: File;
   const { t } = useI18n();
   const schemas: FormSchema[] = [
     {
@@ -131,6 +132,8 @@
     },
     setup() {
       const formRef = ref();
+      // const fileList = ref<UploadProps['fileList']>([]);
+      // const uploading = ref<boolean>(false);
       const { prefixCls } = useDesign('header-userInfo-modal');
       const [formRegister] = useForm({
         showActionButtonGroup: false,
@@ -191,9 +194,7 @@
         openServiceDetailModal(true, record);
       };
 
-      const handleSuccess = (result) => {
-        console.log(result);
-      };
+      const handleSuccess = () => {};
 
       const openExcel = () => {
         // 다음 단계 버튼 클릭 시 실행되는 로직, 예: Excel 모달 열기
@@ -201,30 +202,29 @@
         openExcelModal(true);
       };
 
-      const handleExcelModalOk = (result) => {
-        console.log(result);
-        // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-        closeExcelModal();
-      };
+      async function handleMappingModalOk(rawData: ExcelData) {
+        console.log('results', rawData);
+        console.log('rawfile', rawExcelFile);
+        if (rawData) {
+          const formData = new FormData();
+          formData.append('fields', JSON.stringify(rawData.header));
+          formData.append('count', JSON.stringify(rawData.results.length));
+          console.log(formData.getAll('fields'));
 
-      const handleExcelModalCancel = () => {
-        // Excel 모달의 취소 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-        closeExcelModal();
-      };
-
-      const handleMappingModalOk = (results) => {
-        console.log('mappingresult a', results[0]);
-
-        // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-        closeMappingModal();
-      };
+          //   file: rawExcelFile,
+          //   data: formData,
+          // });
+          // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
+          closeMappingModal();
+        }
+      }
 
       const handleMappingModalCancel = () => {
         // Excel 모달의 취소 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
         closeExcelModal();
       };
-      async function handleExcelSuccess(result) {
-        console.log('start');
+      async function handleExcelSuccess({ excelData, rawFile }) {
+        rawExcelFile = rawFile;
         const data = await formRef.value.validate();
         setMappingModalProps({
           defaultFullscreen: true,
@@ -240,10 +240,10 @@
             typeData = {
               columns: inboundColumns,
               forms: inboundForm,
-              data: result,
+              data: excelData,
             };
             typeData['forms'].map((form: FormSchema) => {
-              form['componentProps']['options'] = result[0].header.map((col) => {
+              form['componentProps']['options'] = excelData[0].header.map((col) => {
                 return { label: col, value: col };
               });
             });
@@ -253,10 +253,10 @@
             typeData = {
               columns: outboundColumns,
               forms: outboundForm,
-              data: result,
+              data: excelData,
             };
             typeData['forms'].map((form: FormSchema) => {
-              form['componentProps']['options'] = result[0].header.map((col) => {
+              form['componentProps']['options'] = excelData[0].header.map((col) => {
                 return { label: col, value: col };
               });
             });
@@ -265,10 +265,10 @@
             typeData = {
               columns: inventoryColumns,
               forms: inventoryForm,
-              data: result,
+              data: excelData,
             };
             typeData['forms'].map((form: FormSchema) => {
-              form['componentProps']['options'] = result[0].header.map((col) => {
+              form['componentProps']['options'] = excelData[0].header.map((col) => {
                 return { label: col, value: col };
               });
             });
@@ -287,8 +287,6 @@
         showDetail,
         handleSuccess,
         openExcel,
-        handleExcelModalOk,
-        handleExcelModalCancel,
         handleExcelSuccess,
         registerDataMappingModal,
         handleMappingModalOk,

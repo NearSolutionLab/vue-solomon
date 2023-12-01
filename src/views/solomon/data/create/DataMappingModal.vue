@@ -18,7 +18,7 @@
   let columns: BasicColumn[];
   let forms: FormSchema[];
   let excelData: ExcelData[];
-  let filteredDataListResult: ExcelData[];
+  let filteredDataResult: ExcelData;
   export default {
     components: {
       BasicModal,
@@ -56,15 +56,13 @@
         bordered: true,
         showIndexColumn: false,
       });
-      const handleOk = () => {
-        emit('ok', excelData);
+      const handleOk = (e: Event) => {
+        console.log(e);
+        emit('success', filteredDataResult);
       };
-      async function handleChange(key, value) {
-        console.log('change', key);
-        console.log('change value', value);
-        console.log('excelData', excelData);
+
+      async function handleChange() {
         const valueData = await formRef.value.validate();
-        console.log('formRef', valueData);
         const filteredColumns = Object.entries(valueData).filter(([_, val]) => val != undefined);
         if (filteredColumns.length == 0) {
           setTableData([]);
@@ -79,7 +77,11 @@
           }
           console.log(filteredDataList);
           setTableData(filteredDataList);
-          filteredDataListResult[0].results = [...filteredDataList];
+          filteredDataResult = {
+            results: [...filteredDataList],
+            header: excelData[0].header,
+            meta: excelData[0].meta,
+          };
         }
       }
 
