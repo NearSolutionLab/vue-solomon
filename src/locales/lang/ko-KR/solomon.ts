@@ -342,6 +342,7 @@ export default {
     random_sku_count_per_batch_total: '배치당 random SKU 수 합',
     ratio: '비율',
     real_time_fee_status: '실시간 요금 현황',
+    report: '리포트',
     retrieved_data: '데이터 조회',
     select_service: '서비스 선택',
     service_count: '분석 횟수',

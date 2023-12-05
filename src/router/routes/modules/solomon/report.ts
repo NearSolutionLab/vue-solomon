@@ -1,7 +1,9 @@
 import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
-// import { t } from '/@/hooks/web/useI18n';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 const report: AppRouteModule = {
   path: '/report',
@@ -11,7 +13,7 @@ const report: AppRouteModule = {
   meta: {
     hideChildrenInMenu: false,
     hideMenu: true,
-    title: '리포트',
+    title: t('solomon.title.report'),
   },
   children: [
     {
@@ -19,7 +21,7 @@ const report: AppRouteModule = {
       name: 'CapaAnalysisPage',
       component: () => import('/@/views/solomon/report/capa-analysis/index.vue'),
       meta: {
-        title: '주문 패턴 분석 리포트',
+        title: t('solomon.title.order_pattern_analysis_report'),
         hideMenu: false,
       },
       props: (route: any) => ({ ...route.params }),
@@ -29,7 +31,7 @@ const report: AppRouteModule = {
       name: 'OutBoundAnalysisPage',
       component: () => import('/@/views/solomon/report/out-bound-analysis/index.vue'),
       meta: {
-        title: '출고 물동량 분석 리포트',
+        title: t('solomon.title.outbound_quantity_analysis_report'),
         hideMenu: false,
       },
       props: (route: any) => ({ ...route.params }),
@@ -39,7 +41,7 @@ const report: AppRouteModule = {
       name: 'InventoryAnalysisPage',
       component: () => import('/@/views/solomon/report/inventory-analysis/index.vue'),
       meta: {
-        title: '재고 물동량 분석 리포트',
+        title: t('solomon.title.inventory_quantity_analysis_report'),
         hideMenu: false,
       },
       props: (route: any) => ({ ...route.params }),
@@ -49,7 +51,7 @@ const report: AppRouteModule = {
       name: 'InBoundAnalysisPage',
       component: () => import('/@/views/solomon/report/in-bound-analysis/index.vue'),
       meta: {
-        title: '입고 물동량 분석 리포트',
+        title: t('solomon.title.inbound_flow_analysis_report'),
         hideMenu: false,
       },
       props: (route: any) => ({ ...route.params }),
@@ -59,7 +61,7 @@ const report: AppRouteModule = {
       name: 'ABCAnalysisPage',
       component: () => import('/@/views/solomon/report/abc-analysis/index.vue'),
       meta: {
-        title: 'ABC 분석 리포트',
+        title: t('solomon.title.abc_analysis_report'),
         hideMenu: false,
       },
       props: (route: any) => ({ ...route.params }),

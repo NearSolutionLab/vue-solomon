@@ -353,6 +353,7 @@ export default {
     random_sku_count_per_batch_total: 'Random SKU count per batch total',
     ratio: 'Ratio',
     real_time_fee_status: 'Real time fee status',
+    report: 'Report',
     retrieved_data: 'Retrieved data',
     select_service: 'Service selection',
     service_count: 'Analysis frequency',
