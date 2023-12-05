@@ -55,7 +55,7 @@ export default {
     service_image: '서비스 이미지',
     service_name_description_date: '명칭/서비스명/날짜',
     service_name_description: '서비스명/설명',
-    standard_order_quantity: '기준 주문 수',
+    standard_order_count: '기준 주문 수',
     storage_method: '저장방식',
     title: '제목',
     total: '전체',

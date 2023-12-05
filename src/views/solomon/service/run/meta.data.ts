@@ -95,7 +95,7 @@ export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
   },
   {
     field: 'orders',
-    label: t('solomon.label.standard_order_quantity'),
+    label: t('solomon.label.standard_order_count'),
     component: 'InputNumber',
     rules: [
       {
@@ -168,7 +168,7 @@ export const OutboundShippingBatchFormSchema: FormSchema[] = [
   },
   {
     field: 'orders',
-    label: t('solomon.label.standard_order_quantity'),
+    label: t('solomon.label.standard_order_count'),
     component: 'InputNumber',
     rules: [
       {
