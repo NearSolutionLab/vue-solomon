@@ -1,7 +1,7 @@
 <template>
   <div class="m-4 mr-0 overflow-hidden bg-white">
     <BasicTree
-      title="데이터셋"
+      :title="$t('solomon.title.dataset')"
       toolbar
       search
       treeWrapperClassName="h-[calc(100%-35px)] overflow-auto"

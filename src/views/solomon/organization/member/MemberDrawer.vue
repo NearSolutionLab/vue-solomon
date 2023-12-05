@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="registerDrawer"
     showFooter
-    :title="`사용자 정보 변경`"
+    :title="$t('solomon.title.modify_user_information')"
     width="500px"
     @ok="handleSubmit"
   >

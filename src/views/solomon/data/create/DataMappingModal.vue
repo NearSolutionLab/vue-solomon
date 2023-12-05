@@ -14,6 +14,9 @@
   import { BasicTable, useTable, BasicColumn } from '/@/components/Table';
   import { BasicModal, useModalInner } from '/@/components/Modal/index';
   import { ExcelData } from '/@/components/Excel';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   let columns: BasicColumn[];
   let forms: FormSchema[];
@@ -49,7 +52,7 @@
         showSubmitButton: true,
       });
       const [registerTable, { setProps: setPropsTable, setTableData }] = useTable({
-        title: '입력 데이터 조회',
+        title: t('solomon.label.input_data_retrieval'),
         rowKey: 'id',
         useSearchForm: false,
         showTableSetting: false,

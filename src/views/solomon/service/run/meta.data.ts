@@ -3,6 +3,9 @@ import { h } from 'vue';
 import { Switch } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { subscribeService, unsubscribeService } from '/@/api/solomon/subscription';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
@@ -10,17 +13,17 @@ export const columns: BasicColumn[] = [
     ifShow: false,
   },
   {
-    title: '서비스명',
+    title: t('solomon.title.service_name'),
     dataIndex: 'serviceName',
     width: 100,
   },
   {
-    title: '설명',
+    title: t('solomon.title.description'),
     dataIndex: 'description',
     width: 300,
   },
   {
-    title: '구독',
+    title: t('solomon.title.subscribed'),
     dataIndex: 'subscribed',
     width: 120,
     customRender: ({ record }) => {
@@ -29,8 +32,8 @@ export const columns: BasicColumn[] = [
       }
       return h(Switch, {
         checked: !!record.subscribed,
-        checkedChildren: '활성',
-        unCheckedChildren: '비활성',
+        checkedChildren: t('solomon.text.active'),
+        unCheckedChildren: t('solomon.text.inactive'),
         loading: record.pendingStatus,
         onChange(checked: boolean) {
           record.pendingStatus = true;
@@ -48,10 +51,10 @@ export const columns: BasicColumn[] = [
                 const { result } = resolve;
                 record.subscriptionId = result.id;
                 record.subscribed = newSubscribed;
-                createMessage.success(`성공`);
+                createMessage.success(t('solomon.text.success'));
               })
               .catch(() => {
-                createMessage.error(`에러`);
+                createMessage.error(t('solomon.text.error'));
               })
               .finally(() => {
                 record.pendingStatus = false;
@@ -61,10 +64,10 @@ export const columns: BasicColumn[] = [
               .then((resolve) => {
                 console.log(resolve);
                 record.subscribed = newSubscribed;
-                createMessage.success(`성공`);
+                createMessage.success(t('solomon.text.success'));
               })
               .catch(() => {
-                createMessage.error(`에러`);
+                createMessage.error(t('solomon.text.error'));
               })
               .finally(() => {
                 record.pendingStatus = false;
@@ -80,39 +83,39 @@ export const columns: BasicColumn[] = [
 export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '제목',
+    label: t('solomon.label.title'),
     component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
+    helpMessage: [t('solomon.label.please_input_the_title')],
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
   {
     field: 'orders',
-    label: '기준 주문 수',
+    label: t('solomon.label.standard_order_quantity'),
     component: 'InputNumber',
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
   {
     field: '[startDate, endDate]',
-    label: '날짜',
+    label: t('solomon.label.date'),
     component: 'RangePicker',
     componentProps: {
       format: 'YYYY-MM-DD',
-      placeholder: ['시작날짜', '종료날짜'],
+      placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
     },
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
@@ -122,28 +125,28 @@ export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
 export const OutboundAnalysisFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '제목',
+    label: t('solomon.label.title'),
     component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
+    helpMessage: [t('solomon.label.please_input_the_title')],
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
   {
     field: '[startDate, endDate]',
-    label: '날짜',
+    label: t('solomon.label.date'),
     component: 'RangePicker',
     componentProps: {
       format: 'YYYY-MM-DD',
-      placeholder: ['시작날짜', '종료날짜'],
+      placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
     },
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
@@ -153,50 +156,50 @@ export const OutboundAnalysisFormSchema: FormSchema[] = [
 export const OutboundShippingBatchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '제목',
+    label: t('solomon.label.title'),
     component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
+    helpMessage: [t('solomon.label.please_input_the_title')],
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
   {
     field: 'orders',
-    label: '기준 주문 수',
+    label: t('solomon.label.standard_order_quantity'),
     component: 'InputNumber',
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
   {
     field: 'count',
-    label: '추출 횟수',
+    label: t('solomon.label.extraction_frequency'),
     component: 'InputNumber',
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
   {
     field: '[startDate, endDate]',
-    label: '날짜',
+    label: t('solomon.label.date'),
     component: 'RangePicker',
     componentProps: {
       format: 'YYYY-MM-DD',
-      placeholder: ['시작날짜', '종료날짜'],
+      placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
     },
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
@@ -206,13 +209,13 @@ export const OutboundShippingBatchFormSchema: FormSchema[] = [
 export const ABCOptimizationFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '제목',
+    label: t('solomon.label.title'),
     component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
+    helpMessage: [t('solomon.label.please_input_the_title')],
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
@@ -222,13 +225,13 @@ export const ABCOptimizationFormSchema: FormSchema[] = [
 export const OutboundABCAnalysisFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '제목',
+    label: t('solomon.label.title'),
     component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
+    helpMessage: [t('solomon.label.please_input_the_title')],
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
@@ -238,13 +241,13 @@ export const OutboundABCAnalysisFormSchema: FormSchema[] = [
 export const InventoryAnalysisFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '제목',
+    label: t('solomon.label.title'),
     component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
+    helpMessage: [t('solomon.label.please_input_the_title')],
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
@@ -254,23 +257,23 @@ export const InventoryAnalysisFormSchema: FormSchema[] = [
 export const InboundAnalysisFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '제목',
+    label: t('solomon.label.title'),
     component: 'Input',
-    helpMessage: ['제목을 입력하세요'],
+    helpMessage: [t('solomon.label.please_input_the_title')],
     rules: [
       {
         required: true,
-        message: '필수항목 입니다',
+        message: t('solomon.text.this_is_a_required_field'),
       },
     ],
   },
   {
     field: '[startDate, endDate]',
-    label: '날짜',
+    label: t('solomon.label.date'),
     component: 'RangePicker',
     componentProps: {
       format: 'YYYY-MM-DD',
-      placeholder: ['시작날짜', '종료날짜'],
+      placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
     },
     rules: [
       {

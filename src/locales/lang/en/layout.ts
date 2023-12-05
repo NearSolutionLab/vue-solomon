@@ -5,9 +5,12 @@ export default {
     dropdownItemDoc: 'Document',
     dropdownItemLoginOut: 'Log Out',
 
+    // tooltip
     tooltipErrorLog: 'Error log',
     tooltipLock: 'Lock screen',
     tooltipNotify: 'Notification',
+    tooltipUserInfo: 'My Information',
+    tooltipSystemUsage: 'System Usage',
 
     tooltipEntryFull: 'Full Screen',
     tooltipExitFull: 'Exit Full Screen',

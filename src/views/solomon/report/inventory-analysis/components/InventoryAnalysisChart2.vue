@@ -4,6 +4,9 @@
 <script setup lang="ts">
   import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     chartData: {
@@ -38,7 +41,7 @@
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: '제품군 별 재고 현황',
+          text: t('solomon.text.inventory_status_by_product_category'),
           left: 'left',
           textStyle: {
             color: '#ccc',
@@ -59,7 +62,7 @@
         },
         series: [
           {
-            name: '종류',
+            name: t('solomon.text.category'),
             type: 'pie',
             top: '10%',
             data,

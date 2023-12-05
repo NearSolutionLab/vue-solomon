@@ -1,8 +1,12 @@
 <template>
   <div>
-    <h2 class="mb-3 text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left"> 회원가입 </h2>
+    <h2 class="mb-3 text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left">{{
+      t('solomon.title.sign_up')
+    }}</h2>
     <Form class="p-4 enter-x" :model="formData" :rules="getInvitationFormRules" ref="formRef">
-      <Divider type="horizontal" orientation="left"> 로그인 정보 </Divider>
+      <Divider type="horizontal" orientation="left">{{
+        t('solomon.title.login_information')
+      }}</Divider>
       <FormItem name="account" class="enter-x">
         <Input
           :class="prefixCls"
@@ -28,7 +32,9 @@
           :placeholder="t('sys.login.confirmPassword')"
         />
       </FormItem>
-      <Divider type="horizontal" orientation="left"> 회원 정보 </Divider>
+      <Divider type="horizontal" orientation="left">{{
+        t('solomon.title.member_information')
+      }}</Divider>
       <FormItem name="companyName" class="enter-x">
         <Input
           class="fix-auto-fill"
@@ -65,7 +71,9 @@
           :placeholder="t('sys.login.managerPosition')"
         />
       </FormItem>
-      <Divider type="horizontal" orientation="left"> 가입 약관 동의 </Divider>
+      <Divider type="horizontal" orientation="left">{{
+        t('solomon.title.agreement_to_terms_of_service')
+      }}</Divider>
       <FormItem class="enter-x" name="policy">
         <Checkbox v-model:checked="formData.policy" size="small" @change="onCheckAllChange">
           {{ t('sys.login.allPolicy') }}

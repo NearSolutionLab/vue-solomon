@@ -4,6 +4,9 @@
 <script setup lang="ts">
   import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     chartData: {
@@ -27,7 +30,7 @@
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: '요일 별 평균 입고량',
+          text: t('solomon.text.average_daily_inbound_by_day_of_the_week'),
           textStyle: {
             color: '#ccc',
           },
@@ -49,7 +52,7 @@
           },
         },
         xAxis: {
-          name: '요일',
+          name: t('solomon.text.day_of_the_week'),
           axisLine: {
             lineStyle: {
               color: '#ccc',
@@ -59,7 +62,7 @@
           data: dateList,
         },
         yAxis: {
-          name: '평균 입고량(PCS)',
+          name: t('solomon.text.average_inbound_quantity'),
           splitLine: { show: false },
           axisLine: {
             lineStyle: {
@@ -73,7 +76,7 @@
         },
         series: [
           {
-            name: '평균 입고량(PCS)',
+            name: t('solomon.text.average_inbound_quantity'),
             type: 'bar',
             data: valueList,
           },

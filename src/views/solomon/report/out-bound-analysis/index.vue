@@ -17,7 +17,7 @@
     <div class="flex-none h-96">
       <BasicTable @register="registerTable">
         <template #toolbar>
-          <a-button @click="downloadReport"> 결과 다운로드 </a-button>
+          <a-button @click="downloadReport">{{ t('solomon.button.download_result') }}</a-button>
         </template>
       </BasicTable>
     </div>
@@ -40,6 +40,9 @@
   import { getOptimizeRequest } from '/@/api/solomon/service';
   import { initPpt, createMasterSlides } from '/@/utils/ppt-util';
   import { COMMON_CHART_OPTIONS } from '/@/utils/ppt-enums';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     id: { type: String },
@@ -55,7 +58,7 @@
   const [formRegister, { validate, resetSchema }] = useForm({
     labelWidth: 120,
     submitButtonOptions: {
-      text: '조회',
+      text: t('solomon.text.retrieval'),
     },
     showAdvancedButton: true,
     compact: true,
@@ -63,7 +66,7 @@
   });
 
   const [registerTable, { setTableData, getDataSource }] = useTable({
-    title: '월별 출고량 통계',
+    title: t('solomon.title.monthly_outbound_statistics'),
     columns,
     useSearchForm: false,
     showTableSetting: false,
@@ -90,18 +93,24 @@
   const jsonToPptx = () => {
     const pptx = initPpt();
     createMasterSlides(pptx);
-    pptx.addSection({ title: `${headerData.value.title || '월별 출고량 통계'}` });
+    pptx.addSection({
+      title: `${headerData.value.title || t('solomon.title.monthly_outbound_statistics')}`,
+    });
     const slide = pptx.addSlide({
-      sectionTitle: `${headerData.value.title || '월별 출고량 통계'}`,
+      sectionTitle: `${headerData.value.title || t('solomon.title.monthly_outbound_statistics')}`,
       masterName: 'MASTER_4CHART',
     });
-    slide.addText(`${headerData.value.title || '월별 출고량 통계'}`, { placeholder: 'header' });
+    slide.addText(`${headerData.value.title || t('solomon.title.monthly_outbound_statistics')}`, {
+      placeholder: 'header',
+    });
     assignChart1ToSlide(slide, pptx);
     assignChart2ToSlide(slide, pptx);
     assignChart3ToSlide(slide, pptx);
     assignChart4ToSlide(slide, pptx);
 
-    pptx.writeFile({ fileName: `${headerData.value.title || '월별 출고량 통계'}.pptx` });
+    pptx.writeFile({
+      fileName: `${headerData.value.title || t('solomon.title.monthly_outbound_statistics')}.pptx`,
+    });
   };
 
   const assignChart1ToSlide = (slide, pptx) => {
@@ -130,9 +139,9 @@
       ...COMMON_CHART_OPTIONS,
       valAxisMinVal:
         Math.floor(Math.min(...chartData2.value.weeklyAnalysis.map((item) => item.y)) / 100) * 100,
-      title: '요일별 평균 출고량',
+      title: t('solomon.text.daily_average_outbound'),
       chartColors: ['418AB3'],
-      valAxisTitle: '단위:PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart2',
     });
   };
@@ -161,11 +170,11 @@
       showLegend: true,
       showPercent: true,
       holeSize: 40,
-      title: '주요 품목 출고 현황',
+      title: t('solomon.text.major_item_outbound_status'),
       layout: { x: 0.1, y: 0.5, w: 0.8, h: 0.8 },
       dataBorder: { color: 'FFFFFF' },
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
-      valAxisTitle: '단위:PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart3',
     });
   };
@@ -190,10 +199,10 @@
 
     slide.addChart(pptx.charts.LINE, series, {
       ...COMMON_CHART_OPTIONS,
-      title: '주요 품목 출고 추이',
+      title: t('solomon.text.major_item_outbound_trend'),
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
       showLegend: true,
-      valAxisTitle: '단위:PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart4',
     });
   };
@@ -215,7 +224,7 @@
     jsonToSheetXlsx({
       data,
       header,
-      filename: `${headerData.value.title || '월별 출고량 통계'}.xlsx`,
+      filename: `${headerData.value.title || t('solomon.text.monthly_outbound_statistics')}.xlsx`,
     });
   };
 
@@ -229,7 +238,7 @@
     }, {});
     return [
       {
-        date: '계',
+        date: t('solomon.text.total'),
         orderCount: summation.orderCount,
         skuCount: summation.skuCount,
         pcs: summation.pcs,
@@ -267,14 +276,14 @@
           },
         ];
       },
-      [{ value: 'all', label: '전체' }],
+      [{ value: 'all', label: t('solomon.label.total') }],
     );
     resetSchema([
       {
         field: 'storageMethod',
         defaultValue: 'all',
         component: 'Select',
-        label: '저장 방식',
+        label: t('solomon.label.storage_method'),
         colProps: { span: 8 },
         componentProps: {
           options: formSchema,

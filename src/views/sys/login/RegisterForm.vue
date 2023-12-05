@@ -2,7 +2,9 @@
   <div v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
-      <Divider type="horizontal" orientation="left"> 로그인 정보 </Divider>
+      <Divider type="horizontal" orientation="left">{{
+        t('solomon.title.login_information')
+      }}</Divider>
       <FormItem name="account" class="enter-x">
         <Input
           :class="prefixCls"
@@ -62,7 +64,9 @@
           :placeholder="t('sys.login.confirmPassword')"
         />
       </FormItem>
-      <Divider type="horizontal" orientation="left"> 회원 정보 </Divider>
+      <Divider type="horizontal" orientation="left">{{
+        t('solomon.title.member_information')
+      }}</Divider>
       <FormItem name="companyName" class="enter-x">
         <Input
           class="fix-auto-fill"
@@ -103,7 +107,9 @@
           :placeholder="t('sys.login.mobile')"
         />
       </FormItem>
-      <Divider type="horizontal" orientation="left"> 가입 약관 동의 </Divider>
+      <Divider type="horizontal" orientation="left">{{
+        t('solomon.title.agreement_to_terms_of_service')
+      }}</Divider>
       <FormItem class="enter-x" name="policy">
         <Checkbox v-model:checked="formData.policy" size="small" @change="onCheckAllChange">
           {{ t('sys.login.allPolicy') }}
@@ -269,7 +275,7 @@
   const isCodeRequested = ref(false);
   const codeRequestLoading = ref(false);
   const getCodeRequestButtonText = computed(() => {
-    return !isCodeRequested.value ? '이메일 인증' : '재전송';
+    return !isCodeRequested.value ? t('solomon.text.email_verification') : t('solomon.text.resend');
   });
   const requestCode = async () => {
     const data = await formRef.value.validateFields(['account']);
@@ -279,8 +285,8 @@
       const result = await userStore.requestEmailCode(data.account, 'Join');
       if (result) {
         notification.success({
-          message: '인증코드 전송',
-          description: `인증코드가 전송되었습니다`,
+          message: t('solomon.text.send_verification_code'),
+          description: t('solomon.text.verification_code_has_been_sent'),
           duration: 3,
         });
       }
@@ -298,7 +304,9 @@
 
   const codeCheckLoading = ref(false);
   const getCodeCheckButtonText = computed(() => {
-    return !formData.isCodeChecked ? '인증하기' : '인증완료';
+    return !formData.isCodeChecked
+      ? t('solomon.text.verify')
+      : t('solomon.text.verification_completed');
   });
 
   const checkCode = async () => {
@@ -309,8 +317,8 @@
       const result = await userStore.checkEmailCode(formData.account, data.emailCode);
       if (result) {
         notification.success({
-          message: '인증하기',
-          description: `인증코드가 확인되었습니다`,
+          message: t('solomon.text.verify'),
+          description: t('solomon.text.verification_code_has_been_confirmed'),
           duration: 3,
         });
         formData.isCodeChecked = true;

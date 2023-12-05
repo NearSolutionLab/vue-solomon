@@ -112,7 +112,7 @@
   const isCodeRequested = ref(false);
   const codeRequestLoading = ref(false);
   const getCodeRequestButtonText = computed(() => {
-    return !isCodeRequested.value ? '이메일 인증' : '재전송';
+    return !isCodeRequested.value ? t('solomon.text.email_verification') : t('solomon.text.resend');
   });
   const requestCode = async () => {
     const data = await formRef.value.validateFields(['account']);
@@ -122,8 +122,8 @@
       const result = await userStore.requestEmailCode(data.account, 'PASSWORD');
       if (result) {
         notification.success({
-          message: '인증코드 전송',
-          description: `인증코드가 전송되었습니다`,
+          message: t('solomon.text.send_verification_code'),
+          description: t('solomon.text.verification_code_has_been_sent'),
           duration: 3,
         });
       }
@@ -141,7 +141,9 @@
 
   const codeCheckLoading = ref(false);
   const getCodeCheckButtonText = computed(() => {
-    return !formData.isCodeChecked ? '인증하기' : '인증완료';
+    return !formData.isCodeChecked
+      ? t('solomon.text.verify')
+      : t('solomon.text.verification_completed');
   });
 
   const checkCode = async () => {
@@ -152,8 +154,8 @@
       const result = await userStore.checkEmailCode(formData.account, data.emailCode);
       if (result) {
         notification.success({
-          message: '인증하기',
-          description: `인증코드가 확인되었습니다`,
+          message: t('solomon.text.verify'),
+          description: t('solomon.text.verification_code_has_been_confirmed'),
           duration: 3,
         });
         formData.isCodeChecked = true;

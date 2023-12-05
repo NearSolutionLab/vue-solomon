@@ -17,7 +17,7 @@
     <div class="flex-none h-96">
       <BasicTable @register="registerTable">
         <template #toolbar>
-          <a-button @click="downloadReport"> 결과 다운로드 </a-button>
+          <a-button @click="downloadReport">{{ t('solomon.button.download_result') }}</a-button>
         </template>
       </BasicTable>
     </div>
@@ -40,6 +40,9 @@
   import { getOptimizeRequest } from '/@/api/solomon/service';
   import { initPpt, createMasterSlides } from '/@/utils/ppt-util';
   import { COMMON_CHART_OPTIONS } from '/@/utils/ppt-enums';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     id: { type: String },
@@ -55,7 +58,7 @@
   const [formRegister, { validate, resetSchema }] = useForm({
     labelWidth: 120,
     submitButtonOptions: {
-      text: '조회',
+      text: t('solomon.text.retrieval'),
     },
     showAdvancedButton: true,
     compact: true,
@@ -63,7 +66,7 @@
   });
 
   const [registerTable, { setTableData, getDataSource }] = useTable({
-    title: '월별 입고량 통계',
+    title: t('solomon.title.month_based_inbound_quantity_statistics'),
     columns,
     useSearchForm: false,
     showTableSetting: false,
@@ -90,18 +93,31 @@
   const jsonToPptx = () => {
     const pptx = initPpt();
     createMasterSlides(pptx);
-    pptx.addSection({ title: `${headerData.value.title || '월별 입고량 통계'}` });
+    pptx.addSection({
+      title: `${
+        headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')
+      }}`,
+    });
     const slide = pptx.addSlide({
-      sectionTitle: `${headerData.value.title || '월별 입고량 통계'}`,
+      sectionTitle: `${
+        headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')
+      }}`,
       masterName: 'MASTER_4CHART',
     });
     assignChart1ToSlide(slide, pptx);
     assignChart2ToSlide(slide, pptx);
     assignChart3ToSlide(slide, pptx);
     assignChart4ToSlide(slide, pptx);
-    slide.addText(`${headerData.value.title || '월별 입고량 통계'}`, { placeholder: 'header' });
+    slide.addText(
+      `${headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')}}`,
+      { placeholder: 'header' },
+    );
 
-    pptx.writeFile({ fileName: `${headerData.value.title || '월별 입고량 통계'}.pptx` });
+    pptx.writeFile({
+      fileName: `${
+        headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')
+      }}.pptx`,
+    });
   };
 
   const assignChart1ToSlide = (slide, pptx) => {
@@ -115,9 +131,9 @@
       ...COMMON_CHART_OPTIONS,
       valAxisMinVal:
         Math.floor(Math.min(...chartData1.value.monthlyAnalysis.map((item) => item.y)) / 100) * 100,
-      title: '연간 입고량 추이',
+      title: t('solomon.title.annual_inbound_quantity_trend'),
       chartColors: ['418AB3'],
-      valAxisTitle: '단위: PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart1',
     });
   };
@@ -133,9 +149,9 @@
       ...COMMON_CHART_OPTIONS,
       valAxisMinVal:
         Math.floor(Math.min(...chartData2.value.weeklyAnalysis.map((item) => item.y)) / 100) * 100,
-      title: '요일별 평균 입고량',
+      title: t('solomon.title.average_inbound_quantity_by_day_of_the_week'),
       chartColors: ['418AB3'],
-      valAxisTitle: '단위: PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart2',
     });
   };
@@ -149,16 +165,21 @@
       },
     ];
 
-    slide.addText(`총 ${chartData3.value.ratioAnalysis[0]?.category_num || 0}개 \n품목`, {
-      h: 0.44,
-      w: 0.9,
-      x: 3.2,
-      y: 5.3,
-      fontSize: 12,
-      align: 'center',
-      valign: 'middle',
-      wrap: true,
-    });
+    slide.addText(
+      `${t('solomon.label.overall')} ${
+        chartData3.value.ratioAnalysis[0]?.category_num || 0
+      }개 \n품목`,
+      {
+        h: 0.44,
+        w: 0.9,
+        x: 3.2,
+        y: 5.3,
+        fontSize: 12,
+        align: 'center',
+        valign: 'middle',
+        wrap: true,
+      },
+    );
 
     slide.addChart(pptx.charts.DOUGHNUT, chartData, {
       ...COMMON_CHART_OPTIONS,
@@ -166,11 +187,11 @@
       showLegend: true,
       showPercent: true,
       holeSize: 40,
-      title: '주요 품목 입고 현황',
+      title: t('solomon.title.major_item_inbound_status'),
       layout: { x: 0.1, y: 0.5, w: 0.8, h: 0.8 },
       dataBorder: { color: 'FFFFFF' },
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
-      valAxisTitle: '단위:PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart3',
     });
   };
@@ -195,10 +216,10 @@
 
     slide.addChart(pptx.charts.LINE, series, {
       ...COMMON_CHART_OPTIONS,
-      title: '주요 품목 입고 추이',
+      title: t('solomon.title.major_item_inbound_trend'),
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
       showLegend: true,
-      valAxisTitle: '단위:PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart4',
     });
   };
@@ -220,7 +241,9 @@
     jsonToSheetXlsx({
       data,
       header,
-      filename: `${headerData.value.title || '월별 입고량 통계'}.xlsx`,
+      filename: `${
+        headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')
+      }.xlsx`,
     });
   };
 
@@ -234,7 +257,7 @@
     }, {});
     return [
       {
-        date: '계',
+        date: t('solomon.text.total'),
         orderCount: summation.orderCount,
         skuCount: summation.skuCount,
         pcs: summation.pcs,
@@ -272,14 +295,14 @@
           },
         ];
       },
-      [{ value: 'all', label: '전체' }],
+      [{ value: 'all', label: t('solomon.label.total') }],
     );
     resetSchema([
       {
         field: 'storageMethod',
         defaultValue: 'all',
         component: 'Select',
-        label: '저장 방식',
+        label: t('solomon.label.storage_method'),
         colProps: { span: 8 },
         componentProps: {
           options: formSchema,

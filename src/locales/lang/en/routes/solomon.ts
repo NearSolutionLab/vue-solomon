@@ -1,7 +1,12 @@
 export default {
-  subscription: 'Subscription',
-  data: 'Data',
   home: 'Home',
+  subscription: 'Subscription',
+  data: {
+    data: 'Data',
+    retrieve: 'Retrieve',
+    create: 'Create',
+    processing: 'Processing',
+  },
   service: {
     service: 'Service',
     complete: 'Complete',

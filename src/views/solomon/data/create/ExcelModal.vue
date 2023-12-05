@@ -2,7 +2,7 @@
   <BasicModal :title="modalTitle">
     <!-- 모달 내용, 예: ImpExcel 컴포넌트를 사용하여 Excel 파일 업로드 -->
     <ImpExcel @success="handleExcelSuccess" dateFormat="YYYY-MM-DD">
-      <a-button class="m-3">Excel 파일 선택</a-button>
+      <a-button class="m-3">{{ t('solomon.button.select_excel_file') }}</a-button>
     </ImpExcel>
   </BasicModal>
 </template>
@@ -11,6 +11,9 @@
   import { Button } from 'ant-design-vue';
   import { BasicModal } from '/@/components/Modal/index';
   import { ImpExcel } from '/@/components/Excel';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   export default {
     components: {
@@ -31,6 +34,7 @@
 
       return {
         handleExcelSuccess,
+        t,
       };
     },
   };

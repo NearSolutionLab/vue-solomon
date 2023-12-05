@@ -4,6 +4,9 @@
 <script setup lang="ts">
   import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     chartData: {
@@ -41,7 +44,7 @@
           },
         },
         xAxis: {
-          name: '주문수',
+          name: t('solomon.text.order_count'),
           axisLine: {
             lineStyle: {
               color: '#ccc',
@@ -50,7 +53,7 @@
           scale: true,
         },
         yAxis: {
-          name: '효율',
+          name: t('solomon.text.efficiency'),
           splitLine: { show: false },
           axisLine: {
             lineStyle: {
@@ -64,7 +67,7 @@
         },
         series: [
           {
-            name: '효율',
+            name: t('solomon.text.efficiency'),
             type: 'line',
             smooth: true,
             showAllSymbol: 'auto',

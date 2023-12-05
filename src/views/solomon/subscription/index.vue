@@ -36,7 +36,7 @@
   const { t } = useI18n();
   const [registerServiceDetailModal, { openModal: openServiceDetailModal }] = useModal();
   const [registerTable] = useTable({
-    title: '전체 서비스',
+    title: t('solomon.title.total_service'),
     api: getSubscriptionService,
     rowKey: 'id',
     columns,
@@ -51,7 +51,7 @@
     showIndexColumn: false,
     actionColumn: {
       width: 100,
-      title: '상세보기',
+      title: t('solomon.title.details'),
       dataIndex: 'action',
     },
   });

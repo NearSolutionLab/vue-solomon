@@ -8,7 +8,9 @@
     </template>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate"> 팀원초대 </a-button>
+        <a-button type="primary" @click="handleCreate">
+          {{ t('solomon.button.invite_team_member') }}
+        </a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -18,7 +20,7 @@
                 icon: 'ant-design:close-outlined',
                 color: 'error',
                 popConfirm: {
-                  title: '취소하시겠습니까?',
+                  title: t('common.confirmCancel'),
                   placement: 'left',
                   confirm: handleCancel.bind(null, record),
                 },
@@ -43,7 +45,7 @@
   const { t } = useI18n();
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerTable, { reload }] = useTable({
-    title: '초대현황',
+    title: t('solomon.title.invite_status'),
     api: getInviteList,
     columns,
     useSearchForm: false,
@@ -52,7 +54,7 @@
     showIndexColumn: false,
     actionColumn: {
       width: 50,
-      title: '취소',
+      title: t('solomon.title.cancel'),
       dataIndex: 'action',
       // slots: { customRender: 'action' },
       fixed: undefined,

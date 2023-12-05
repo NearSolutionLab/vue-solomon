@@ -5,6 +5,9 @@
   import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
   import { formatNumber } from '/@/utils/numberUtil';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   /* eslint-disable-next-line */
   type UpperCaseCharacter =
@@ -106,7 +109,7 @@
           position: 'top',
         },
         xAxis: {
-          name: '입고량',
+          name: t('solomon.text.inbound_quantity'),
           axisLine: {
             lineStyle: {
               color: '#ccc',
@@ -126,7 +129,7 @@
           },
         },
         yAxis: {
-          name: '출고일',
+          name: t('solomon.text.outbound_date'),
           axisLine: {
             lineStyle: {
               color: '#ccc',

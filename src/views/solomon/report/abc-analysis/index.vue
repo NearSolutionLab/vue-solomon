@@ -12,7 +12,7 @@
       <div class="flex-none h-144">
         <BasicTable @register="registerTable">
           <template #toolbar>
-            <a-button @click="jsonToExcel"> 결과 다운로드 </a-button>
+            <a-button @click="jsonToExcel">{{ t('solomon.button.download_result') }}</a-button>
           </template>
         </BasicTable>
       </div>
@@ -29,7 +29,9 @@
   import ABCAnalysisChart from './components/ABCAnalysisChart.vue';
   import { columns } from './meta.data';
   import { jsonToSheetXlsx } from '/@/components/Excel/src/Export2Excel';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
+  const { t } = useI18n();
   const props = defineProps({
     id: { type: String },
   });
@@ -38,7 +40,7 @@
   const chartData = ref();
 
   const [registerTable, { setTableData, getDataSource }] = useTable({
-    title: 'ABC 분석',
+    title: t('solomon.title.abc_analysis_report'),
     columns,
     useSearchForm: false,
     showTableSetting: false,
@@ -116,7 +118,7 @@
     jsonToSheetXlsx({
       data,
       header,
-      filename: `${headerData.value.title || 'ABC 분석'}.xlsx`,
+      filename: `${headerData.value.title || t('solomon.title.abc_analysis_report')}.xlsx`,
     });
   };
 </script>

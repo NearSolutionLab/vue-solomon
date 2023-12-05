@@ -1,4 +1,7 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
@@ -6,27 +9,27 @@ export const columns: BasicColumn[] = [
     ifShow: false,
   },
   {
-    title: '이름',
+    title: t('solomon.title.name'),
     dataIndex: 'name',
     width: 100,
   },
   {
-    title: '직급',
+    title: t('solomon.title.position'),
     dataIndex: 'position',
     width: 100,
   },
   {
-    title: '이메일',
+    title: t('solomon.title.email'),
     dataIndex: 'email',
     width: 100,
   },
   {
-    title: '연락처',
+    title: t('solomon.title.phone_number'),
     dataIndex: 'phoneNo',
     width: 100,
   },
   {
-    title: '생성일시',
+    title: t('solomon.title.created_at'),
     dataIndex: 'createdAt',
     width: 100,
   },
@@ -35,7 +38,7 @@ export const columns: BasicColumn[] = [
 export const formSchema: FormSchema[] = [
   {
     field: 'email',
-    label: '이메일',
+    label: t('solomon.label.email'),
     required: false,
     component: 'Input',
     componentProps: {
@@ -44,19 +47,19 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'phoneNo',
-    label: '연락처',
+    label: t('solomon.label.phone_number'),
     required: false,
     component: 'Input',
   },
   {
     field: 'name',
-    label: '이름',
+    label: t('solomon.label.name'),
     required: false,
     component: 'Input',
   },
   {
     field: 'position',
-    label: '직급',
+    label: t('solomon.label.position'),
     required: false,
     component: 'Input',
   },

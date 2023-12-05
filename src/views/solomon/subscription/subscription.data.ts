@@ -3,6 +3,9 @@ import { h } from 'vue';
 import { Switch } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { subscribeService, unsubscribeService } from '/@/api/solomon/subscription';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
@@ -10,17 +13,17 @@ export const columns: BasicColumn[] = [
     ifShow: false,
   },
   {
-    title: '서비스명',
+    title: t('solomon.title.service_name'),
     dataIndex: 'serviceName',
     width: 150,
   },
   {
-    title: '설명',
+    title: t('solomon.title.description'),
     dataIndex: 'description',
     width: 400,
   },
   {
-    title: '구독',
+    title: t('solomon.title.subscribed'),
     dataIndex: 'subscribed',
     width: 100,
     customRender: ({ record }) => {
@@ -29,8 +32,8 @@ export const columns: BasicColumn[] = [
       }
       return h(Switch, {
         checked: !!record.subscribed,
-        checkedChildren: '활성',
-        unCheckedChildren: '비활성',
+        checkedChildren: t('solomon.text.active'),
+        unCheckedChildren: t('solomon.text.inactive'),
         loading: record.pendingStatus,
         onChange(checked: boolean) {
           record.pendingStatus = true;
@@ -48,10 +51,10 @@ export const columns: BasicColumn[] = [
                 const { result } = resolve;
                 record.subscriptionId = result.id;
                 record.subscribed = newSubscribed;
-                createMessage.success(`성공`);
+                createMessage.success(t('solomon.text.success'));
               })
               .catch(() => {
-                createMessage.error(`에러`);
+                createMessage.error(t('solomon.text.error'));
               })
               .finally(() => {
                 record.pendingStatus = false;
@@ -61,10 +64,10 @@ export const columns: BasicColumn[] = [
               .then((resolve) => {
                 console.log(resolve);
                 record.subscribed = newSubscribed;
-                createMessage.success(`성공`);
+                createMessage.success(t('solomon.text.success'));
               })
               .catch(() => {
-                createMessage.error(`에러`);
+                createMessage.error(t('solomon.text.error'));
               })
               .finally(() => {
                 record.pendingStatus = false;
@@ -75,7 +78,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '분석 횟수',
+    title: t('solomon.title.service_count'),
     dataIndex: 'serviceCount',
     width: 100,
   },
@@ -84,7 +87,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'searchKey',
-    label: '서비스명/설명',
+    label: t('solomon.label.service_name_description'),
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -93,7 +96,7 @@ export const searchFormSchema: FormSchema[] = [
 export const serviceDetailFormSchema: FormSchema[] = [
   {
     field: 'serviceDescription',
-    label: '서비스 설명',
+    label: t('solomon.label.service_description'),
     component: 'Input',
     componentProps: {
       readonly: true,
@@ -101,7 +104,7 @@ export const serviceDetailFormSchema: FormSchema[] = [
   },
   {
     field: 'serviceEffect',
-    label: '서비스 주요 효과',
+    label: t('solomon.label.service_effect'),
     component: 'Input',
     componentProps: {
       readonly: true,

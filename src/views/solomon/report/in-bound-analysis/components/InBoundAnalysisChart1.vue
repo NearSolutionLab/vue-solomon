@@ -4,6 +4,9 @@
 <script setup lang="ts">
   import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     chartData: {
@@ -27,7 +30,7 @@
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: '연간 입고량 추이',
+          text: t('solomon.text.annual_inbound_trend'),
           textStyle: {
             color: '#ccc',
           },
@@ -50,7 +53,7 @@
           },
         },
         xAxis: {
-          name: '월',
+          name: t('solomon.text.month'),
           axisLine: {
             lineStyle: {
               color: '#ccc',
@@ -60,7 +63,7 @@
           data: dateList,
         },
         yAxis: {
-          name: '입고량(PCS)',
+          name: t('solomon.text.inbound_quantity_pcs'),
           splitLine: { show: false },
           axisLine: {
             lineStyle: {
@@ -74,7 +77,7 @@
         },
         series: [
           {
-            name: '입고량(PCS)',
+            name: t('solomon.text.inbound_quantity_pcs'),
             type: 'line',
             smooth: true,
             showAllSymbol: 'auto',

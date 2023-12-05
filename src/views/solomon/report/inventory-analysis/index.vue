@@ -17,7 +17,7 @@
     <div class="flex-none h-96">
       <BasicTable @register="registerTable">
         <template #toolbar>
-          <a-button @click="downloadReport"> 결과 다운로드 </a-button>
+          <a-button @click="downloadReport">{{ t('solomon.button.download_result') }}</a-button>
         </template>
       </BasicTable>
     </div>
@@ -40,6 +40,9 @@
   import { getOptimizeRequest } from '/@/api/solomon/service';
   import { initPpt, createMasterSlides } from '/@/utils/ppt-util';
   import { COMMON_CHART_OPTIONS } from '/@/utils/ppt-enums';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     id: { type: String },
@@ -55,7 +58,7 @@
   const [formRegister, { validate, resetSchema }] = useForm({
     labelWidth: 120,
     submitButtonOptions: {
-      text: '조회',
+      text: t('solomon.text.retrieval'),
     },
     showAdvancedButton: true,
     compact: true,
@@ -63,7 +66,7 @@
   });
 
   const [registerTable, { setTableData, getDataSource }] = useTable({
-    title: '월별 재고 통계',
+    title: t('solomon.title.monthly_inventory_statistics'),
     columns,
     useSearchForm: false,
     showTableSetting: false,
@@ -90,21 +93,32 @@
   const jsonToPptx = () => {
     const pptx = initPpt();
     createMasterSlides(pptx);
-    pptx.addSection({ title: `${headerData.value.title || '재고 물동량 분석 리포트'}` });
+    pptx.addSection({
+      title: `${headerData.value.title || t('solomon.title.inventory_quantity_analysis_report')}`,
+    });
     const slide = pptx.addSlide({
-      sectionTitle: `${headerData.value.title || '재고 물동량 분석 리포트'}`,
+      sectionTitle: `${
+        headerData.value.title || t('solomon.title.inventory_quantity_analysis_report')
+      }`,
       masterName: 'MASTER_5CHART',
     });
-    slide.addText(`${headerData.value.title || '재고 물동량 분석 리포트'}`, {
-      placeholder: 'header',
-    });
+    slide.addText(
+      `${headerData.value.title || t('solomon.title.inventory_quantity_analysis_report')}`,
+      {
+        placeholder: 'header',
+      },
+    );
     assignChart1ToSlide(slide, pptx);
     assignChart2ToSlide(slide, pptx);
     assignChart3ToSlide(slide, pptx);
     assignChart4ToSlide(slide, pptx);
     assignChart5ToSlide(slide, pptx);
 
-    pptx.writeFile({ fileName: `${headerData.value.title || '재고 물동량 분석 리포트'}.pptx` });
+    pptx.writeFile({
+      fileName: `${
+        headerData.value.title || t('solomon.title.inventory_quantity_analysis_report')
+      }.pptx`,
+    });
   };
 
   const assignChart1ToSlide = (slide, pptx) => {
@@ -118,10 +132,10 @@
       ...COMMON_CHART_OPTIONS,
       valAxisMinVal:
         Math.floor(Math.min(...chartData1.value.monthlyAnalysis.map((item) => item.y)) / 100) * 100,
-      title: '연간 재고량 추이',
+      title: t('solomon.title.annual_inventory_trend'),
       chartColors: ['418AB3'],
       titleFontSize: 11,
-      valAxisTitle: '단위: PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart1',
     });
   };
@@ -139,7 +153,7 @@
       showLegend: false,
       showPercent: true,
       holeSize: 40,
-      title: '보관 수량 비율',
+      title: t('solomon.title.storage_quantity_ratio'),
       layout: { x: 0.1, y: 0.5, w: 0.8, h: 0.8 },
       dataBorder: { color: 'FFFFFF' },
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
@@ -160,11 +174,11 @@
     ];
     slide.addChart(pptx.charts.BAR, chartData, {
       ...COMMON_CHART_OPTIONS,
-      title: '보관 적재 비율',
+      title: t('solomon.title.storage_loading_ratio'),
       chartColors: ['418AB3'],
       titleFontSize: 11,
       dataLabelFontSize: 9,
-      valAxisTitle: '단위: %',
+      valAxisTitle: t('solomon.title.unit_percent'),
       placeholder: 'chart3',
     });
   };
@@ -180,12 +194,12 @@
       ...COMMON_CHART_OPTIONS,
       valAxisMinVal:
         Math.floor(Math.min(...chartData3.value.brandAnalysis.map((item) => item.y)) / 100) * 100,
-      title: '제품 브랜드 별 재고 점유율 현황',
+      title: t('solomon.title.inventory_ownership_status_by_product_brand'),
       chartColors: ['418AB3'],
       barDir: 'bar',
       dataLabelFontSize: 9,
       titleFontSize: 11,
-      valAxisTitle: '단위: PCS',
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart4',
     });
   };
@@ -210,13 +224,13 @@
 
     slide.addChart(pptx.charts.BAR, series, {
       ...COMMON_CHART_OPTIONS,
-      title: '불량 재고 현황',
+      title: t('solomon.title.defective_inventory_status'),
       titleFontSize: 11,
       chartColors: ['418AB3'],
       showLegend: false,
       barDir: 'bar',
       dataLabelFontSize: 9,
-      valAxisTitle: '단위: SKU종류',
+      valAxisTitle: t('solomon.title.unit_sku_category'),
       placeholder: 'chart5',
     });
   };
@@ -238,7 +252,9 @@
     jsonToSheetXlsx({
       data,
       header,
-      filename: `${headerData.value.title || '재고 물동량 분석 리포트'}.xlsx`,
+      filename: `${
+        headerData.value.title || t('solomon.title.inventory_quantity_analysis_report')
+      }.xlsx`,
     });
   };
 
@@ -252,7 +268,7 @@
     }, {});
     return [
       {
-        date: '계',
+        date: t('solomon.text.total'),
         locCount: summation.locCount,
         skuCount: summation.skuCount,
         pcs: summation.pcs,
@@ -295,14 +311,14 @@
           },
         ];
       },
-      [{ value: 'all', label: '전체' }],
+      [{ value: 'all', label: t('solomon.label.total') }],
     );
     resetSchema([
       {
         field: 'storageMethod',
         defaultValue: 'all',
         component: 'Select',
-        label: '저장 방식',
+        label: t('solomon.label.storage_method'),
         colProps: { span: 8 },
         componentProps: {
           options: formSchema,

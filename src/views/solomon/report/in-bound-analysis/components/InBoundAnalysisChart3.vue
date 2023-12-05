@@ -4,6 +4,9 @@
 <script setup lang="ts">
   import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     chartData: {
@@ -39,7 +42,7 @@
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: '입고현황',
+          text: t('solomon.text.inbound_status'),
           left: 'left',
           textStyle: {
             color: '#ccc',
@@ -58,7 +61,7 @@
         },
         series: [
           {
-            name: '종류',
+            name: t('solomon.text.category'),
             type: 'pie',
             radius: ['40%', '70%'],
             top: '10%',
@@ -74,7 +77,8 @@
               position: 'center',
               fontSize: 20,
               fontWeight: 'bold',
-              formatter: () => `총 ${category_num}개 품목`,
+              formatter: () =>
+                `${t('solomon.label.overall')} ${category_num} ${t('solomon.label.items')}`,
             },
             labelLine: {
               show: false,

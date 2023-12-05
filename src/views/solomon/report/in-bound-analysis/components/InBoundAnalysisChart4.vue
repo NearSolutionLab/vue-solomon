@@ -4,6 +4,9 @@
 <script setup lang="ts">
   import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     chartData: {
@@ -50,7 +53,7 @@
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: '분기 별 입고량',
+          text: t('solomon.text.quarterly_inbound_quantity'),
           textStyle: {
             color: '#ccc',
           },
@@ -72,7 +75,7 @@
           },
         },
         xAxis: {
-          name: '분기',
+          name: t('solomon.text.quarter'),
           axisLine: {
             lineStyle: {
               color: '#ccc',
@@ -82,7 +85,7 @@
           data: quarterList,
         },
         yAxis: {
-          name: '입고량(PCS)',
+          name: t('solomon.text.inbound_quantity_pcs'),
           splitLine: { show: false },
           axisLine: {
             lineStyle: {

@@ -67,6 +67,7 @@ export default {
   },
   login: {
     backSignIn: 'Back sign in',
+    nextSignIn: 'Next sign in',
     mobileSignInFormTitle: 'Mobile sign in',
     qrSignInFormTitle: 'Qr code sign in',
     signInFormTitle: 'Sign in',
@@ -75,8 +76,12 @@ export default {
 
     signInTitle: 'Backstage management system',
     signInDesc: 'Enter your personal details and get started!',
+    allPolicy: 'Agree to all terms and conditions.',
+    solomonPolicy: `Agree to Solomon's terms of service. (Required)`,
+    privacyPolicy: 'Agree to the collection and use of personal information.',
     policy: 'I agree to the xxx Privacy Policy',
-    scanSign: `scanning the code to complete the login`,
+    scanSign: `Scanning the code to complete the login`,
+    details: 'Details',
 
     loginButton: 'Sign in',
     registerButton: 'Sign up',
@@ -87,6 +92,8 @@ export default {
     // notify
     loginSuccessTitle: 'Login successful',
     loginSuccessDesc: 'Welcome back',
+    registerSuccessTitle: 'Registration Successful',
+    changePaswordSuccessTitle: 'Password changed successfully',
 
     // placeholder
     accountPlaceholder: 'Please input username',
@@ -95,12 +102,31 @@ export default {
     mobilePlaceholder: 'Please input mobile',
     policyPlaceholder: 'Register after checking',
     diffPwd: 'The two passwords are inconsistent',
+    notVaildEmail: 'The email format is not valid',
+    companyNamePlaceholder: 'Please enter the company name',
+    businessCodePlaceholder: 'Please enter the business registration number',
+    managerNamePlaceholder: `Please enter the manager's name`,
+    managerPositionPlaceholder: `Please enter the manager's position`,
+    emailPlaceholder: 'Please enter the email',
+    emailCodePlaceholder: 'Please enter the verification code.',
+    notValidEmailCode: 'The verification code should be a 6-digit number.',
 
     userName: 'Username',
     password: 'Password',
+    currentPassword: 'Current password',
+    newPassword: 'New password',
     confirmPassword: 'Confirm Password',
     email: 'Email',
     smsCode: 'SMS code',
     mobile: 'Mobile',
+    emailCode: 'Email code',
+    companyName: 'Company name',
+    businessCode: 'Business code',
+    managerName: 'Manager name',
+    managerPosition: 'Manager position',
+    userInfo: 'User info',
+    account: 'Account',
+    accountInfo: 'Account information',
+    myInfo: 'My Information',
   },
 };

@@ -34,11 +34,12 @@ export default {
   add: '추가',
   modify: '변경',
   confirmDelete: '삭제하시겠습니까?',
+  confirmCancel: '취소하시겠습니까?',
   edit: '수정',
   success: '성공',
   request: '요청',
   action: '동작',
 
-  statusSuccessMsg: '상태변경되었습니다. ',
-  statusErrorMsg: '상태변경실패했습니다. ',
+  statusSuccessMsg: '상태변경되었습니다.',
+  statusErrorMsg: '상태변경실패했습니다.',
 };

@@ -1,7 +1,12 @@
 export default {
-  subscription: '구독',
-  data: { data: '데이터', retrieve: '조회', create: '생성', processing: '진행중' },
   home: '홈',
+  subscription: '구독',
+  data: {
+    data: '데이터',
+    retrieve: '조회',
+    create: '생성',
+    processing: '진행중',
+  },
   service: {
     service: '서비스',
     complete: '진행완료',

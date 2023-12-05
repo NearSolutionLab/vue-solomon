@@ -26,6 +26,9 @@
   import { BasicTable, useTable } from '/@/components/Table';
   import UsageTable from '/@/views/solomon/home/components/UsageTable.vue';
   import { columns } from './meta.data';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const userStore = useUserStore();
   const loadingRef = ref(false);
@@ -34,7 +37,7 @@
   const { prefixCls } = useDesign('system-usage');
 
   const [register, { setTableData }] = useTable({
-    title: '월별 과금 현황',
+    title: t('solomon.title.monthly_billing_status'),
     columns,
     useSearchForm: false,
     showTableSetting: false,
@@ -69,7 +72,7 @@
     const monthlyUsageData: any[] = monthlyUsage.map((item: any) => {
       return {
         month: item.month,
-        basicCalc: '월간',
+        basicCalc: t('solomon.text.monthly'),
         amount: item.amount,
       };
     });

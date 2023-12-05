@@ -1,14 +1,17 @@
 import { BasicColumn } from '/@/components/Table';
 import { formatNumber } from '/@/utils/numberUtil';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
-    title: '일자',
+    title: t('solomon.title.day'),
     dataIndex: 'date',
     width: 90,
   },
   {
-    title: '총 주문 수(주문)',
+    title: t('solomon.title.total_order_count_order'),
     dataIndex: 'orderCount',
     width: 90,
     customRender: ({ text }) => {
@@ -16,7 +19,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '총 SKU 수(종류)',
+    title: t('solomon.title.total_sku_count'),
     dataIndex: 'skuCount',
     width: 90,
     customRender: ({ text }) => {
@@ -24,7 +27,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '수량(PCS)',
+    title: t('solomon.title.pcs'),
     dataIndex: 'pcs',
     width: 100,
     customRender: ({ text }) => {

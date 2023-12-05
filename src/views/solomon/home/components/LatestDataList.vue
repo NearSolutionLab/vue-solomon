@@ -1,7 +1,7 @@
 <template>
   <div :class="prefixCls">
     <div :class="`${prefixCls}__top`">
-      <div>최신 데이터 분석 현황</div>
+      <div>{{ t('solomon.title.latest_data_analysis_status') }}</div>
     </div>
     <div :class="`${prefixCls}__content`">
       <List item-layout="horizontal" :data-source="list">
@@ -16,10 +16,16 @@
                   </div>
                 </div>
                 <div class="size">
-                  <div><span>크기</span>{{ item.dataSize }}</div>
+                  <div
+                    ><span>{{ t('solomon.text.size') }}</span
+                    >{{ item.dataSize }}</div
+                  >
                 </div>
                 <div class="date">
-                  <div><span>날짜</span>{{ item.requestDate }}</div>
+                  <div
+                    ><span>{{ t('solomon.text.date') }}</span
+                    >{{ item.requestDate }}</div
+                  >
                 </div>
 
                 <div class="progress">

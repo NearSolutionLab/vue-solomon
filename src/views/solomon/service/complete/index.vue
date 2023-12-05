@@ -19,7 +19,7 @@
                 icon: 'ant-design:delete-outlined',
                 color: 'error',
                 popConfirm: {
-                  title: '삭제하시겠습니까?',
+                  title: t('common.confirmDelete'),
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
@@ -67,7 +67,7 @@
     setup() {
       const router = useRouter();
       const [registerTable, { reload }] = useTable({
-        title: '진행완료',
+        title: t('solomon.title.complete'),
         api: getCompleteServices,
         columns,
         formConfig: {

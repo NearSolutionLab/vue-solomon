@@ -1,9 +1,12 @@
 import { BasicColumn } from '/@/components/Table';
 import { formatNumber } from '/@/utils/numberUtil';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 export const performancePerOrdersColumns: BasicColumn[] = [
   {
-    title: '주문 수(배치당)',
+    title: t('solomon.title.orders_per_batch'),
     dataIndex: 'orderCount',
     width: 100,
     customRender: ({ text }) => {
@@ -11,7 +14,7 @@ export const performancePerOrdersColumns: BasicColumn[] = [
     },
   },
   {
-    title: '1SKU당 처리 주문 수',
+    title: t('solomon.title.orders_per_one_sku'),
     dataIndex: 'orderCountPerSku',
     width: 100,
     customRender: ({ text }) => {
@@ -19,7 +22,7 @@ export const performancePerOrdersColumns: BasicColumn[] = [
     },
   },
   {
-    title: '효율 증가율(%)',
+    title: t('solomon.title.efficiency_increase'),
     dataIndex: 'performanceRatio',
     width: 100,
     customRender: ({ text }) => {
@@ -30,12 +33,12 @@ export const performancePerOrdersColumns: BasicColumn[] = [
 
 export const orderResultColumns: BasicColumn[] = [
   {
-    title: '일자',
+    title: t('solomon.title.day'),
     dataIndex: 'date',
     width: 90,
   },
   {
-    title: '그룹 배치 수',
+    title: t('solomon.title.group_batch_count'),
     dataIndex: 'groupCount',
     width: 90,
     customRender: ({ text }) => {
@@ -43,7 +46,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: '기준 주문 수',
+    title: t('solomon.title.standard_order_count'),
     dataIndex: 'batchSize',
     width: 90,
     customRender: ({ text }) => {
@@ -51,7 +54,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: '총 주문 수',
+    title: t('solomon.title.total_order_count'),
     dataIndex: 'orderCount',
     width: 90,
     customRender: ({ text }) => {
@@ -59,7 +62,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: '배치당 SKU 수 합',
+    title: t('solomon.title.sku_per_batch_total'),
     dataIndex: 'skuCount',
     width: 100,
     customRender: ({ text }) => {
@@ -67,7 +70,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: '배치당 random SKU 수 합',
+    title: t('solomon.title.random_sku_count_per_batch_total'),
     dataIndex: 'randomSkuCount',
     width: 120,
     customRender: ({ text }) => {
@@ -75,7 +78,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: '조합 수',
+    title: t('solomon.title.combination_count'),
     dataIndex: 'combinationCount',
     width: 100,
     customRender: ({ text }) => {
@@ -83,7 +86,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: 'EA',
+    title: t('solomon.title.ea'),
     dataIndex: 'eaSum',
     width: 100,
     customRender: ({ text }) => {
@@ -91,7 +94,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: 'SKU 효율 증가',
+    title: t('solomon.title.sku_efficiency_increase'),
     dataIndex: 'performanceRatio',
     width: 100,
     customRender: ({ text }) => {

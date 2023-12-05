@@ -39,6 +39,9 @@
   import CapaAnalysisChart from './components/CapaAnalysisChart.vue';
   import { performancePerOrdersColumns, orderResultColumns } from './meta.data';
   import { jsonToMultipleSheetXlsx } from '/@/components/Excel/src/Export2Excel';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { t } = useI18n();
 
   const props = defineProps({
     id: { type: String },
@@ -49,7 +52,7 @@
   let requestId = null;
 
   const [registerTable1, { setTableData: setTable1Data }] = useTable({
-    title: '배치당 주문 수에 따른 주문처리 효율',
+    title: t('solomon.title.efficiency_based_on_order_count_per_batch'),
     columns: performancePerOrdersColumns,
     useSearchForm: false,
     showTableSetting: false,
@@ -64,7 +67,7 @@
   });
 
   const [registerTable2, { setTableData: setTable2Data }] = useTable({
-    title: '일자 별 주문 분석 결과',
+    title: t('solomon.title.daily_order_analysis_results'),
     columns: orderResultColumns,
     useSearchForm: false,
     showTableSetting: false,
@@ -89,7 +92,7 @@
     let avg = performanceRatio / tableData.length;
     return [
       {
-        date: '평균',
+        date: t('solomon.text.average'),
         performanceRatio: avg,
       },
     ];
@@ -156,26 +159,26 @@
         record.date,
       );
       const batchResultHeader = {
-        date: '날짜',
-        customerGroupNo: '배치 번호',
-        orderCount: '주문 수',
-        skuCount: '상품 수',
-        eaCountSum: '수량',
+        date: t('solomon.text.date'),
+        customerGroupNo: t('solomon.text.batch_no'),
+        orderCount: t('solomon.text.order_count'),
+        skuCount: t('solomon.text.sku_count'),
+        eaCountSum: t('solomon.text.quantity'),
       };
       const combinationHeader = {
-        date: '날짜',
-        customerGroupNo: '배치 번호',
-        combination: '주문 조합',
-        orderCount: '주문 수',
-        eaCountSum: '수량',
+        date: t('solomon.text.date'),
+        customerGroupNo: t('solomon.text.batch_no'),
+        combination: t('solomon.text.order_combination'),
+        orderCount: t('solomon.text.order_count'),
+        eaCountSum: t('solomon.text.quantity'),
       };
       const detailsHeader = {
-        date: '날짜',
-        customerGroupNo: '배치 번호',
-        orderNo: '주문 번호',
-        skuNo: '상품 번호',
-        skuName: '상품 이름',
-        eaCount: '수량',
+        date: t('solomon.text.date'),
+        customerGroupNo: t('solomon.text.batch_no'),
+        orderNo: t('solomon.text.order_no'),
+        skuNo: t('solomon.text.sku_no'),
+        skuName: t('solomon.text.sku_name'),
+        eaCount: t('solomon.text.quantity'),
       };
 
       jsonToMultipleSheetXlsx({
@@ -187,7 +190,7 @@
               // 순서
               header: ['date', 'customerGroupNo', 'orderCount', 'skuCount', 'eaCountSum'],
             },
-            sheetName: '배치결과 통계',
+            sheetName: t('solomon.text.batch_result_statistics'), // 배치결과 통계
           },
           {
             data: combination as any,
@@ -196,7 +199,7 @@
               // 순서
               header: ['date', 'customerGroupNo', 'combination', 'orderCount', 'eaCountSum'],
             },
-            sheetName: '배치별 조합 통계',
+            sheetName: t('solomon.text.batch_wise_combination_statistics'), // 배치별 조합 통계
           },
           {
             data: details as any,
@@ -205,7 +208,7 @@
               // 순서
               header: ['date', 'customerGroupNo', 'orderNo', 'skuNo', 'skuName', 'eaCount'],
             },
-            sheetName: '세부내역',
+            sheetName: t('solomon.text.specific_details'), // 세부내역
           },
         ],
         filename: `주문패턴분석리포트_${record.date}.xlsx`,

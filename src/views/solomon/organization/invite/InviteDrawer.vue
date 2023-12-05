@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="registerDrawer"
     showFooter
-    :title="`팀원초대`"
+    :title="$t('solomon.title.invite_team_member')"
     width="500px"
     @ok="handleSubmit"
   >

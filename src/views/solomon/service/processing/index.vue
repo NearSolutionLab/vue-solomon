@@ -24,7 +24,7 @@
     components: { BasicTable, PageWrapper },
     setup() {
       const [registerTable, { reload }] = useTable({
-        title: '진행중 서비스',
+        title: t('solomon.title.progressing_service'),
         api: getProcessingServices,
         columns,
         formConfig: {

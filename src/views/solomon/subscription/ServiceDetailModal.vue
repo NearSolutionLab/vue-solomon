@@ -10,7 +10,7 @@
     >
       <BasicForm @register="registerForm" />
       <div>
-        <p>서비스 이미지</p>
+        <p>{{ t('solomon.label.service_image') }}</p>
         <template v-for="(imagesForRow, key) in serviceNameKeyImages" :key="key">
           <div v-if="key === serviceNameKey">
             <Carousel arrows :key="key">

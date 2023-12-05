@@ -1,14 +1,17 @@
 import { BasicColumn } from '/@/components/Table';
 import { formatNumber } from '/@/utils/numberUtil';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 export const usageTableColumns: BasicColumn[] = [
   {
-    title: '서비스명',
+    title: t('solomon.title.service_name'),
     width: 160,
     dataIndex: 'serviceName',
   },
   {
-    title: '데이터 저장 건수',
+    title: t('solomon.title.number_of_data_storage'),
     width: 130,
     dataIndex: 'dataSaved',
     customRender: ({ text }) => {
@@ -16,7 +19,7 @@ export const usageTableColumns: BasicColumn[] = [
     },
   },
   {
-    title: '데이터 사용 건수',
+    title: t('solomon.title.number_of_data_usage'),
     width: 130,
     dataIndex: 'dataUsage',
     customRender: ({ text }) => {
@@ -24,7 +27,7 @@ export const usageTableColumns: BasicColumn[] = [
     },
   },
   {
-    title: '단가(원)',
+    title: t('solomon.title.amount'),
     width: 100,
     dataIndex: 'amount',
     customRender: ({ text }) => {
@@ -32,7 +35,7 @@ export const usageTableColumns: BasicColumn[] = [
     },
   },
   {
-    title: '과금액(원)',
+    title: t('solomon.title.charge_price'),
     width: 140,
     dataIndex: 'price',
     customRender: ({ text }) => {

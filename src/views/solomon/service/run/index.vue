@@ -15,7 +15,7 @@
               {
                 icon: 'octicon:play-16',
                 color: 'success',
-                tooltip: '실행',
+                tooltip: t('solomon.title.action'),
                 onClick: runService.bind(null, record),
               },
             ]"
@@ -42,7 +42,7 @@
   const { notification } = useMessage();
   const [registerRunServiceModal, { openModal: openRunServiceModal }] = useModal();
   const [registerTable, { setTableData, reload }] = useTable({
-    title: '서비스 선택',
+    title: t('solomon.title.select_service'),
     rowKey: 'id',
     columns,
     useSearchForm: false,
@@ -52,7 +52,7 @@
     pagination: false,
     actionColumn: {
       width: 120,
-      title: '실행',
+      title: t('solomon.title.action'),
       dataIndex: 'action',
       // slots: { customRender: 'action' },
     },
@@ -90,8 +90,8 @@
   const handleSuccess = (result) => {
     console.log(result);
     notification.success({
-      message: '서비스 실행 완료',
-      description: `서비스가 실행되었습니다`,
+      message: t('solomon.text.service_execution_completed'),
+      description: t('solomon.text.service_has_been_executed'),
       duration: 3,
     });
   };

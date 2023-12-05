@@ -1,7 +1,7 @@
 <template>
   <div :class="prefixCls">
     <div :class="`${prefixCls}__top`">
-      <div>실시간 요금 현황</div>
+      <div>{{ t('solomon.title.real_time_fee_status') }}</div>
     </div>
     <div :class="`${prefixCls}__content`">
       <BasicTable @register="usageTable" />
@@ -15,7 +15,9 @@
   import { useUserStore } from '/@/store/modules/user';
   import { getCustomerUsage } from '/@/api/solomon/home';
   import { usageTableColumns } from '../meta.data';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
+  const { t } = useI18n();
   const userStore = useUserStore();
   const { prefixCls } = useDesign('usage-table');
   const [usageTable, { setTableData }] = useTable({
@@ -39,7 +41,7 @@
     });
     return [
       {
-        serviceName: '계',
+        serviceName: t('solomon.text.total'),
         dataSaved: totalDataSaved,
         dataUsage: totalDataUsage,
         amount: '',

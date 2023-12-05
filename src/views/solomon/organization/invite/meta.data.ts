@@ -1,4 +1,7 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { useI18n } from '/@/hooks/web/useI18n';
+
+const { t } = useI18n();
 
 export const columns: BasicColumn[] = [
   {
@@ -6,17 +9,17 @@ export const columns: BasicColumn[] = [
     ifShow: false,
   },
   {
-    title: '이름',
+    title: t('solomon.title.name'),
     dataIndex: 'name',
     width: 100,
   },
   {
-    title: '이메일',
+    title: t('solomon.title.email'),
     dataIndex: 'emailId',
     width: 100,
   },
   {
-    title: '초대 만료일시',
+    title: t('solomon.title.invitation_expiration_date_time'),
     dataIndex: 'expirationDate',
     width: 100,
   },
@@ -25,13 +28,13 @@ export const columns: BasicColumn[] = [
 export const formSchema: FormSchema[] = [
   {
     field: 'emailId',
-    label: '이메일',
+    label: t('solomon.label.email'),
     required: true,
     component: 'Input',
   },
   {
     field: 'name',
-    label: '이름',
+    label: t('solomon.label.name'),
     required: true,
     component: 'Input',
   },

@@ -27,7 +27,7 @@
   // const { notification } = useMessage();
   // const [registerRunServiceModal, { openModal: openRunServiceModal }] = useModal();
   const [registerTable, { reload, setProps }] = useTable({
-    title: '데이터 조회',
+    title: t('solomon.title.retrieved_data'),
     rowKey: 'id',
     api: getDetailData,
     useSearchForm: false,

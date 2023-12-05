@@ -19,7 +19,7 @@
                 icon: 'ant-design:delete-outlined',
                 color: 'error',
                 popConfirm: {
-                  title: '삭제하시겠습니까?',
+                  title: t('common.confirmDelete'),
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
@@ -44,7 +44,7 @@
   const { t } = useI18n();
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerTable, { reload }] = useTable({
-    title: '팀원목록',
+    title: t('solomon.title.member_list'),
     api: getMemberList,
     columns,
     useSearchForm: false,

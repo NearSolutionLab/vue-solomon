@@ -7,13 +7,16 @@
           <span class="text-secondary">{{ t('solomon.category.data.description') }}</span>
         </div>
       </template>
-      <CollapseContainer title="입력 양식" class="w-1/4 xl:w-1/5 my-custom-form-position">
+      <CollapseContainer
+        :title="$t('solomon.title.input_form')"
+        class="w-1/4 xl:w-1/5 my-custom-form-position"
+      >
         <div>
           <BasicForm @register="formRegister" ref="formRef" />
-          <Button @click="openExcel">다음 단계</Button>
+          <Button @click="openExcel">{{ t('solomon.button.next_step') }}</Button>
           <ExcelModal
             dataType="'123'"
-            modalTitle="Excel 파일 업로드"
+            :modalTitle="$t('solomon.title.excel_file_upload')"
             @success="handleExcelSuccess"
             @register="registerExcelModal"
           />
@@ -85,15 +88,15 @@
       componentProps: {
         options: [
           {
-            label: '입고',
+            label: t('solomon.label.inbound'),
             value: 'INBOUND',
           },
           {
-            label: '출고',
+            label: t('solomon.label.outbound'),
             value: 'OUTBOUND',
           },
           {
-            label: '재고',
+            label: t('solomon.label.inventory'),
             value: 'INVENTORY',
           },
         ],
@@ -161,7 +164,7 @@
         },
       ] = useModal();
       const [registerTable] = useTable({
-        title: '전체 서비스',
+        title: t('solomon.title.total_service'),
         api: getSubscriptionService,
         rowKey: 'id',
         columns,
@@ -176,7 +179,7 @@
         showIndexColumn: false,
         actionColumn: {
           width: 120,
-          title: '상세보기',
+          title: t('solomon.title.details'),
           dataIndex: 'action',
           // slots: { customRender: 'action' },
         },

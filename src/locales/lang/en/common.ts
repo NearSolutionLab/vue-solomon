@@ -17,4 +17,29 @@ export default {
 
   light: 'Light',
   dark: 'Dark',
+
+  createTime: 'Create time',
+  remark: 'Remark',
+  status: 'Status',
+
+  use: 'Use',
+  notuse: 'Notuse',
+  orderSeq: 'Order sequence',
+  yes: 'YES',
+  no: 'NO',
+
+  list: 'List',
+  name: 'Name',
+  description: 'Description',
+  add: 'Add',
+  modify: 'Modify',
+  confirmDelete: 'Would you like to delete?',
+  confirmCancel: 'Would you like to cancel?',
+  edit: 'Edit',
+  success: 'Success',
+  request: 'Request',
+  action: 'Action',
+
+  statusSuccessMsg: 'The status has been changed.',
+  statusErrorMsg: 'Failed to change the status.',
 };
