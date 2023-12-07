@@ -6,11 +6,11 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { getServiceList } from '/@/api/solomon/service';
+  import { getDataSetList } from '/@/api/solomon/data';
   import { columns, searchFormSchema } from './processing.data';
 
   export default defineComponent({
-    name: 'RunningServices',
+    name: 'RunningDataPages',
     components: { BasicTable },
     setup() {
       const [registerTable, { reload }] = useTable({
@@ -31,7 +31,7 @@
       async function getProcessingServices(params) {
         const requestParams = {
           // statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,FETCHING',
-          statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,FETCHING,ERROR',
+          statuses: 'UPLOADING,ERROR',
           page: params.page,
           limit: params.pageSize,
         };
@@ -40,12 +40,13 @@
         Object.keys(params).forEach((key) => {
           if (params[key]) requestParams[key] = params[key];
         });
-        const { items, total = 0 } = await getServiceList(requestParams);
+        const { items, total = 0 } = await getDataSetList(requestParams);
+        console.log(items);
         return {
           items: (items || []).map((item) => ({
             ...item,
-            serviceName: item.service?.serviceName,
-            dataSize: item.dataSize || 0,
+            dataType: item.dataType,
+            dataSize: item.size || 0,
           })),
           total,
         };

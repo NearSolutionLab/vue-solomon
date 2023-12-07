@@ -144,6 +144,7 @@
 
         if (beforeRightClick && isFunction(beforeRightClick)) {
           let result = await beforeRightClick(node, event);
+
           if (Array.isArray(result)) {
             contextMenuOptions.items = result;
           } else {

@@ -22,6 +22,7 @@
   let forms: FormSchema[];
   let excelData: ExcelData[];
   let filteredDataResult: ExcelData;
+  let filteredColumns;
   export default {
     components: {
       BasicModal,
@@ -59,14 +60,21 @@
         bordered: true,
         showIndexColumn: false,
       });
-      const handleOk = (e: Event) => {
-        console.log(e);
-        emit('success', filteredDataResult);
+      const handleOk = () => {
+        // console.log(e);
+        // console.log('filteredColumns', filteredColumns);
+        let columnFilter = {};
+        filteredColumns.map((column) => {
+          columnFilter[column[0]] = filteredDataResult.header.indexOf(column[1]);
+        });
+
+        emit('success', { filteredDataResult, columnFilter });
       };
 
       async function handleChange() {
         const valueData = await formRef.value.validate();
-        const filteredColumns = Object.entries(valueData).filter(([_, val]) => val != undefined);
+        filteredColumns = Object.entries(valueData).filter(([_, val]) => val != undefined);
+
         if (filteredColumns.length == 0) {
           setTableData([]);
         } else {
@@ -78,7 +86,7 @@
             }
             filteredDataList.push(filteredData);
           }
-          console.log(filteredDataList);
+          // console.log(filteredDataList);
           setTableData(filteredDataList);
           filteredDataResult = {
             results: [...filteredDataList],
