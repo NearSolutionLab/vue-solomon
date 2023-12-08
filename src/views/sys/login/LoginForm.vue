@@ -94,8 +94,8 @@
   const rememberMe = ref(false);
 
   const formData = reactive({
-    account: 'khw@nearsolution.co.kr',
-    password: 'abcd1234!',
+    account: '',
+    password: '',
   });
 
   const { validForm } = useFormValid(formRef);
