@@ -63,73 +63,73 @@
       const serviceNameKeyImages: Record<string, string[]> = {
         // 주력상품 기반 보관 방법 추천
         'service.mainProductStorageRecommend': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 보관 Capa.분석
         'service.storageCapaAnalysis': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 출고 물동량 분석
         'service.outbound.out_bound_analysis': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 주문 분할&포장 박스 추천
         'service.orderAllocationBoxRecommend': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 주문 패턴 분석 서비스
         'services.outbound.capa_analysis': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 출고 피킹 전략 추천&피킹 동선 최적화
         'service.unstorePicking': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 재고 물동량 분석
         'service.inventory.inventory_analysis': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 출고 물동량 ABC 분석
         'services.outbound.abc_analysis': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // DAS 출고 배치 생성
         'services.outbound.shipping_batch': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 입고 물동량 분석
         'service.inbound.in_bound_analysis': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 당일 예상 투입 인원 예측
         'service.workerForecast': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 제품 수요 예측
         'service.forecasting': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // 작업 균등배분 추천
         'service.loadBalancing': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
         // ABC분석 서비스
         'service.inventory.ABCOptimize': [
-          '/@/assets/images/subscriptionImage/img-smart.png',
-          '/@/assets/images/subscriptionImage/board_ready_img.png',
+          '/src/assets/images/subscriptionImage/img-smart.png',
+          '/src/assets/images/subscriptionImage/board_ready_img.png',
         ],
       };
 
