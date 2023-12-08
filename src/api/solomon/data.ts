@@ -14,9 +14,9 @@ export const getDataSetList = async (params) => {
   return { total, items };
 };
 
-export const deleteDataSet = async (id) => {
+export const deleteDataSet = async (id, dataType) => {
   const { result } = await defHttp.delete({
-    url: Api.DataSetList + '/' + id,
+    url: Api.DataSetList + '/' + id + '/' + dataType,
   });
   return result;
 };

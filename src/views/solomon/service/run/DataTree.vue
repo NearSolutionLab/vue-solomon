@@ -110,7 +110,7 @@
               title: '삭제',
               content: '삭제하시겠습니까?',
               onOk: async () => {
-                const result = await deleteDataSet(node.key);
+                const result = await deleteDataSet(node.key, node.dataType);
                 if (result) fetch();
               },
             });
