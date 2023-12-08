@@ -41,3 +41,16 @@ export function stringToNumber(num: string | number) {
   if (typeof num === 'number') return num;
   return parseFloat(num.replace(/[^\d.-]+/g, ''));
 }
+
+export function formatNumberRound(p90) {
+  const num = parseFloat(p90);
+  if (isNaN(num)) {
+    return '';
+  }
+  // 음수는 0으로 처리
+  if (num < 0) {
+    return 0;
+  }
+  // 반올림하여 소수점 2번째 자리까지 표현
+  return Math.round(num * 100) / 100;
+}

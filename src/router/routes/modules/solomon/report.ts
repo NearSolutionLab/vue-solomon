@@ -66,6 +66,16 @@ const report: AppRouteModule = {
       },
       props: (route: any) => ({ ...route.params }),
     },
+    {
+      path: 'treksta-forecast',
+      name: 'TrekstaForecastPage',
+      component: () => import('/@/views/solomon/report/treksta-forecast/index.vue'),
+      meta: {
+        title: t('solomon.title.treksta_forecast'),
+        hideMenu: false,
+      },
+      props: (route: any) => ({ ...route.params }),
+    },
   ],
 };
 
