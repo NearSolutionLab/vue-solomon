@@ -40,6 +40,7 @@
         @register="registerDataMappingModal"
         @success="handleMappingModalOk"
         @cancel="handleMappingModalCancel"
+        :loading="loading"
       />
       <ServiceDetailModal @register="registerServiceDetailModal" @success="handleSuccess" />
     </PageWrapper>
@@ -61,7 +62,7 @@
   import ExcelModal from './ExcelModal.vue';
   import { ExcelData } from '/@/components/Excel';
   import DataMappingModal from './DataMappingModal.vue';
-
+  import { useMessage } from '/@/hooks/web/useMessage';
   import {
     inboundColumns,
     outboundColumns,
@@ -72,12 +73,19 @@
   } from '../meta.data';
   // import type { UploadProps } from 'ant-design-vue';
   import { uploadExcelData } from '/@/api/solomon/data';
+  //import { useRouter } from 'vue-router';
 
   let rawExcelFile: File;
+  let title: string;
+  let type: string;
   const { t } = useI18n();
+  //const { notification, createErrorModal } = useMessage();
+  const { createErrorModal } = useMessage();
+  //const router = useRouter();
+  const loading = ref(false);
   const schemas: FormSchema[] = [
     {
-      field: 'name',
+      field: 'title',
       component: 'Input',
       label: t('solomon.data.name'),
     },
@@ -194,7 +202,7 @@
       }
 
       const showDetail = (record) => {
-        console.log('record>>>', record);
+        // console.log('record>>>', record);
         openServiceDetailModal(true, record);
       };
 
@@ -206,25 +214,47 @@
         openExcelModal(true);
       };
 
-      async function handleMappingModalOk(rawData: ExcelData) {
-        console.log('results', rawData);
-        console.log('rawfile', rawExcelFile);
-        if (rawData) {
-          const formData = new window.FormData();
-          formData.append('file', rawExcelFile);
-          formData.append('count', JSON.stringify(rawData.results.length));
-          formData.append('fields', JSON.stringify({ date: 3, orderNo: 4 }));
-          // formData.append('fields', JSON.stringify(rawData.header));
+      async function handleMappingModalOk(rawData) {
+        // console.log('results', rawData);
+        // console.log('rawfile', rawExcelFile);
+        try {
+          if (rawData) {
+            loading.value = true;
+            const formData = new window.FormData();
+            formData.append('file', rawExcelFile);
+            formData.append('count', JSON.stringify(rawData.filteredDataResult.results.length));
+            formData.append('fields', JSON.stringify(rawData.columnFilter));
+            // formData.append('fields', JSON.stringify(rawData.header));
 
-          const result = await uploadExcelData('test_01', 'OUTBOUND', formData);
-          console.log(result);
-
-          //   file: rawExcelFile,
-          //   data: formData,
-          // });
-          // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
-          closeMappingModal();
+            const result = await uploadExcelData(title, type, formData);
+            closeMappingModal();
+            // if (result) {
+            //   notification.success({
+            //     message: t('sys.login.registerSuccessTitle'),
+            //     description: `${t('sys.login.loginSuccessDesc')}: `,
+            //     duration: 3,
+            //   });
+            // }
+            // // todo. 회원가입 성공 시 팝업 3초 표시 이후 새로고침하여 처음 로그인 페이지로 진입할 수 있도록 했으나, 다른 방식 필요해 보임.
+            // await new Promise((resolve) => {
+            //   setTimeout(resolve, 3000);
+            // });
+            return result;
+          }
+        } catch (error) {
+          createErrorModal({
+            title: t('sys.api.errorTip'),
+            content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+            getContainer: () => document.body,
+          });
+        } finally {
+          loading.value = false;
         }
+
+        //   file: rawExcelFile,
+        //   data: formData,
+        // });
+        // Excel 모달의 OK 버튼 클릭 시 실행되는 로직, 예: 모달 닫기
       }
 
       const handleMappingModalCancel = () => {
@@ -234,6 +264,8 @@
       async function handleExcelSuccess({ excelData, rawFile }) {
         rawExcelFile = rawFile;
         const data = await formRef.value.validate();
+        title = data.title;
+        type = data.type;
         setMappingModalProps({
           defaultFullscreen: true,
         });
@@ -300,6 +332,7 @@
         handleMappingModalOk,
         handleMappingModalCancel,
         t,
+        loading,
       };
     },
   });

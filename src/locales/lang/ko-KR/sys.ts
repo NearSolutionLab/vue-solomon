@@ -11,7 +11,7 @@ export default {
     networkException: '네트워크 이상',
     networkExceptionMsg:
       '네트워크 이상이 발생했습니다. 네트워크 연결이 제대로 되어 있는지 확인하십시오!',
-
+    deleteSuccess: '데이터가 성공적으로 삭제 되었습니다.',
     errMsg401: '사용자에게 권한이 없습니다 (네임, 아이디, 비밀번호 오류)!',
     errMsg403: '사용자는 권한은 받았지만 접근은 금지되었습니다.',
     errMsg404: '네트워크 요청 오류, 이 자원을 찾을 수 없습니다!',

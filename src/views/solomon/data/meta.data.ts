@@ -16,7 +16,7 @@ export const inboundColumns: BasicColumn[] = [
   },
   {
     title: t('solomon.title.customer'),
-    dataIndex: 'orderNo',
+    dataIndex: 'client',
     ellipsis: false,
     width: 180,
   },
@@ -204,8 +204,7 @@ export const inboundForm: FormSchema[] = [
   },
   {
     label: t('solomon.title.customer'),
-    field: 'orderNo',
-
+    field: 'client',
     component: 'Select',
     componentProps: { options: [] },
   },

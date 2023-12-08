@@ -35,7 +35,7 @@ const data: AppRouteModule = {
     },
     {
       path: 'processing',
-      name: 'ProcessingPage',
+      name: 'RunningDataPages',
       component: () => import('/@/views/solomon/data/processing/index.vue'),
       meta: {
         title: t('routes.solomon.data.processing'),

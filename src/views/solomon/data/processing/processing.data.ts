@@ -17,8 +17,8 @@ export const columns: BasicColumn[] = [
     width: 100,
   },
   {
-    title: '서비스명',
-    dataIndex: 'serviceName',
+    title: '데이터 유형',
+    dataIndex: 'dataType',
     width: 100,
   },
   {

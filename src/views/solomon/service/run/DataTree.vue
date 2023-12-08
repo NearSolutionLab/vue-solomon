@@ -10,25 +10,30 @@
       :fieldNames="{ key: 'key', title: 'title' }"
       @select="handleSelect"
       :renderIcon="createIcon"
+      :beforeRightClick="handleRightClickMenu"
     />
+    <DataTreeDrawer @register="registerDrawer" @success="handleSuccess" />
   </div>
 </template>
 
 <script lang="ts">
   import { defineComponent, onMounted, ref } from 'vue';
   import { BasicTree, TreeItem } from '/@/components/Tree';
-  import { getDataSetList } from '/@/api/solomon/data';
+  import { getDataSetList, deleteDataSet } from '/@/api/solomon/data';
   import { useI18n } from '/@/hooks/web/useI18n';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import DataTreeDrawer from './DataTreeDrawer.vue';
+  import { useDrawer } from '/@/components/Drawer';
 
   export default defineComponent({
     name: 'DataTree',
-    components: { BasicTree },
-
+    components: { BasicTree, DataTreeDrawer },
     emits: ['select'],
     setup(_, { emit }) {
       const { t } = useI18n();
       const treeData = ref<TreeItem[]>([]);
-
+      const { createConfirm } = useMessage();
+      const [registerDrawer, { openDrawer }] = useDrawer();
       async function fetch() {
         const params = {
           sort: JSON.stringify([{ field: 'created_at', ascending: false }, { field: 'dataType' }]),
@@ -64,6 +69,7 @@
                     title: items[j].name + ` (${items[j].sendType})`,
                     isLeaf: true,
                     dataType: items[j].dataType,
+                    name: items[j].name,
                   });
                 }
               }
@@ -83,6 +89,37 @@
         });
       }
 
+      async function handleRightClickMenu(node) {
+        if (!node.isLeaf || !node.key) return;
+        const editItem = {
+          label: '수정',
+          icon: 'ion:settings-outline',
+          handler: () => {
+            openDrawer(true, {
+              id: node.key,
+              name: node.name,
+            });
+          },
+        };
+        const deleteItem = {
+          label: '삭제',
+          icon: 'ion:trash-outline',
+          handler: () => {
+            createConfirm({
+              iconType: 'warning',
+              title: '삭제',
+              content: '삭제하시겠습니까?',
+              onOk: async () => {
+                const result = await deleteDataSet(node.key);
+                if (result) fetch();
+              },
+            });
+          },
+        };
+
+        return [editItem, deleteItem];
+      }
+
       onMounted(async () => {
         fetch();
       });
@@ -94,7 +131,18 @@
         return '';
       }
 
-      return { treeData, handleSelect, createIcon };
+      function handleSuccess() {
+        fetch();
+      }
+
+      return {
+        treeData,
+        handleSelect,
+        createIcon,
+        handleRightClickMenu,
+        registerDrawer,
+        handleSuccess,
+      };
     },
   });
 </script>

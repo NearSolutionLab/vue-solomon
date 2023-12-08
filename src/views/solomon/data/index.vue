@@ -41,6 +41,7 @@
     if (isLeaf) {
       selectedData.dataId = id;
       selectedData.dataType = dataType;
+      console.log('leaf', id, dataType);
       reload();
     }
   }
@@ -73,7 +74,9 @@
         setProps({
           columns: outboundColumns,
         });
+        console.log('param', requestParams);
         const { total, items } = await getOutBoundData(requestParams);
+        console.log('outobund', items);
         return {
           items: (items || []).map((item) => ({
             id: item.id,
@@ -99,7 +102,7 @@
           items: (items || []).map((item) => ({
             id: item.id,
             date: item.date,
-            orderNo: item.client,
+            client: item.client,
             skuNo: item.skuNo,
             skuName: item.skuName,
             eaCount: item.eaCount,
