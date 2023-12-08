@@ -12,32 +12,28 @@
       :renderIcon="createIcon"
       :beforeRightClick="handleRightClickMenu"
     />
+    <DataTreeDrawer @register="registerDrawer" @success="handleSuccess" />
   </div>
-  <BasicModal @register="resister" ref="formRef" />
 </template>
 
 <script lang="ts">
-  import { defineComponent, onMounted, ref, h } from 'vue';
+  import { defineComponent, onMounted, ref } from 'vue';
   import { BasicTree, TreeItem } from '/@/components/Tree';
   import { getDataSetList, deleteDataSet } from '/@/api/solomon/data';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { useModal, BasicModal } from '/@/components/Modal';
-
-  //import { Popconfirm } from 'ant-design-vue';
+  import DataTreeDrawer from './DataTreeDrawer.vue';
+  import { useDrawer } from '/@/components/Drawer';
 
   export default defineComponent({
     name: 'DataTree',
-    components: { BasicTree, BasicModal },
-
+    components: { BasicTree, DataTreeDrawer },
     emits: ['select'],
     setup(_, { emit }) {
       const { t } = useI18n();
       const treeData = ref<TreeItem[]>([]);
-      const [resister, { openModal }] = useModal();
-      const formRef = ref();
-      const { notification } = useMessage();
-      let editPopconfrimVisible = false;
+      const { createConfirm } = useMessage();
+      const [registerDrawer, { openDrawer }] = useDrawer();
       async function fetch() {
         const params = {
           sort: JSON.stringify([{ field: 'created_at', ascending: false }, { field: 'dataType' }]),
@@ -73,6 +69,7 @@
                     title: items[j].name + ` (${items[j].sendType})`,
                     isLeaf: true,
                     dataType: items[j].dataType,
+                    name: items[j].name,
                   });
                 }
               }
@@ -85,7 +82,6 @@
       }
 
       function handleSelect(keys, { selectedNodes }) {
-        console.log('select', keys, selectedNodes);
         emit('select', {
           id: keys[0],
           dataType: selectedNodes[0].dataType,
@@ -93,55 +89,41 @@
         });
       }
 
-      async function handleRightClickMenu(node, evnet) {
-        console.log(`Selected menu item:`, node);
-        console.log(`Selected evnet: `, evnet);
-        if (node.pos.length > 3) {
-          const editItem = {
-            label: '수정',
-            icon: 'ion:settings-outline',
-            handler: () => {
-              // 삭제 동작 수행
+      async function handleRightClickMenu(node) {
+        if (!node.isLeaf || !node.key) return;
+        const editItem = {
+          label: '수정',
+          icon: 'ion:settings-outline',
+          handler: () => {
+            openDrawer(true, {
+              id: node.key,
+              name: node.name,
+            });
+          },
+        };
+        const deleteItem = {
+          label: '삭제',
+          icon: 'ion:trash-outline',
+          handler: () => {
+            createConfirm({
+              iconType: 'warning',
+              title: '삭제',
+              content: '삭제하시겠습니까?',
+              onOk: async () => {
+                const result = await deleteDataSet(node.key);
+                if (result) fetch();
+              },
+            });
+          },
+        };
 
-              openModal(true);
-            },
-          };
-          const deleteItem = {
-            label: '삭제',
-            icon: 'ion:trash-outline',
-            handler: () => {
-              const { createConfirm } = useMessage();
-              const { t } = useI18n();
-              createConfirm({
-                iconType: 'warning',
-                title: () => h('span', t('sys.app.logoutTip')),
-                content: () => h('span', t('common.confirmDelete')),
-                onOk: async () => {
-                  const result = await deleteDataSet(node.key, node.dataType);
-                  if (result) {
-                    notification.success({
-                      message: t('sys.api.operationSuccess'),
-                      description: `${t('sys.api.deleteSuccess')}`,
-                      duration: 3,
-                    });
-                    fetch();
-                  }
-                },
-              });
-            },
-          };
-
-          return [editItem, deleteItem];
-        }
+        return [editItem, deleteItem];
       }
 
       onMounted(async () => {
         fetch();
       });
-      // function showEditPopconfirm(node) {
-      //   editPopconfrimVisible = true;
-      //   console.log('showEdit', editPopconfrimVisible);
-      // }
+
       function createIcon({ isLeaf }: any): any {
         if (isLeaf) {
           return 'ion:document-outline';
@@ -149,14 +131,17 @@
         return '';
       }
 
+      function handleSuccess() {
+        fetch();
+      }
+
       return {
         treeData,
         handleSelect,
         createIcon,
-        resister,
-        formRef,
-        editPopconfrimVisible,
         handleRightClickMenu,
+        registerDrawer,
+        handleSuccess,
       };
     },
   });
