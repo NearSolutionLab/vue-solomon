@@ -13,25 +13,30 @@
       :beforeRightClick="handleRightClickMenu"
     />
   </div>
-  <div><PopConfirmButton v-if="true" /></div>
+  <BasicModal @register="resister" ref="formRef" />
 </template>
 
 <script lang="ts">
   import { defineComponent, onMounted, ref, h } from 'vue';
   import { BasicTree, TreeItem } from '/@/components/Tree';
-  import { getDataSetList } from '/@/api/solomon/data';
+  import { getDataSetList, deleteDataSet } from '/@/api/solomon/data';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { PopConfirmButton } from '/@/components/Button';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useModal, BasicModal } from '/@/components/Modal';
+
   //import { Popconfirm } from 'ant-design-vue';
 
   export default defineComponent({
     name: 'DataTree',
-    components: { BasicTree, PopConfirmButton },
+    components: { BasicTree, BasicModal },
 
     emits: ['select'],
     setup(_, { emit }) {
       const { t } = useI18n();
       const treeData = ref<TreeItem[]>([]);
+      const [resister, { openModal }] = useModal();
+      const formRef = ref();
+      const { notification } = useMessage();
       let editPopconfrimVisible = false;
       async function fetch() {
         const params = {
@@ -91,25 +96,43 @@
       async function handleRightClickMenu(node, evnet) {
         console.log(`Selected menu item:`, node);
         console.log(`Selected evnet: `, evnet);
-        const editItem = {
-          label: '수정',
-          icon: 'ion:settings-outline',
-          handler: () => {
-            // 삭제 동작 수행
+        if (node.pos.length > 3) {
+          const editItem = {
+            label: '수정',
+            icon: 'ion:settings-outline',
+            handler: () => {
+              // 삭제 동작 수행
 
-            return h(PopConfirmButton);
-          },
-        };
-        const deleteItem = {
-          label: '삭제',
-          icon: 'ion:trash-outline',
-          handler: () => {
-            // 삭제 동작 수행
-            console.log('삭제 동작 수행', node);
-          },
-        };
+              openModal(true);
+            },
+          };
+          const deleteItem = {
+            label: '삭제',
+            icon: 'ion:trash-outline',
+            handler: () => {
+              const { createConfirm } = useMessage();
+              const { t } = useI18n();
+              createConfirm({
+                iconType: 'warning',
+                title: () => h('span', t('sys.app.logoutTip')),
+                content: () => h('span', t('common.confirmDelete')),
+                onOk: async () => {
+                  const result = await deleteDataSet(node.key, node.dataType);
+                  if (result) {
+                    notification.success({
+                      message: t('sys.api.operationSuccess'),
+                      description: `${t('sys.api.deleteSuccess')}`,
+                      duration: 3,
+                    });
+                    fetch();
+                  }
+                },
+              });
+            },
+          };
 
-        return [editItem, deleteItem];
+          return [editItem, deleteItem];
+        }
       }
 
       onMounted(async () => {
@@ -130,7 +153,8 @@
         treeData,
         handleSelect,
         createIcon,
-
+        resister,
+        formRef,
         editPopconfrimVisible,
         handleRightClickMenu,
       };

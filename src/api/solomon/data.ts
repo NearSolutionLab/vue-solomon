@@ -7,6 +7,7 @@ enum Api {
   GetInBoundData = '/in_bound_inputs/',
   GetInventoryData = '/inventory_inputs/',
   UploadExcelData = '/data_lists/upload_by_excel/',
+  DeleteDataSet = '/data_lists/',
 }
 
 export const getDataSetList = async (params) => {
@@ -27,6 +28,11 @@ export const getInBoundData = async (params) => {
 export const getInventoryData = async (params) => {
   const { total, items } = await defHttp.get({ url: Api.GetInventoryData, params });
   return { total, items };
+};
+
+export const deleteDataSet = async (id, type) => {
+  const { result } = await defHttp.delete({ url: Api.DeleteDataSet + id + '/' + type });
+  return { result };
 };
 
 export const uploadExcelData = async (name: string, type: string, formData: any) => {
