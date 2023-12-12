@@ -55,8 +55,30 @@
             }
           });
         // Filter
-        if (params.searchKey) {
-          result = result.filter((data) => data.item_id.includes(params.searchKey));
+        if (Object.keys(params).length > 0) {
+          const filters = [
+            { key: 'item_id', type: 'includes' },
+            { key: 'l_class_cd', type: 'includes' },
+            { key: 'm_class_cd', type: 'includes' },
+            { key: 's_class_cd', type: 'includes' },
+            { key: 'goods_nm', type: 'includes' },
+            { key: 'season_cd', type: 'strict' },
+            { key: 'gender', type: 'strict' },
+          ];
+
+          result = result.filter((data) => {
+            return filters.every((filter) => {
+              const { key, type } = filter;
+              if (params[key]) {
+                if (type === 'includes') {
+                  return data[key]?.includes(params[key]);
+                } else if (type === 'strict') {
+                  return data[key] === params[key];
+                }
+              }
+              return true;
+            });
+          });
         }
         if (params.startDate && params.endDate) {
           const startDate = new Date(params.startDate);
