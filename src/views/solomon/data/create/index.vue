@@ -222,7 +222,7 @@
             loading.value = true;
             const formData = new window.FormData();
             formData.append('file', rawExcelFile);
-            formData.append('count', JSON.stringify(rawData.filteredDataResult.results.length));
+            formData.append('count', JSON.stringify(rawExcelFile.size));
             formData.append('fields', JSON.stringify(rawData.columnFilter));
             // formData.append('fields', JSON.stringify(rawData.header));
 

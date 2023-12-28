@@ -58,7 +58,7 @@
         let c = 0,
           r = 1;
         while (c < range.e.c + 1) {
-          while (r < range.e.r + 1) {
+          while (r < 11) {
             if (!sheet[String.fromCharCode(char) + r]) {
               sheet[String.fromCharCode(char) + r] = customWorkSheet;
             }
@@ -111,7 +111,8 @@
           const header: string[] = getHeaderRow(worksheet);
           let results = XLSX.utils.sheet_to_json(worksheet, {
             raw: true,
-            dateNF: dateFormat, //Not worked
+            dateNF: dateFormat, //Not worked,
+            range: { s: { c: 0, r: 0 }, e: { c: header.length, r: 10 } },
           }) as object[];
           results = results.map((row: object) => {
             for (let field in row) {
