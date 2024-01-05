@@ -149,7 +149,14 @@
           reader.onload = async (e) => {
             try {
               const data = e.target && e.target.result;
-              const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+              const workbook = XLSX.read(data, {
+                type: 'binary',
+                cellDates: false,
+                cellHTML: false,
+                cellFormula: false,
+                cellText: false,
+                sheetRows: 11,
+              });
               // console.log(workbook);
               /* DO SOMETHING WITH workbook HERE */
               const excelData = getExcelData(workbook);

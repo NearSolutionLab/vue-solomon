@@ -15,7 +15,6 @@
           <BasicForm @register="formRegister" ref="formRef" />
           <Button @click="openExcel">{{ t('solomon.button.next_step') }}</Button>
           <ExcelModal
-            dataType="'123'"
             :modalTitle="$t('solomon.title.excel_file_upload')"
             @success="handleExcelSuccess"
             @register="registerExcelModal"
