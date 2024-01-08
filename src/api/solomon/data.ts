@@ -7,6 +7,7 @@ enum Api {
   GetInBoundData = '/in_bound_inputs/',
   GetInventoryData = '/inventory_inputs/',
   UploadExcelData = '/data_lists/upload_by_excel/',
+  UpdateExcelData = '/data_lists/update_by_excel/',
 }
 
 export const getDataSetList = async (params) => {
@@ -52,6 +53,18 @@ export const uploadExcelData = async (name: string, type: string, formData: any)
       ignoreCancelToken: true,
     },
     url: Api.UploadExcelData + name + '/' + type,
+    data: formData,
+  });
+  return response;
+};
+export const updateExcelData = async (id: string, name: string, type: string, formData: any) => {
+  const response = await defHttp.post({
+    headers: {
+      'Content-type': ContentTypeEnum.FORM_DATA,
+      // @ts-ignore
+      ignoreCancelToken: true,
+    },
+    url: Api.UpdateExcelData + id + '/' + name + '/' + type,
     data: formData,
   });
   return response;
