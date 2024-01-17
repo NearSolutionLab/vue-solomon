@@ -346,7 +346,9 @@
     /* 원하는 스타일 또는 위치 조정을 여기에 추가하세요 */
 
     /* 예: margin-top: 20px; 또는 top: 0; */
-    margin-top: 20px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    margin-left: 16px;
   }
 
   .my-custom-form-position > div > a-button {
