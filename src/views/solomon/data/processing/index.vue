@@ -14,7 +14,7 @@
     components: { BasicTable },
     setup() {
       const [registerTable, { reload }] = useTable({
-        title: '진행중 서비스',
+        title: '진행중 업로드',
         api: getProcessingServices,
         columns,
         formConfig: {
@@ -31,7 +31,7 @@
       async function getProcessingServices(params) {
         const requestParams = {
           // statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,FETCHING',
-          statuses: 'UPLOADING,ERROR',
+          status: 'UPLOADING,ERROR,END',
           page: params.page,
           limit: params.pageSize,
         };

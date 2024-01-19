@@ -250,9 +250,6 @@
       async function handleExcelSuccess({ excelData, rawFile }) {
         rawExcelFile = rawFile;
         // const data = await formRef.value.validate();
-
-        title = data.title;
-        type = data.type;
         setMappingModalProps({
           defaultFullscreen: true,
         });
