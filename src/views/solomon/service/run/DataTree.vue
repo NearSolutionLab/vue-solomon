@@ -118,6 +118,7 @@
                     isLeaf: true,
                     dataType: items[j].dataType,
                     name: items[j].name,
+                    status: items[j].status,
                   });
                 }
               }
@@ -144,10 +145,19 @@
           label: '데이터 추가',
           icon: 'ion:md-add',
           handler: () => {
+            console.log(node);
             data.key = node.key;
             data.title = node.name;
             data.type = node.dataType;
-            openExcel();
+            if (['WAIT', 'PROCESSING'].includes(node.status)) {
+              createErrorModal({
+                title: t('sys.api.errorTip'),
+                content: t('sys.api.errorDataLock'),
+                getContainer: () => document.body,
+              });
+            } else {
+              openExcel();
+            }
           },
         };
 

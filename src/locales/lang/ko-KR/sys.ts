@@ -23,6 +23,7 @@ export default {
     errMsg503: '서비스를 사용할 수 없습니다. 서버일시적으로  과부하거나 유지보수중입니다!',
     errMsg504: '네트워크 시간 초과!',
     errMsg505: 'http 버전이 이 요청을 지원하지 않습니다!',
+    errorDataLock: '해당 데이터셋이 수정 중 입니다',
   },
   app: {
     logoutTip: '알림경고',

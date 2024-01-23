@@ -31,7 +31,7 @@
       async function getProcessingServices(params) {
         const requestParams = {
           // statuses: 'START,VALIDATING,ANALYSING,SOLVING,REPORTING,FETCHING',
-          status: 'UPLOADING,ERROR,END',
+          status: 'UPLOADING,PROCESSING,ERROR,END',
           page: params.page,
           limit: params.pageSize,
         };

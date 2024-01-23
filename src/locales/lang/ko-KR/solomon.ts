@@ -71,6 +71,8 @@ export default {
     SOLVING: '처리중',
     START: '시작',
     VALIDATING: '처리중',
+    PROCESSING: '진행중',
+    WAIT: '대기중',
   },
   service: {
     forecasting: {
