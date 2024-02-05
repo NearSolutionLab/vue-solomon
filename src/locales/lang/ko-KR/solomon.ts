@@ -36,6 +36,8 @@ export default {
     outbound: '출고',
     OUTBOUND: '출고',
     type: '데이터 유형',
+    order: '박스추천 주문',
+    ORDER: '박스추천 주문',
   },
   label: {
     created_at: '생성일시',
@@ -47,6 +49,7 @@ export default {
     inventory: '재고',
     items: '개 품목',
     name: '이름',
+    order: '박스추천 주문',
     outbound: '출고',
     overall: '총',
     phone_number: '연락처',

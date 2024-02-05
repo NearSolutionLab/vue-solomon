@@ -66,9 +66,11 @@
     inboundColumns,
     outboundColumns,
     inventoryColumns,
+    orderColumns,
     inboundForm,
     outboundForm,
     inventoryForm,
+    orderForm,
   } from '../meta.data';
   // import type { UploadProps } from 'ant-design-vue';
   import { uploadExcelData } from '/@/api/solomon/data';
@@ -105,6 +107,10 @@
           {
             label: t('solomon.label.inventory'),
             value: 'INVENTORY',
+          },
+          {
+            label: t('solomon.label.order'),
+            value: 'ORDER',
           },
         ],
       },
@@ -304,6 +310,18 @@
             typeData = {
               columns: inventoryColumns,
               forms: inventoryForm,
+              data: excelData,
+            };
+            typeData['forms'].map((form: FormSchema) => {
+              form['componentProps']['options'] = excelData[0].header.map((col) => {
+                return { label: col, value: col };
+              });
+            });
+            openDataMappingModal(true, typeData);
+          } else if (data.type === 'ORDER') {
+            typeData = {
+              columns: orderColumns,
+              forms: orderForm,
               data: excelData,
             };
             typeData['forms'].map((form: FormSchema) => {

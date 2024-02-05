@@ -195,6 +195,60 @@ export const inventoryColumns: BasicColumn[] = [
   },
 ];
 
+export const orderColumns: BasicColumn[] = [
+  {
+    dataIndex: 'id',
+    ifShow: false,
+  },
+  {
+    title: t('solomon.title.date'),
+    dataIndex: 'jobDt',
+    width: 160,
+    ellipsis: false,
+  },
+  {
+    title: '주문번호',
+    dataIndex: 'orderNo',
+    width: 160,
+  },
+  {
+    title: '주문수량',
+    dataIndex: 'orderQty',
+    width: 100,
+  },
+  {
+    title: '상품번호',
+    dataIndex: 'skuCd',
+    width: 160,
+    ellipsis: false,
+  },
+  {
+    title: '가로(mm)',
+    dataIndex: 'width',
+    width: 100,
+  },
+  {
+    title: '세로(mm)',
+    dataIndex: 'depth',
+    width: 100,
+  },
+  {
+    title: '높이(mm)',
+    dataIndex: 'height',
+    width: 100,
+  },
+  {
+    title: '박스번호',
+    dataIndex: 'boxId',
+    width: 150,
+  },
+  {
+    title: '박스타입',
+    dataIndex: 'boxType',
+    width: 100,
+  },
+];
+
 export const inboundForm: FormSchema[] = [
   {
     label: t('solomon.title.date'),
@@ -393,6 +447,63 @@ export const inventoryForm: FormSchema[] = [
   {
     label: t('solomon.title.brand'),
     field: 'brand',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+];
+
+export const orderForm: FormSchema[] = [
+  {
+    label: t('solomon.title.date'),
+    field: 'jobDt',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '주문번호',
+    field: 'orderNo',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '주문수량',
+    field: 'orderQty',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '상품번호',
+    field: 'skuCd',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '가로(mm)',
+    field: 'width',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '세로(mm)',
+    field: 'depth',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '높이(mm)',
+    field: 'height',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '박스번호',
+    field: 'boxId',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '박스타입',
+    field: 'boxType',
     component: 'Select',
     componentProps: { options: [] },
   },

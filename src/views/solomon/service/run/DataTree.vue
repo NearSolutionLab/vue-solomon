@@ -307,6 +307,18 @@
               });
             });
             openDataMappingModal(true, typeData);
+          } else if (data.type === 'ORDER') {
+            typeData = {
+              columns: inventoryColumns,
+              forms: inventoryForm,
+              data: excelData,
+            };
+            typeData['forms'].map((form: FormSchema) => {
+              form['componentProps']['options'] = excelData[0].header.map((col) => {
+                return { label: col, value: col };
+              });
+            });
+            openDataMappingModal(true, typeData);
           }
         }
       }
