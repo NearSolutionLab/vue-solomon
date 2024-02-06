@@ -38,6 +38,8 @@ export default {
     type: '데이터 유형',
     order: '박스추천 주문',
     ORDER: '박스추천 주문',
+    box_type: '박스추천 박스타입',
+    BOX_TYPE: '박스추천 박스타입',
   },
   label: {
     created_at: '생성일시',

@@ -20,9 +20,16 @@
     getInBoundData,
     getInventoryData,
     getOrderData,
+    getBoxTypeData,
   } from '/@/api/solomon/data';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { inboundColumns, outboundColumns, inventoryColumns, orderColumns } from './meta.data';
+  import {
+    inboundColumns,
+    outboundColumns,
+    inventoryColumns,
+    orderColumns,
+    boxTypeColumns,
+  } from './meta.data';
   import { useI18n } from '/@/hooks/web/useI18n';
   // import { useModal } from '/@/components/Modal';
   // import RunServiceModal from './RunServiceModal.vue';
@@ -148,6 +155,27 @@
         });
         const { total = 0, items = [] } = await getOrderData({
           sort: JSON.stringify([{ field: 'jobDt', ascending: false }]),
+          query: JSON.stringify([
+            {
+              name: 'dataId',
+              operator: 'eq',
+              value: selectedData.dataId,
+              relation: false,
+            },
+          ]),
+          page: page,
+          limit: pageSize,
+        });
+        return {
+          items,
+          total,
+        };
+      } else if (selectedData.dataType === 'BOX_TYPE') {
+        setProps({
+          columns: boxTypeColumns,
+        });
+        const { total = 0, items = [] } = await getBoxTypeData({
+          sort: JSON.stringify([{ field: 'boxType', ascending: true }]),
           query: JSON.stringify([
             {
               name: 'dataId',

@@ -67,10 +67,12 @@
     outboundColumns,
     inventoryColumns,
     orderColumns,
+    boxTypeColumns,
     inboundForm,
     outboundForm,
     inventoryForm,
     orderForm,
+    boxTypeForm,
   } from '../meta.data';
   // import type { UploadProps } from 'ant-design-vue';
   import { uploadExcelData } from '/@/api/solomon/data';
@@ -111,6 +113,10 @@
           {
             label: t('solomon.label.order'),
             value: 'ORDER',
+          },
+          {
+            label: '박스추천 박스타입',
+            value: 'BOX_TYPE',
           },
         ],
       },
@@ -322,6 +328,18 @@
             typeData = {
               columns: orderColumns,
               forms: orderForm,
+              data: excelData,
+            };
+            typeData['forms'].map((form: FormSchema) => {
+              form['componentProps']['options'] = excelData[0].header.map((col) => {
+                return { label: col, value: col };
+              });
+            });
+            openDataMappingModal(true, typeData);
+          } else if (data.type === 'BOX_TYPE') {
+            typeData = {
+              columns: boxTypeColumns,
+              forms: boxTypeForm,
               data: excelData,
             };
             typeData['forms'].map((form: FormSchema) => {

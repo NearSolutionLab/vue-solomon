@@ -250,6 +250,44 @@ export const orderColumns: BasicColumn[] = [
   },
 ];
 
+export const boxTypeColumns: BasicColumn[] = [
+  {
+    dataIndex: 'id',
+    ifShow: false,
+  },
+  {
+    title: '박스타입',
+    dataIndex: 'boxType',
+    width: 100,
+    ellipsis: false,
+  },
+  {
+    title: '가로(mm)',
+    dataIndex: 'width',
+    width: 100,
+  },
+  {
+    title: '세로(mm)',
+    dataIndex: 'depth',
+    width: 100,
+  },
+  {
+    title: '높이(mm)',
+    dataIndex: 'height',
+    width: 100,
+  },
+  {
+    title: '안전율(%)',
+    dataIndex: 'safetyRate',
+    width: 100,
+  },
+  {
+    title: '단가',
+    dataIndex: 'price',
+    width: 100,
+  },
+];
+
 export const inboundForm: FormSchema[] = [
   {
     label: t('solomon.title.date'),
@@ -505,6 +543,45 @@ export const orderForm: FormSchema[] = [
   {
     label: '박스타입',
     field: 'boxType',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+];
+
+export const boxTypeForm: FormSchema[] = [
+  {
+    label: '박스타입',
+    field: 'boxType',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '가로(mm)',
+    field: 'width',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '세로(mm)',
+    field: 'depth',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '높이(mm)',
+    field: 'height',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '안전율(%)',
+    field: 'safetyRate',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: '단가',
+    field: 'price',
     component: 'Select',
     componentProps: { options: [] },
   },

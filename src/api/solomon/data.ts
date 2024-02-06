@@ -7,6 +7,7 @@ enum Api {
   GetInBoundData = '/in_bound_inputs/',
   GetInventoryData = '/inventory_inputs/',
   GetOrderData = '/order_inputs/',
+  GetBoxTypeData = '/box_type_inputs/',
   UploadExcelData = '/data_lists/upload_by_excel/',
   UpdateExcelData = '/data_lists/update_by_excel/',
 }
@@ -48,6 +49,11 @@ export const getInventoryData = async (params) => {
 
 export const getOrderData = async (params) => {
   const { total, items } = await defHttp.get({ url: Api.GetOrderData, params });
+  return { total, items };
+};
+
+export const getBoxTypeData = async (params) => {
+  const { total, items } = await defHttp.get({ url: Api.GetBoxTypeData, params });
   return { total, items };
 };
 
