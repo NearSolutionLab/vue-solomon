@@ -15,9 +15,14 @@
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
   import DataTree from '../service/run/DataTree.vue';
-  import { getOutBoundData, getInBoundData, getInventoryData } from '/@/api/solomon/data';
+  import {
+    getOutBoundData,
+    getInBoundData,
+    getInventoryData,
+    getOrderData,
+  } from '/@/api/solomon/data';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { inboundColumns, outboundColumns, inventoryColumns } from './meta.data';
+  import { inboundColumns, outboundColumns, inventoryColumns, orderColumns } from './meta.data';
   import { useI18n } from '/@/hooks/web/useI18n';
   // import { useModal } from '/@/components/Modal';
   // import RunServiceModal from './RunServiceModal.vue';
@@ -48,7 +53,7 @@
 
   async function getDetailData(params) {
     const filterCols: { name: string; operator: string; value: any; relation: boolean }[] = [];
-
+    const { page, pageSize } = params;
     if (selectedData.dataId) {
       filterCols.push({
         name: 'dataId',
@@ -134,6 +139,30 @@
             lotNo: item.lotNo,
             expireDate: item.expireDate,
             brand: item.brand,
+          })),
+          total: total,
+        };
+      } else if (selectedData.dataType === 'ORDER') {
+        setProps({
+          columns: orderColumns,
+        });
+        const { total, items } = await getOrderData({
+          sort: JSON.stringify([{ field: 'jobDt', ascending: false }]),
+          query: JSON.stringify([
+            {
+              name: 'dataId',
+              operator: 'eq',
+              value: selectedData.dataId,
+              relation: false,
+            },
+          ]),
+          page: page,
+          limit: pageSize,
+        });
+        return {
+          items: (items || []).map((item) => ({
+            id: item.id,
+            jobDt: item.jobDt,
           })),
           total: total,
         };

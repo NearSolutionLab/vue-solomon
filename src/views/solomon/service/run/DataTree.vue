@@ -45,9 +45,11 @@
     inboundColumns,
     outboundColumns,
     inventoryColumns,
+    orderColumns,
     inboundForm,
     outboundForm,
     inventoryForm,
+    orderForm,
   } from '../../data/meta.data';
 
   let rawExcelFile: File;
@@ -309,8 +311,8 @@
             openDataMappingModal(true, typeData);
           } else if (data.type === 'ORDER') {
             typeData = {
-              columns: inventoryColumns,
-              forms: inventoryForm,
+              columns: orderColumns,
+              forms: orderForm,
               data: excelData,
             };
             typeData['forms'].map((form: FormSchema) => {
