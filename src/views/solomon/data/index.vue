@@ -146,7 +146,7 @@
         setProps({
           columns: orderColumns,
         });
-        const { total, items } = await getOrderData({
+        const { total = 0, items = [] } = await getOrderData({
           sort: JSON.stringify([{ field: 'jobDt', ascending: false }]),
           query: JSON.stringify([
             {
@@ -160,11 +160,8 @@
           limit: pageSize,
         });
         return {
-          items: (items || []).map((item) => ({
-            id: item.id,
-            jobDt: item.jobDt,
-          })),
-          total: total,
+          items,
+          total,
         };
       }
     }

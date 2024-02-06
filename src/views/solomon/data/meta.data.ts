@@ -203,13 +203,14 @@ export const orderColumns: BasicColumn[] = [
   {
     title: t('solomon.title.date'),
     dataIndex: 'jobDt',
-    width: 160,
+    width: 150,
     ellipsis: false,
   },
   {
     title: '주문번호',
     dataIndex: 'orderNo',
-    width: 160,
+    width: 200,
+    ellipsis: false,
   },
   {
     title: '주문수량',
