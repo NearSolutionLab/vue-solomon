@@ -389,6 +389,7 @@ export default {
     total_service: 'Total service',
     total_sku_count: 'Total SKU count',
     treksta_forecast: 'Treksta forecast',
+    box_recommand: 'Box Recommand',
     unit_pcs: 'Unit: PCS',
     unit_percent: 'Unit: %',
     unit_sku_category: 'Unit: SKU category',

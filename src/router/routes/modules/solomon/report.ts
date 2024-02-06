@@ -76,6 +76,16 @@ const report: AppRouteModule = {
       },
       props: (route: any) => ({ ...route.params }),
     },
+    {
+      path: 'box-recommand/:id',
+      name: 'BoxRecommandPage',
+      component: () => import('/@/views/solomon/report/box-recommand/index.vue'),
+      meta: {
+        title: t('solomon.title.box_recommand'),
+        hideMenu: false,
+      },
+      props: (route: any) => ({ ...route.params }),
+    },
   ],
 };
 

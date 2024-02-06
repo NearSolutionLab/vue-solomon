@@ -43,6 +43,9 @@ export default {
     },
   },
   vxeTable: {
+    // i18n: (key) => {
+    //   return t(key);
+    // },
     table: {
       border: true,
       stripe: true,
