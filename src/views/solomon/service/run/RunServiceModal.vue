@@ -133,7 +133,7 @@
           return {
             start_date: formatToDate(startDate),
             end_date: formatToDate(endDate),
-            batch_list: parseInt(values.orders).toString(),
+            batch_list: values.orders,
           };
         }
         // 출고 물동량 분석

@@ -96,7 +96,7 @@ export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
   {
     field: 'orders',
     label: t('solomon.label.standard_order_count'),
-    component: 'InputNumber',
+    component: 'Input',
     rules: [
       {
         required: true,
