@@ -12,6 +12,7 @@ enum Api {
   OutboundABCAnalysis = '/request/abc_analysis',
   InventoryAnalysis = '/request/volume_analysis/inventory_analysis',
   InboundVolumeAnalysis = '/request/volume_analysis/in_bound_analysis',
+  BoxRecommendation = '/order_inputs',
 }
 
 export const getOptimizeRequest = async (params) => {
@@ -142,6 +143,22 @@ export const analyzeInboundVolume = async (params) => {
 export const deleteInboundVolume = async (id) => {
   const { result } = await defHttp.delete({
     url: Api.InboundVolumeAnalysis + '/' + id,
+  });
+  return result;
+};
+
+// 박스 추천 서비스, 'service.order.box_recommendation'
+export const boxRecommendation = async (params) => {
+  const { result } = await defHttp.post({
+    url: Api.BoxRecommendation + '/start',
+    data: JSON.stringify(params),
+  });
+  return result;
+};
+
+export const deleteBoxRecommendation = async (id) => {
+  const { result } = await defHttp.delete({
+    url: Api.BoxRecommendation + '/' + id,
   });
   return result;
 };

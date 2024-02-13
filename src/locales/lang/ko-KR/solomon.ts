@@ -121,6 +121,13 @@ export default {
       effect:
         '분석 데이터를 통해 상품 간 최적 보관 방법을 수립하여 출고 작업 시, 작업자의 이동 동선을 최적화 합니다.',
     },
+    order: {
+      box_recommendation: {
+        desc: '주문별로 적합한 박스를 추천합니다.',
+        description: '',
+        effect: '',
+      },
+    },
     orderAllocationBoxRecommend: {
       desc: '출고 주문 별 적합한 포장 박스를 추천합니다.',
       description: '작업자의 포장 주문을 자동 분할하고, 출고 주문별 포장 박스를 추천합니다.',
@@ -388,7 +395,7 @@ export default {
     unit_pcs: '단위: PCS',
     unit_percent: '단위: %',
     unit_sku_category: '단위: SKU종류',
-    box_recommand: '박스 추천',
+    box_recommend: '박스 추천',
     box_type: '박스 타입',
     box_price: '박스 단가',
     box_qty: '박스 수량',

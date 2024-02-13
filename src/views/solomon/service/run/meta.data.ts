@@ -4,6 +4,7 @@ import { Switch } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { subscribeService, unsubscribeService } from '/@/api/solomon/subscription';
 import { useI18n } from '/@/hooks/web/useI18n';
+import { getDataList } from '/@/api/solomon/data';
 
 const { t } = useI18n();
 
@@ -280,5 +281,52 @@ export const InboundAnalysisFormSchema: FormSchema[] = [
         required: false,
       },
     ],
+  },
+];
+
+// 박스 추천 서비스
+export const OrderBoxRecommendationFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: t('solomon.label.title'),
+    component: 'Input',
+    helpMessage: [t('solomon.label.please_input_the_title')],
+    rules: [
+      {
+        required: true,
+        message: t('solomon.text.this_is_a_required_field'),
+      },
+    ],
+  },
+  {
+    field: 'boxType',
+    label: '박스타입',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getDataList,
+      params: {
+        query: JSON.stringify([
+          { name: 'dataType', operator: 'eq', value: 'BOX_TYPE', relation: false },
+          { name: 'status', operator: 'eq', value: 'END', relation: false },
+        ]),
+        sort: JSON.stringify([{ field: 'name', ascending: true }]),
+      },
+      resultField: 'items',
+      // use name as label
+      labelField: 'name',
+      // use id as value
+      valueField: 'id',
+      // not request untill to select
+      immediate: true,
+      // alwaysLoad: true,
+    },
+    rules: [
+      {
+        required: true,
+        message: '박스타입을 선택하세요',
+      },
+    ],
+    // TO BE REMOVED: 아래와 같이 디폴트를 주지 않으면 값을 선택을 하더라도 선택하지 않았다는 경고 메시지 발생하여 추후 수정해야함
+    defaultValue: ' ',
   },
 ];

@@ -1,5 +1,6 @@
 <template>
   <BasicModal
+    autoFocusFirstItem
     v-bind="$attrs"
     @register="registerModal"
     :title="title"
@@ -23,6 +24,7 @@
     OutboundABCAnalysisFormSchema,
     InventoryAnalysisFormSchema,
     InboundAnalysisFormSchema,
+    OrderBoxRecommendationFormSchema,
   } from './meta.data';
   import { FormSchema } from '/@/components/Table';
   import { formatToDate } from '/@/utils/dateUtil';
@@ -34,6 +36,7 @@
     analyzeOutboundABC,
     analyzeInventory,
     analyzeInboundVolume,
+    boxRecommendation,
   } from '/@/api/solomon/service';
 
   export default defineComponent({
@@ -62,9 +65,10 @@
         'services.outbound.abc_analysis': OutboundABCAnalysisFormSchema, // 출고 물동량 ABC분석
         'service.inventory.inventory_analysis': InventoryAnalysisFormSchema, // 재고 물동량 분석
         'service.inbound.in_bound_analysis': InboundAnalysisFormSchema, // 입고 물동량 분석
+        'service.order.box_recommendation': OrderBoxRecommendationFormSchema, // 박스 추천 서비스
       };
 
-      const [registerModal, { setModalProps, closeModal }] = useModalInner((data) => {
+      const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
         resetFields();
         setModalProps({ confirmLoading: false });
         title.value = data.serviceName || '';
@@ -117,6 +121,10 @@
           // 입고 물동량 분석
           else if (serviceNameKey.value === 'service.inbound.in_bound_analysis') {
             result = await analyzeInboundVolume(data);
+          }
+          // 박스 추천 서비스
+          else if (serviceNameKey.value === 'service.order.box_recommendation') {
+            result = await boxRecommendation(data);
           }
 
           closeModal();
@@ -173,6 +181,12 @@
           return {
             start_date: formatToDate(startDate),
             end_date: formatToDate(endDate),
+          };
+        }
+        // 박스 추천 서비스
+        if (serviceNameKey.value === 'service.order.box_recommendation') {
+          return {
+            boxType: values.boxType,
           };
         }
         return {};

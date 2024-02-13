@@ -3,6 +3,7 @@ import { ContentTypeEnum } from '/@/enums/httpEnum';
 
 enum Api {
   DataSetList = '/data_lists',
+  GetDataList = '/data_lists/items',
   GetOutBoundData = '/out_bound_inputs/',
   GetInBoundData = '/in_bound_inputs/',
   GetInventoryData = '/inventory_inputs/',
@@ -14,6 +15,11 @@ enum Api {
 
 export const getDataSetList = async (params) => {
   const { total, items } = await defHttp.get({ url: Api.DataSetList, params });
+  return { total, items };
+};
+
+export const getDataList = async (params) => {
+  const { total, items } = await defHttp.get({ url: Api.GetDataList, params });
   return { total, items };
 };
 

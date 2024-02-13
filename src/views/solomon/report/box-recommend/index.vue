@@ -23,9 +23,9 @@
   import { PageWrapper } from '/@/components/Page';
   import { Card } from 'ant-design-vue';
   import { onMounted, ref, nextTick, reactive } from 'vue';
-  import { getBoxRecommandReport } from '/@/api/solomon/report';
-  import CapaAnalysisHeader from '/@/views/solomon/report/box-recommand/components/BoxRecommandHeader.vue';
-  import CapaAnalysisChart from '/@/views/solomon/report/box-recommand/components/BoxRecommandChart.vue';
+  import { getBoxRecommendReport } from '/@/api/solomon/report';
+  import CapaAnalysisHeader from '/@/views/solomon/report/box-recommend/components/BoxRecommendHeader.vue';
+  import CapaAnalysisChart from '/@/views/solomon/report/box-recommend/components/BoxRecommendChart.vue';
   import { boxRecomandColumns } from './meta.data';
   import { VxeTablePropTypes } from 'vxe-table';
   import { BasicTableProps, VxeBasicTable, VxeGridInstance } from '/@/components/VxeTable';
@@ -90,7 +90,7 @@
       ajax: {
         query: async (args) => {
           console.log(args);
-          const queryResult = await getBoxRecommandReport(props.id);
+          const queryResult = await getBoxRecommendReport(props.id);
           return queryResult as RowVO[];
         },
       },
@@ -215,7 +215,7 @@
   const reportResult = ref({} as any);
   onMounted(async () => {
     loadingRef.value = true;
-    reportResult.value = await getBoxRecommandReport(props.id);
+    reportResult.value = await getBoxRecommendReport(props.id);
     setTabelData();
     loadingRef.value = false;
   });

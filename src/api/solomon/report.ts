@@ -7,7 +7,7 @@ enum Api {
   GetInventoryAnalysisReport = '/request/volume_analysis/inventory_analysis/get_data',
   GetInBoundAnalysisReport = '/request/volume_analysis/in_bound_analysis/get_data',
   GetABCAnalysisReport = '/request/abc_analysis/get_data',
-  GetBoxRecommand = '/request/bms/get_data',
+  GetBoxRecommend = '/request/bms/get_data',
 }
 
 export const getCapaAnalysisReport = async (id) => {
@@ -51,7 +51,7 @@ export const getABCAnalysisReport = async (id) => {
   return result;
 };
 
-export const getBoxRecommandReport = async (id) => {
-  const result = await defHttp.get({ url: Api.GetBoxRecommand + '/' + id });
+export const getBoxRecommendReport = async (id) => {
+  const result = await defHttp.get({ url: Api.GetBoxRecommend + '/' + id });
   return result;
 };

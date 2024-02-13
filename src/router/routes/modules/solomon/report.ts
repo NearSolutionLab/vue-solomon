@@ -77,11 +77,11 @@ const report: AppRouteModule = {
       props: (route: any) => ({ ...route.params }),
     },
     {
-      path: 'box-recommand/:id',
-      name: 'BoxRecommandPage',
-      component: () => import('/@/views/solomon/report/box-recommand/index.vue'),
+      path: 'box-recommend/:id',
+      name: 'BoxRecommendPage',
+      component: () => import('/@/views/solomon/report/box-recommend/index.vue'),
       meta: {
-        title: t('solomon.title.box_recommand'),
+        title: t('solomon.title.box_recommend'),
         hideMenu: false,
       },
       props: (route: any) => ({ ...route.params }),
