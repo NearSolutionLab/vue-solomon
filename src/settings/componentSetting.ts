@@ -57,6 +57,7 @@ export default {
       rowConfig: {
         isCurrent: true,
         isHover: true,
+        useKey: true,
       },
       emptyRender: {
         name: 'AEmpty',
