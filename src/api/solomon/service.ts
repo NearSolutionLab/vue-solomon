@@ -12,7 +12,7 @@ enum Api {
   OutboundABCAnalysis = '/request/abc_analysis',
   InventoryAnalysis = '/request/volume_analysis/inventory_analysis',
   InboundVolumeAnalysis = '/request/volume_analysis/in_bound_analysis',
-  BoxRecommendation = '/request/bms/start',
+  BoxRecommendation = '/request/bms/',
 }
 
 export const getOptimizeRequest = async (params) => {
