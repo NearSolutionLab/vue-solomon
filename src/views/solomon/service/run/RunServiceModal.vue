@@ -65,7 +65,7 @@
         'services.outbound.abc_analysis': OutboundABCAnalysisFormSchema, // 출고 물동량 ABC분석
         'service.inventory.inventory_analysis': InventoryAnalysisFormSchema, // 재고 물동량 분석
         'service.inbound.in_bound_analysis': InboundAnalysisFormSchema, // 입고 물동량 분석
-        'service.order.box_recommendation': OrderBoxRecommendationFormSchema, // 박스 추천 서비스
+        'services.order.box_recommendation': OrderBoxRecommendationFormSchema, // 박스 추천 서비스
       };
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
