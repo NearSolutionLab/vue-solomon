@@ -331,11 +331,19 @@ export const boxRecomendColumns: VxeGridPropTypes.Columns = [
       {
         title: t('solomon.title.empty_volume_ratio'),
         align: 'center',
+        type: 'html',
         field: 'diff_empty_vol_ratio',
         minWidth: '7%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          return formatNumber({ num: cellValue, decimals: 2 });
+          const value = formatNumber({ num: Math.abs(cellValue), decimals: 2 });
+          if (cellValue > 0) {
+            return `<span style="display:flex; justify-content:end; ">${value}<div class="up"></div></span>`;
+          } else if (cellValue < 0) {
+            return `<span style="display:flex; justify-content:end; ">${value}<div class="down"></div></span>`;
+          } else {
+            return `<span style="display:flex; justify-content:end; ">${value}<div class="normal"></div></span>`;
+          }
         },
       },
     ],

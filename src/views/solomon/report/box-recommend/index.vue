@@ -225,10 +225,10 @@
   .up {
     width: 0;
     height: 0;
-    margin-top: auto;
+    margin-top: 0;
     border-top: 0.5rem solid transparent;
     border-right: 0.5rem solid transparent;
-    border-bottom: 0.5rem solid skyblue;
+    border-bottom: 0.5rem solid blue;
     border-left: 0.5rem solid transparent;
   }
 
@@ -236,7 +236,7 @@
     width: 0;
     height: 0;
     margin-top: auto;
-    border-top: 0.5rem solid skyblue;
+    border-top: 0.5rem solid red;
     border-right: 0.5rem solid transparent;
     border-bottom: 0.5rem solid transparent;
     border-left: 0.5rem solid transparent;
