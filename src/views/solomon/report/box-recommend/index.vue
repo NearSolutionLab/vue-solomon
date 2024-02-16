@@ -143,32 +143,56 @@
     headerRowStyle: { backgroundColor: '#002060', color: '#fff' },
     headerCellStyle: { textAlign: 'center' },
     footerRowStyle: { backgroundColor: '#0095d0', color: '#fff' },
+    footerCellStyle: { textAlign: 'right' },
     footerMethod({ columns, data }) {
+      console.log(data);
       const footer = columns.map((column, columnIndex) => {
         if (columnIndex === 0) {
           return t('solomon.title.summary');
         }
-        if (column.field.includes('ratio')) {
-          return '';
+        if (column.field.includes('asis_empty_vol_ratio')) {
+          return (
+            formatNumber({
+              num: (sumNum(data, 'asis_empty_vol') / sumNum(data, 'asis_box_vol')) * 100,
+              decimals: 0,
+            }) + '%'
+          );
+        } else if (column.field.includes('tobe_empty_vol_ratio')) {
+          return (
+            formatNumber({
+              num: (sumNum(data, 'tobe_empty_vol') / sumNum(data, 'tobe_box_vol')) * 100,
+              decimals: 0,
+            }) + '%'
+          );
+        } else if (column.field.includes('diff_empty_vol_ratio')) {
+          return (
+            formatNumber({
+              num:
+                (sumNum(data, 'tobe_empty_vol') / sumNum(data, 'tobe_box_vol')) * 100 -
+                (sumNum(data, 'asis_empty_vol') / sumNum(data, 'asis_box_vol')) * 100,
+              decimals: 0,
+            }) + '%'
+          );
         } else if (
           column.field.includes('qty') ||
           column.field.includes('amount') ||
           column.field.includes('vol')
         ) {
-          return sumNum(data, column.field);
+          return formatNumber({ num: sumNum(data, column.field), decimals: 0 });
         } else if (column.cellType == 'number') {
-          return meanNum(data, column.field);
+          return formatNumber({ num: meanNum(data, column.field), decimals: 0 });
         } else return '';
       });
       return [footer];
     },
   });
+
   const meanNum = (list: any[], field: string) => {
     let count = 0;
     list.forEach((item) => {
       count += Number(item[field]);
     });
-    return formatNumber({ num: Math.round(count / list.length), decimals: 0 });
+    return Math.round(count / list.length);
   };
 
   const sumNum = (list: any[], field: string) => {
@@ -176,7 +200,7 @@
     list.forEach((item) => {
       count += Number(item[field]);
     });
-    return formatNumber({ num: count, decimals: 0 });
+    return count;
   };
 
   const mergeRowMethod: VxeTablePropTypes.SpanMethod<RowVO> = ({

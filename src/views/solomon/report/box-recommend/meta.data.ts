@@ -59,7 +59,7 @@ export const boxRecomendSummaryColumns: VxeGridPropTypes.Columns = [
         minWidth: '6%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          return formatNumber({ num: cellValue, decimals: 2 });
+          return formatNumber({ num: cellValue, decimals: 0 }) + '%';
         },
       },
     ],
@@ -106,7 +106,7 @@ export const boxRecomendSummaryColumns: VxeGridPropTypes.Columns = [
         minWidth: '6%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          return formatNumber({ num: cellValue, decimals: 2 });
+          return formatNumber({ num: cellValue, decimals: 0 }) + '%';
         },
       },
     ],
@@ -154,13 +154,13 @@ export const boxRecomendSummaryColumns: VxeGridPropTypes.Columns = [
         minWidth: '7%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          const value = formatNumber({ num: Math.abs(cellValue), decimals: 2 });
+          const value = formatNumber({ num: Math.abs(cellValue), decimals: 0 });
           if (cellValue > 0) {
-            return `<span style="display:flex; justify-content:end; ">${value}<div class="up"></div></span>`;
+            return `<span style="display:flex; justify-content:end; ">${value}%<div class="up"></div></span>`;
           } else if (cellValue < 0) {
-            return `<span style="display:flex; justify-content:end; ">${value}<div class="down"></div></span>`;
+            return `<span style="display:flex; justify-content:end; ">${value}%<div class="down"></div></span>`;
           } else {
-            return `<span style="display:flex; justify-content:end; ">${value}<div class="normal"></div></span>`;
+            return `<span style="display:flex; justify-content:end; ">${value}%<div class="normal"></div></span>`;
           }
         },
       },
@@ -241,7 +241,7 @@ export const boxRecomendColumns: VxeGridPropTypes.Columns = [
         minWidth: '6%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          return formatNumber({ num: cellValue, decimals: 2 });
+          return formatNumber({ num: cellValue, decimals: 2 }) + '%';
         },
       },
     ],
@@ -288,7 +288,7 @@ export const boxRecomendColumns: VxeGridPropTypes.Columns = [
         minWidth: '6%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          return formatNumber({ num: cellValue, decimals: 2 });
+          return formatNumber({ num: cellValue, decimals: 0 }) + '%';
         },
       },
     ],
@@ -336,7 +336,7 @@ export const boxRecomendColumns: VxeGridPropTypes.Columns = [
         minWidth: '7%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          const value = formatNumber({ num: Math.abs(cellValue), decimals: 2 });
+          const value = formatNumber({ num: Math.abs(cellValue), decimals: 0 });
           if (cellValue > 0) {
             return `<span style="display:flex; justify-content:end; ">${value}<div class="up"></div></span>`;
           } else if (cellValue < 0) {
