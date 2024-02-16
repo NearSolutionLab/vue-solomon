@@ -184,6 +184,13 @@ export default {
           '상품 분류 빈도와 피킹 빈도를 50% 이상 감소시켜, 주문 처리 능력을 최대화하고 생산성을 향상시킬 수 있습니다.',
       },
     },
+    order: {
+      box_recommendation: {
+        desc: '주문별로 적합한 박스를 추천합니다.',
+        description: '',
+        effect: '',
+      },
+    },
   },
   text: {
     a_class_items_pcs_count: 'A급 상품 PCS 수',
