@@ -22,7 +22,10 @@
     () => {
       if (!props.chartData) return;
       const { capaAnalysisList } = props.chartData;
-      const data = capaAnalysisList.map((item) => {
+      let data = capaAnalysisList.sort((a, b) => {
+        return a.orderCount - b.orderCount;
+      });
+      data = data.map((item) => {
         return [item.orderCount, Math.round(item.performanceRatio * 100) / 100];
       });
       setOptions({
