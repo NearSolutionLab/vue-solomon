@@ -139,7 +139,7 @@
       ...COMMON_CHART_OPTIONS,
       valAxisMinVal:
         Math.floor(Math.min(...chartData2.value.weeklyAnalysis.map((item) => item.y)) / 100) * 100,
-      title: t('solomon.text.daily_average_outbound'),
+      title: t('solomon.title.daily_average_outbound'),
       chartColors: ['418AB3'],
       valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart2',
@@ -170,7 +170,7 @@
       showLegend: true,
       showPercent: true,
       holeSize: 40,
-      title: t('solomon.text.major_item_outbound_status'),
+      title: t('solomon.title.major_item_outbound_status'),
       layout: { x: 0.1, y: 0.5, w: 0.8, h: 0.8 },
       dataBorder: { color: 'FFFFFF' },
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
@@ -199,7 +199,7 @@
 
     slide.addChart(pptx.charts.LINE, series, {
       ...COMMON_CHART_OPTIONS,
-      title: t('solomon.text.major_item_outbound_trend'),
+      title: t('solomon.title.major_item_outbound_trend'),
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
       showLegend: true,
       valAxisTitle: t('solomon.title.unit_pcs'),
@@ -224,7 +224,7 @@
     jsonToSheetXlsx({
       data,
       header,
-      filename: `${headerData.value.title || t('solomon.text.monthly_outbound_statistics')}.xlsx`,
+      filename: `${headerData.value.title || t('solomon.title.monthly_outbound_statistics')}.xlsx`,
     });
   };
 

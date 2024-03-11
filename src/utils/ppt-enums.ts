@@ -1,10 +1,9 @@
 export const fontFace = '맑은 고딕 (본문)';
 
 export const IMAGE_PATHS = {
-  logoImage: '/@/assets/images/img-logo.png',
-  leftTopImage: '/@/assets/images/ppt-left-top.png',
+  logoImage: 'img-logo.png',
+  leftTopImage: 'ppt-left-top.png',
 };
-
 export const COMMON_CHART_OPTIONS = {
   showTitle: true,
   titleFontFace: fontFace,

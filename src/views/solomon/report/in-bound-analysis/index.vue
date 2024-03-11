@@ -96,12 +96,12 @@
     pptx.addSection({
       title: `${
         headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')
-      }}`,
+      }`,
     });
     const slide = pptx.addSlide({
       sectionTitle: `${
         headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')
-      }}`,
+      }`,
       masterName: 'MASTER_4CHART',
     });
     assignChart1ToSlide(slide, pptx);
@@ -109,14 +109,14 @@
     assignChart3ToSlide(slide, pptx);
     assignChart4ToSlide(slide, pptx);
     slide.addText(
-      `${headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')}}`,
+      `${headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')}`,
       { placeholder: 'header' },
     );
 
     pptx.writeFile({
       fileName: `${
         headerData.value.title || t('solomon.title.month_based_inbound_quantity_statistics')
-      }}.pptx`,
+      }.pptx`,
     });
   };
 
