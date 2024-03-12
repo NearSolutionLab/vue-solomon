@@ -88,6 +88,7 @@
       async function fetch() {
         const params = {
           sort: JSON.stringify([{ field: 'created_at', ascending: false }, { field: 'dataType' }]),
+          limit: 1000,
         };
         const { items } = await getDataSetList(params);
         const dataTypes = items.reduce((acc, curr) => {

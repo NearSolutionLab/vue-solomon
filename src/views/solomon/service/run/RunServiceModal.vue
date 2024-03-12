@@ -123,7 +123,7 @@
             result = await analyzeInboundVolume(data);
           }
           // 박스 추천 서비스
-          else if (serviceNameKey.value === 'service.order.box_recommendation') {
+          else if (serviceNameKey.value === 'services.order.box_recommendation') {
             result = await boxRecommendation(data);
           }
 
@@ -184,7 +184,7 @@
           };
         }
         // 박스 추천 서비스
-        if (serviceNameKey.value === 'service.order.box_recommendation') {
+        if (serviceNameKey.value === 'services.order.box_recommendation') {
           return {
             boxType: values.boxType,
           };
