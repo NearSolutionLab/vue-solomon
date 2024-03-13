@@ -21,12 +21,21 @@
               <span>{{ row.job_dt }}</span>
             </template>
             <template #expand_content="{ row }">
-              <VxeGrid ref="detailGridRef" v-bind="detailGridOptions" :data="row.list" />
+              <VxeGrid
+                ref="detailGridRef"
+                v-bind="detailGridOptions"
+                :data="row.list"
+                class="pl-10 pb-10 border-dark-300"
+              />
             </template>
             <template #loading> </template>
           </VxeBasicTable>
         </div>
-        <BmsChart v-else class="flex-none h-full px-6" :chartData="chartData" />
+        <BmsChart
+          v-else-if="key === 'chart'"
+          class="flex-none h-full px-6"
+          :chartData="chartData"
+        />
       </Card>
     </div>
   </PageWrapper>
@@ -70,6 +79,10 @@
       key: 'chart',
       tab: '박스 추천 결과 차트',
     },
+    // {
+    //   key: 'splited',
+    //   tab: '박스 분할 결과 분석',
+    // },
   ];
 
   const key = ref('result'); //default tab설정
@@ -128,7 +141,7 @@
     },
     headerRowStyle: { backgroundColor: '#002099', color: '#fff', textAlign: 'center' },
     showOverflow: true,
-    showFooter: true,
+    showFooter: false,
     toolbarConfig: {
       import: false,
       export: false,
@@ -213,8 +226,8 @@
     footerCellStyle: { textAlign: 'right' },
     /**
      * Footer에 대한 Summary처리를 위한 함수 
-     * @param param{
-     *    $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
+       @param param{
+          $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
           $grid: VxeGridConstructor<D> | null | undefined
           columns: VxeTableDefines.ColumnInfo<D>[]
           data: D[]

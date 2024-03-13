@@ -1,6 +1,6 @@
 <template>
-  <div class="grid grid-rows-2 gap-2">
-    <div class="flex-none flex flex-row gap-2 pb-4">
+  <div class="h-full grid grid-rows-2 gap-2">
+    <div class="flex-none flex flex-row gap-2">
       <BarChart
         :chartTitle="t('solomon.title.box_qty')"
         :xTitle="t('solomon.title.box_type')"

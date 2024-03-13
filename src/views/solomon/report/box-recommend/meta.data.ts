@@ -241,7 +241,7 @@ export const boxRecomendColumns: VxeGridPropTypes.Columns = [
         minWidth: '6%',
         cellType: 'number',
         formatter: ({ cellValue }) => {
-          return formatNumber({ num: cellValue, decimals: 2 }) + '%';
+          return formatNumber({ num: cellValue, decimals: 0 }) + '%';
         },
       },
     ],
