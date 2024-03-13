@@ -36,22 +36,14 @@
     },
     setup(_, { emit }) {
       const formRef = ref();
-      const [registerModal] = useModalInner((data) => {
-        // setModalProps({ confirmLoading: false });
-        columns = data.columns;
-        forms = data.forms;
-        excelData = data.data;
-        setProps({ schemas: forms });
-        setPropsTable({ columns: columns });
-      });
-      // 'vertical' | 'inline' | 'horizontal'
-      const [registerForm, { setProps }] = useForm({
+      const [registerForm, { setProps, resetFields }] = useForm({
         layout: 'horizontal',
         showActionButtonGroup: false,
         labelWidth: 120,
         baseColProps: { span: 4 },
         showSubmitButton: true,
       });
+
       const [registerTable, { setProps: setPropsTable, setTableData }] = useTable({
         title: t('solomon.label.input_data_retrieval'),
         rowKey: 'id',
@@ -60,6 +52,19 @@
         bordered: true,
         showIndexColumn: false,
       });
+
+      const [registerModal] = useModalInner((data) => {
+        // setModalProps({ confirmLoading: false });
+        columns = data.columns;
+        forms = data.forms;
+        excelData = data.data;
+        setProps({ schemas: forms });
+        setPropsTable({ columns: columns });
+        resetFields();
+        setTableData([]);
+      });
+      // 'vertical' | 'inline' | 'horizontal'
+
       const handleOk = () => {
         // console.log(e);
         // console.log('filteredColumns', filteredColumns);
