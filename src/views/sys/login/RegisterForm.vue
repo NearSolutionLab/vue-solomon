@@ -227,6 +227,7 @@
         managerName: data.managerName,
         managerPosition: data.managerPosition,
         managerPhoneNo: data.mobile,
+        authKey: data.emailCode,
         mode: 'none', // 기본 오류 메시지를 표시하지 않음
       });
 
