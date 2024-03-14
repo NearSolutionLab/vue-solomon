@@ -146,10 +146,10 @@
         }
         // 출고 물동량 분석
         if (serviceNameKey.value === 'service.outbound.out_bound_analysis') {
-          const [startDate, endDate] = values['[startDate, endDate]'];
+          // const [startDate, endDate] = values['[startDate, endDate]'];
           return {
-            start_date: formatToDate(startDate),
-            end_date: formatToDate(endDate),
+            // start_date: formatToDate(startDate),
+            // end_date: formatToDate(endDate),
           };
         }
         // DAS 출고 배치 생성
@@ -176,11 +176,11 @@
         }
         // 입고 물동량 분석
         if (serviceNameKey.value === 'service.inbound.in_bound_analysis') {
-          if (!values['[startDate, endDate]']) return {};
-          const [startDate, endDate] = values['[startDate, endDate]'];
+          // if (!values['[startDate, endDate]']) return {};
+          // const [startDate, endDate] = values['[startDate, endDate]'];
           return {
-            start_date: formatToDate(startDate),
-            end_date: formatToDate(endDate),
+            // start_date: formatToDate(startDate),
+            // end_date: formatToDate(endDate),
           };
         }
         // 박스 추천 서비스

@@ -122,37 +122,6 @@ export const OutboundCapaAnalysisFormSchema: FormSchema[] = [
   },
 ];
 
-// 출고 물동량 분석
-export const OutboundAnalysisFormSchema: FormSchema[] = [
-  {
-    field: 'name',
-    label: t('solomon.label.title'),
-    component: 'Input',
-    helpMessage: [t('solomon.label.please_input_the_title')],
-    rules: [
-      {
-        required: true,
-        message: t('solomon.text.this_is_a_required_field'),
-      },
-    ],
-  },
-  {
-    field: '[startDate, endDate]',
-    label: t('solomon.label.date'),
-    component: 'RangePicker',
-    componentProps: {
-      format: 'YYYY-MM-DD',
-      placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
-    },
-    rules: [
-      {
-        required: true,
-        message: t('solomon.text.this_is_a_required_field'),
-      },
-    ],
-  },
-];
-
 // DAS 출고 배치 생성
 export const OutboundShippingBatchFormSchema: FormSchema[] = [
   {
@@ -238,6 +207,37 @@ export const OutboundABCAnalysisFormSchema: FormSchema[] = [
   },
 ];
 
+// 출고 물동량 분석
+export const OutboundAnalysisFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: t('solomon.label.title'),
+    component: 'Input',
+    helpMessage: [t('solomon.label.please_input_the_title')],
+    rules: [
+      {
+        required: true,
+        message: t('solomon.text.this_is_a_required_field'),
+      },
+    ],
+  },
+  // {
+  //   field: '[startDate, endDate]',
+  //   label: t('solomon.label.date'),
+  //   component: 'RangePicker',
+  //   componentProps: {
+  //     format: 'YYYY-MM-DD',
+  //     placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
+  //   },
+  //   rules: [
+  //     {
+  //       required: true,
+  //       message: t('solomon.text.this_is_a_required_field'),
+  //     },
+  //   ],
+  // },
+];
+
 // 재고 물동량 분석
 export const InventoryAnalysisFormSchema: FormSchema[] = [
   {
@@ -268,20 +268,20 @@ export const InboundAnalysisFormSchema: FormSchema[] = [
       },
     ],
   },
-  {
-    field: '[startDate, endDate]',
-    label: t('solomon.label.date'),
-    component: 'RangePicker',
-    componentProps: {
-      format: 'YYYY-MM-DD',
-      placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
-    },
-    rules: [
-      {
-        required: false,
-      },
-    ],
-  },
+  // {
+  //   field: '[startDate, endDate]',
+  //   label: t('solomon.label.date'),
+  //   component: 'RangePicker',
+  //   componentProps: {
+  //     format: 'YYYY-MM-DD',
+  //     placeholder: [t('solomon.text.start_date'), t('solomon.text.end_date')],
+  //   },
+  //   rules: [
+  //     {
+  //       required: false,
+  //     },
+  //   ],
+  // },
 ];
 
 // 박스 추천 서비스
