@@ -22,7 +22,7 @@ export const performancePerOrdersColumns: BasicColumn[] = [
     },
   },
   {
-    title: t('solomon.title.efficiency_increase'),
+    title: t('solomon.title.diffculty_decrease'),
     dataIndex: 'performanceRatio',
     width: 100,
     customRender: ({ text }) => {
@@ -94,7 +94,7 @@ export const orderResultColumns: BasicColumn[] = [
     },
   },
   {
-    title: t('solomon.title.sku_efficiency_increase'),
+    title: t('solomon.title.sku_diffculty_decrease'),
     dataIndex: 'performanceRatio',
     width: 100,
     customRender: ({ text }) => {
