@@ -420,5 +420,6 @@ export default {
     job_date: '작업일',
     differential: '차이',
     summary: '계',
+    is_error: '불량여부',
   },
 };

@@ -146,6 +146,7 @@
             lotNo: item.lotNo,
             expireDate: item.expireDate,
             brand: item.brand,
+            isError: item.isError,
           })),
           total: total,
         };

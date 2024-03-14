@@ -193,6 +193,11 @@ export const inventoryColumns: BasicColumn[] = [
     dataIndex: 'brand',
     width: 120,
   },
+  {
+    title: t('solomon.title.is_error'),
+    dataIndex: 'isError',
+    width: 120,
+  },
 ];
 
 export const orderColumns: BasicColumn[] = [
@@ -486,6 +491,12 @@ export const inventoryForm: FormSchema[] = [
   {
     label: t('solomon.title.brand'),
     field: 'brand',
+    component: 'Select',
+    componentProps: { options: [] },
+  },
+  {
+    label: t('solomon.title.is_error'),
+    field: 'isError',
     component: 'Select',
     componentProps: { options: [] },
   },
