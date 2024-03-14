@@ -42,7 +42,7 @@
       setOptions({
         backgroundColor: '#0f375f',
         title: {
-          text: t('solomon.text.outbound_status'),
+          text: t('solomon.text.sku_outbound_status'),
           left: 'left',
           textStyle: {
             color: '#ccc',

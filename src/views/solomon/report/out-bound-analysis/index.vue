@@ -123,6 +123,11 @@
     ];
     slide.addChart(pptx.charts.LINE, monthlyChartData, {
       ...COMMON_CHART_OPTIONS,
+      valAxisMinVal:
+        Math.floor(Math.min(...chartData1.value.monthlyAnalysis.map((item) => item.y)) / 100) * 100,
+      title: t('solomon.text.annual_outbound_order_count_trend'),
+      chartColors: ['418AB3'],
+      valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart1',
     });
   };
@@ -139,7 +144,7 @@
       ...COMMON_CHART_OPTIONS,
       valAxisMinVal:
         Math.floor(Math.min(...chartData2.value.weeklyAnalysis.map((item) => item.y)) / 100) * 100,
-      title: t('solomon.title.daily_average_outbound'),
+      title: t('solomon.title.average_daily_outbound_order_quantity_by_day_of_the_week'),
       chartColors: ['418AB3'],
       valAxisTitle: t('solomon.title.unit_pcs'),
       placeholder: 'chart2',
@@ -170,7 +175,7 @@
       showLegend: true,
       showPercent: true,
       holeSize: 40,
-      title: t('solomon.title.major_item_outbound_status'),
+      title: t('solomon.text.sku_outbound_status'),
       layout: { x: 0.1, y: 0.5, w: 0.8, h: 0.8 },
       dataBorder: { color: 'FFFFFF' },
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
@@ -199,7 +204,7 @@
 
     slide.addChart(pptx.charts.LINE, series, {
       ...COMMON_CHART_OPTIONS,
-      title: t('solomon.title.major_item_outbound_trend'),
+      title: t('solomon.text.quarterly_outbound_order_count'),
       chartColors: ['20455A', '326886', '8ABAD4', 'B1D1E3', 'D8E8F1'],
       showLegend: true,
       valAxisTitle: t('solomon.title.unit_pcs'),
